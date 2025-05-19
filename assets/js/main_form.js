@@ -11,7 +11,6 @@
         $header = $('#header'),
         $banner = $('#banner');
 
-    // Breakpoints.
     breakpoints({
         xlarge: '(max-width: 1680px)',
         large: '(max-width: 1280px)',
@@ -20,14 +19,12 @@
         xsmall: '(max-width: 480px)'
     });
 
-    // Play initial animations on page load.
     $window.on('load', function() {
         window.setTimeout(function() {
             $body.removeClass('is-preload');
         }, 100);
     });
 
-    // Header.
     if ($banner.length > 0 && $header.hasClass('alt')) {
         $window.on('resize', function() { $window.trigger('scroll'); });
 
@@ -39,38 +36,30 @@
         });
     }
 
-    // Menu.
     var $menu = $('#menu');
 
     $menu._locked = false;
 
     $menu._lock = function() {
-        if ($menu._locked)
-            return false;
+        if ($menu._locked) return false;
         $menu._locked = true;
-        window.setTimeout(function() {
-            $menu._locked = false;
-        }, 350);
+        window.setTimeout(function() { $menu._locked = false; }, 350);
         return true;
     };
 
     $menu._show = function() {
-        if ($menu._lock())
-            $body.addClass('is-menu-visible');
+        if ($menu._lock()) $body.addClass('is-menu-visible');
     };
 
     $menu._hide = function() {
-        if ($menu._lock())
-            $body.removeClass('is-menu-visible');
+        if ($menu._lock()) $body.removeClass('is-menu-visible');
     };
 
     $menu._toggle = function() {
-        if ($menu._lock())
-            $body.toggleClass('is-menu-visible');
+        if ($menu._lock()) $body.toggleClass('is-menu-visible');
     };
 
-    $menu
-        .appendTo($body)
+    $menu.appendTo($body)
         .on('click', function(event) {
             event.stopPropagation();
             $menu._hide();
@@ -102,8 +91,7 @@
             $menu._toggle();
         })
         .on('keydown', function(event) {
-            if (event.keyCode == 27)
-                $menu._hide();
+            if (event.keyCode == 27) $menu._hide();
         });
 
 })(jQuery);
@@ -122,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const text = `📝 Новое сообщение с сайта:\n👤 Имя: ${name}\n📬 Связь: ${contact}\n💬 Сообщение: ${message}`;
 
-      fetch("http://marichevai/send", {
+      fetch("https://marichevai.synology.me/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, contact, message })
