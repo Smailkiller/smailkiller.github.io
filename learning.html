@@ -1,0 +1,242 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Обучение архитекторов Revit и Navisworks — Алексей Маричев</title>
+  <meta charset="utf-8" />
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+  <style>
+    .image-thumb {
+      width: 600px;
+      height: auto;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: transform 0.2s ease;
+      display: block;
+      margin: 2rem auto;
+    }
+
+    .image-thumb:hover {
+      transform: scale(1.03);
+    }
+
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      padding: 2rem;
+      left: 0; top: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      box-shadow: 0 0 30px rgba(255,255,255,0.2);
+    }
+
+    .lightbox:target {
+      display: flex;
+    }
+	
+    .carousel-with-caption {
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      gap: 1.5rem;
+      padding: 0.2rem 0 1.5rem;
+      scrollbar-height: thin;
+      scroll-behavior: smooth;
+    }
+
+    .carousel-with-caption::-webkit-scrollbar {
+      height: 12px;
+    }
+
+    .carousel-with-caption::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+    }
+
+    .carousel-item {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+      text-align: center;
+      width: calc(25% - 1.125rem);
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .caption {
+      font-size: 0.9em;
+      color: #aaa;
+      margin-top: 0.5rem;
+    }
+
+    .lightbox-gallery {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 90vw;
+      height: 90vh;
+      max-width: 1000px;
+      max-height: 700px;
+      background: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      border-radius: 12px;
+    }
+
+    .lightbox-gallery.active {
+      display: flex;
+    }
+
+    .lightbox-gallery img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 8px;
+      box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+    }
+
+    .lightbox-gallery .close {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      font-size: 1.5rem;
+      color: white;
+      cursor: pointer;
+      z-index: 10001;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      padding: 0.4rem 0.6rem;
+    }
+
+    .actions.align-center {
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body class="is-preload">
+
+  <!-- Page Wrapper -->
+  <div id="page-wrapper">
+
+    <!-- Header -->
+    <header id="header" class="alt">
+      <h1><a href="index.html">AI и BIM - на главную</a></h1>
+      <nav><a href="#menu">Меню</a></nav>
+    </header>
+
+    <!-- Menu -->
+    <nav id="menu">
+      <div class="inner">
+        <h2>Menu</h2>
+							<ul class="links">
+								<li><a href="index.html">Главная</a></li>
+								<li><a href="about.html">Обо мне</a></li>
+								<li><a href="career_path.html">Карьера</a></li>
+								<li><a href="skills.html">Навыки</a></li>
+								<li><a href="index.html#four">Проекты</a></li>
+								<li><a href="learning.html#footer">Конаткты</a></li>
+							</ul>
+        <a href="#" class="close">Close</a>
+      </div>
+    </nav>
+
+    <section id="banner">
+      <div class="inner">
+        <h1>Обучение архитекторов Revit и Navisworks</h1>
+        <p>Погружение в цифровую практику архитектурного проектирования</p>
+      </div>
+    </section>
+
+    <section class="wrapper">
+      <div class="inner">
+        <h2 class="major">О проекте</h2>
+		<p><span class="image left"><img src="images/learning1.png" alt="" /></p>
+        <p>Один из самых масштабных и практически ориентированных проектов, которые я реализовал, — это <strong>разработка и проведение внутренней системы обучения архитекторов работе в Revit и Navisworks</strong>. Проект охватывал как новых сотрудников, так и опытных специалистов, и был рассчитан на то, чтобы ускорить адаптацию, систематизировать знания и сократить количество ошибок в повседневной работе.</p>
+</br></br></br>
+        <h2 class="major">Что было сделано</h2>
+        <ul>
+          <li><strong>Разработал уровневые обучающие программы по Revit</strong> — от базового моделирования до продвинутых приёмов архитектурного проектирования.</li>
+          <li><strong>Создал курсы для онбординга</strong> — для быстрого освоения Revit новичками и стажёрами.</li>
+          <li><strong>Провёл тренинги по Navisworks</strong> — для ГАПов, тендерного и сметного отделов, с акцентом на просмотр, анализ и координацию моделей.</li>
+          <li><strong>Разработал карты компетенций</strong>, тесты и практические задания — для объективной оценки уровня и прогресса сотрудников.</li>
+          <li><strong>Аудитория — до 450 сотрудников</strong> в пиковые моменты, включая архитекторов, инженеров и менеджеров проектов.</li>
+        </ul>
+        <h2 class="major">Как всё это работало</h2>
+        <p>Занятия шли как в формате <strong>живых онлайн-сессий</strong>, так и в виде <strong>структурированных видеоуроков</strong>. Под каждый блок адаптировалась подача: оформление документации, параметры, шаблоны, автоматизация — всё разбиралось на конкретных кейсах. Это не был сухой курс. Мы постоянно дорабатывали модули, добавляли примеры, собирали обратную связь.</p>
+
+        <p>Основной акцент делался не на формальном обучении, а на том, чтобы <strong>люди реально начинали работать быстрее, увереннее и аккуратнее</strong>. И это давало результат — особенно при внедрении новых команд или подготовке специалистов под сложные проекты.</p>
+
+
+
+        <ul class="actions align-center">
+          <li><a href="index.html" class="button">На главную</a></li>
+          <li><a href="learning.html" class="button">Обучение</a></li>
+          <li><a href="rerender.html" class="button">ИИ инстурменты</a></li>
+          <li><a href="laserscan.html" class="button">Облака точек</a></li>
+		  <li><a href="bimconsalt.html" class="button">BIM консалтинг</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="footer">
+      <div class="inner">
+        <h2 class="major">Связаться со мной</h2>
+        <p>Открыт к сотрудничеству, экспертным сессиям, нестандартным задачам и просто конструктивному диалогу.</p>
+        <form id="contact-form">
+          <div class="fields">
+            <div class="field">
+              <label for="name">Имя</label>
+              <input type="text" name="name" id="name" required>
+            </div>
+            <div class="field">
+              <label for="email">Способ связи</label>
+              <input type="text" name="contact" id="contact" required>
+            </div>
+            <div class="field">
+              <label for="message">Сообщение</label>
+              <textarea name="message" id="message" rows="4" required></textarea>
+            </div>
+          </div>
+          <ul class="actions">
+            <li><input type="submit" value="Отправить сообщение" /></li>
+          </ul>
+        </form>
+        <ul class="contact">
+          <li class="icon solid fa-envelope"><a href="mailto:marichev.ap@yandex.ru">marichev.ap@yandex.ru</a></li>
+          <li class="icon brands fa-telegram"><a href="https://t.me/Smailkiller">@Smailkiller</a></li>
+        </ul>
+        <ul class="copyright">
+          <li>Made by Алексей Маричев</li>
+          <li><a href="https://t.me/SMailsPub" target="_blank">Лисья таверна - личный блог</a></li>
+          <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

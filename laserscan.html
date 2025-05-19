@@ -1,0 +1,249 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>BIM-модели по облаку точек — Алексей Маричев</title>
+  <meta charset="utf-8" />
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+  <style>
+    .carousel-with-caption {
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      gap: 1.5rem;
+      padding: 0.2rem 0 1.5rem;
+      scrollbar-height: thin;
+      scroll-behavior: smooth;
+    }
+
+    .carousel-with-caption::-webkit-scrollbar {
+      height: 12px;
+    }
+
+    .carousel-with-caption::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+    }
+
+    .carousel-item {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+      text-align: center;
+      width: calc(25% - 1.125rem);
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .caption {
+      font-size: 0.9em;
+      color: #aaa;
+      margin-top: 0.5rem;
+    }
+
+    .lightbox-gallery {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 90vw;
+      height: 90vh;
+      max-width: 1000px;
+      max-height: 700px;
+      background: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      border-radius: 12px;
+    }
+
+    .lightbox-gallery.active {
+      display: flex;
+    }
+
+    .lightbox-gallery img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 8px;
+      box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+    }
+
+    .lightbox-gallery .close {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      font-size: 1.5rem;
+      color: white;
+      cursor: pointer;
+      z-index: 10001;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      padding: 0.4rem 0.6rem;
+    }
+
+    .actions.align-center {
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body class="is-preload">
+  <div id="page-wrapper">
+    <header id="header" class="alt">
+      <h1><a href="index.html">AI и BIM - на главную</a></h1>
+      <nav><a href="#menu">Меню</a></nav>
+    </header>
+
+    <nav id="menu">
+      <div class="inner">
+        <h2>Меню</h2>
+							<ul class="links">
+								<li><a href="index.html">Главная</a></li>
+								<li><a href="about.html">Обо мне</a></li>
+								<li><a href="career_path.html">Карьера</a></li>
+								<li><a href="skills.html">Навыки</a></li>
+								<li><a href="index.html#four">Проекты</a></li>
+								<li><a href="laserscan.html#footer">Конаткты</a></li>
+							</ul>
+        <a href="#" class="close">Закрыть</a>
+      </div>
+    </nav>
+
+    <section id="banner">
+      <div class="inner">
+        <h1>BIM-модели по облаку точек</h1>
+        <p>Работа с реальностью, переведённой в цифру</p>
+      </div>
+    </section>
+
+    <section class="wrapper">
+      <div class="inner">
+<h2 class="major">О проекте</h2>
+<p>Один из самых технологичных и прикладных направлений моей работы — создание BIM-моделей на основе облаков точек, полученных с помощью лазерного сканирования. Этот подход позволяет с высокой точностью зафиксировать текущее состояние объектов и перевести их в цифровую модель, пригодную для дальнейшего проектирования, анализа или реконструкции.</p>
+<p>В портфолио — как точные инженерные задачи (например, моделирование поручней на парусных яхтах в Revit), так и крупные инфраструктурные проекты, включая набережную в Сочи площадью 180 000 м² (LOD 150).</p>
+
+<h2 class="major">Что было сделано</h2>
+<ul>
+  <li>Подготовка облаков точек: фильтрация шумов, выравнивание, сшивка и упрощение данных.</li>
+  <li>Геометрическое моделирование в Revit по сканированию с фокусом на точность и чистоту элементов.</li>
+  <li>Создание сложных объектов, включая криволинейные и нестандартные формы.</li>
+  <li>Разработка параметрических семейств для уникальных конструкций.</li>
+  <li>Настройка моделей под задачи заказчика: визуализация, документация, расчёты.</li>
+  <li>Применение ReCap, Revit, Navisworks и Dynamo для обработки, моделирования и оптимизации.</li>
+</ul>
+
+<h2 class="major">Как всё это работало</h2>
+<p>Работа начиналась с получения и анализа облаков точек — оценивалась плотность, точность и пригодность для моделирования. В процессе приходилось вручную устранять артефакты, разделять данные по зонам и адаптировать под ограничения ПО.</p>
+<p>Моделирование велось поэтапно: сначала конструктив, затем архитектурные детали, после — точная подгонка и уточнение геометрии. Каждый проект сопровождался выпуском рабочей документации и проверкой на соответствие требованиям.</p>
+<p>Цель всегда была одна — не просто «перерисовать» здание, а создать понятную, аккуратную и надёжную модель, которую можно использовать в реальной работе: от согласований до реконструкции.</p>
+
+<div class="carousel-with-caption">
+  <div class="carousel-item">
+    <img src="images/laser1.png" alt="Объект 1">
+    <div class="caption">Моделирование поручней яхты</div>
+  </div>
+  <div class="carousel-item">
+    <img src="images/laser2.png" alt="Объект 2">
+    <div class="caption">Реставрация здания в центре СПб</div>
+  </div>
+  <div class="carousel-item">
+    <img src="images/laser3.png" alt="Объект 3">
+    <div class="caption">Реконструкция здания на Крестовском</div>
+  </div>
+  <div class="carousel-item">
+    <img src="images/laser4.png" alt="Объект 4">
+    <div class="caption">Исторический витраж</div>
+  </div>
+  <div class="carousel-item">
+    <img src="images/laser5.png" alt="Объект 5">
+    <div class="caption">Восстановление плитки</div>
+  </div>
+  <div class="carousel-item">
+    <img src="images/laser6.png" alt="Объект 6">
+    <div class="caption">Подвал ИЖС</div>
+  </div>
+</div>
+
+        <ul class="actions align-center">
+          <li><a href="index.html" class="button">На главную</a></li>
+          <li><a href="learning.html" class="button">Обучение</a></li>
+          <li><a href="rerender.html" class="button">ИИ инстурменты</a></li>
+          <li><a href="laserscan.html" class="button">Облака точек</a></li>
+		  <li><a href="bimconsalt.html" class="button">BIM консалтинг</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="footer">
+      <div class="inner">
+        <h2 class="major">Связаться со мной</h2>
+        <p>Открыт к сотрудничеству, экспертным сессиям, нестандартным задачам и просто конструктивному диалогу.</p>
+        <form id="contact-form">
+          <div class="fields">
+            <div class="field">
+              <label for="name">Имя</label>
+              <input type="text" name="name" id="name" required>
+            </div>
+            <div class="field">
+              <label for="email">Способ связи</label>
+              <input type="text" name="contact" id="contact" required>
+            </div>
+            <div class="field">
+              <label for="message">Сообщение</label>
+              <textarea name="message" id="message" rows="4" required></textarea>
+            </div>
+          </div>
+          <ul class="actions">
+            <li><input type="submit" value="Отправить сообщение" /></li>
+          </ul>
+        </form>
+        <ul class="contact">
+          <li class="icon solid fa-envelope"><a href="mailto:marichev.ap@yandex.ru">marichev.ap@yandex.ru</a></li>
+          <li class="icon brands fa-telegram"><a href="https://t.me/Smailkiller">@Smailkiller</a></li>
+        </ul>
+        <ul class="copyright">
+          <li>Made by Алексей Маричев</li>
+          <li><a href="https://t.me/SMailsPub" target="_blank">Лисья таверна — личный блог</a></li>
+          <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const gallery = document.querySelector('.lightbox-gallery');
+      const galleryImg = document.querySelector('.lightbox-gallery img');
+      document.querySelectorAll('.carousel-item img').forEach(img => {
+        img.addEventListener('click', () => {
+          galleryImg.src = img.src;
+          gallery.classList.add('active');
+        });
+      });
+      document.querySelector('.lightbox-gallery .close').addEventListener('click', () => {
+        gallery.classList.remove('active');
+      });
+    });
+  </script>
+
+  <div class="lightbox-gallery">
+    <span class="close">&times;</span>
+    <img src="" alt="Просмотр изображения" />
+  </div>
+
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

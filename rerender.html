@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Обучение архитекторов Revit и Navisworks — Алексей Маричев</title>
+  <meta charset="utf-8" />
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+  <style>
+    .image-thumb {
+      width: 600px;
+      height: auto;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: transform 0.2s ease;
+      display: block;
+      margin: 2rem auto;
+    }
+
+    .image-thumb:hover {
+      transform: scale(1.03);
+    }
+
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      padding: 2rem;
+      left: 0; top: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      box-shadow: 0 0 30px rgba(255,255,255,0.2);
+    }
+
+    .lightbox:target {
+      display: flex;
+    }
+  </style>
+</head>
+<body class="is-preload">
+
+  <!-- Page Wrapper -->
+  <div id="page-wrapper">
+
+    <!-- Header -->
+    <header id="header" class="alt">
+      <h1><a href="index.html">AI и BIM - на главную</a></h1>
+      <nav><a href="#menu">Меню</a></nav>
+    </header>
+
+    <!-- Menu -->
+    <nav id="menu">
+      <div class="inner">
+        <h2>Menu</h2>
+							<ul class="links">
+								<li><a href="index.html">Главная</a></li>
+								<li><a href="about.html">Обо мне</a></li>
+								<li><a href="career_path.html">Карьера</a></li>
+								<li><a href="skills.html">Навыки</a></li>
+								<li><a href="index.html#four">Проекты</a></li>
+								<li><a href="rerender.html#footer">Конаткты</a></li>
+							</ul>
+        <a href="#" class="close">Close</a>
+      </div>
+    </nav>
+
+    <section id="banner">
+      <div class="inner">
+        <h1>Использование ИИ в архитектуре и автоматизации</h1>
+        <p>От генерации визуалов до разработки интеллектуальных ассистентов</p>
+      </div>
+    </section>
+
+    <section class="wrapper">
+      <div class="inner">
+<h2 class="major">О проекте</h2>
+<div class="row">
+  <div class="col-6 col-12-medium">
+    <p><strong>Один из самых гибких и технологичных направлений, которые я развиваю</strong> — это использование ИИ как инструмента для решения прикладных задач в архитектуре, автоматизации и коммуникации. Под каждый кейс собираются свои связки: генерация изображений, языковые ассистенты, обучение моделей, синтез речи и многое другое.</p>
+  </div>
+  <div class="col-6 col-12-medium">
+    <a href="#img-ai-project"><img src="images/rerender.gif" alt="Обзор AI-проектов" class="image-thumb" /></a>
+    <p style="text-align: center; font-size: 0.9em; color: #aaa; margin-top: 0.5em;">Примеры задач, решаемых с помощью ИИ — от визуализации до коммуникации</p>
+    <div id="img-ai-project" class="lightbox">
+      <a href="#" style="position:absolute;top:2rem;right:2rem;font-size:2rem;color:#fff;text-decoration:none;">&times;</a>
+      <img src="images/rerender.gif" alt="Обзор AI-проектов" />
+    </div>
+  </div>
+</div>
+
+    <h2 class="major">Что было сделано</h2>
+    <ul>
+      <li><strong>Разработан пайплайн генерации визуализаций</strong> на базе ComfyUI и SDXL — поддержка масок, ControlNet, стилизации и inpainting.</li>
+      <li><strong>Проведено обучение LoRA-моделей</strong> — для точной генерации архитектурных элементов в нужной стилистике.</li>
+      <li><strong>Созданы Telegram-боты и ассистенты</strong> — с поддержкой синтеза речи, анализа эмоций, автоматической реакции на "нытьё" и другими функциями.</li>
+      <li><strong>Разработаны ассистенты внутри GPT</strong> — публично доступные агенты, выполняющие роль помощников для архитекторов и проектных команд.</li>
+      <li><strong>Интеграция GPT и Python</strong> — для генерации описаний, автоматизации шаблонов, работы с таблицами и API.</li>
+    </ul>
+
+<h2 class="major">Как всё это работало</h2>
+<div class="row">
+
+
+        <p><strong>Визуальный пайплайн</strong> позволяет за минуты собирать архитектурные рендеры, адаптируя стиль, перспективу и элементы. Генерация идёт с учётом масок и композиций, что делает её удобной для быстрой проверки концепций.</p>
+        <p><strong>Telegram-боты и GPT-ассистенты</strong> выступают как интерфейс к рабочим задачам: они реагируют на сообщения, умеют анализировать эмоции, синтезировать голос и генерировать документы. Некоторые из них доступны публично через ChatGPT.</p>
+        <p><strong>Модели LoRA</strong> обучались на архитектурных данных — чтобы повысить реалистичность и соответствие фирменному стилю визуализаций. Это сокращает ручную корректировку и упрощает масштабирование генерации.</p>
+
+    </div>
+
+        <ul class="actions align-center">
+          <li><a href="index.html" class="button">На главную</a></li>
+          <li><a href="learning.html" class="button">Обучение</a></li>
+          <li><a href="rerender.html" class="button">ИИ инстурменты</a></li>
+          <li><a href="laserscan.html" class="button">Облака точек</a></li>
+		  <li><a href="bimconsalt.html" class="button">BIM консалтинг</a></li>
+        </ul>
+  </div>
+    </section>
+
+    <section id="footer">
+      <div class="inner">
+        <h2 class="major">Связаться со мной</h2>
+        <p>Открыт к сотрудничеству, экспертным сессиям, нестандартным задачам и просто конструктивному диалогу.</p>
+        <form id="contact-form">
+          <div class="fields">
+            <div class="field">
+              <label for="name">Имя</label>
+              <input type="text" name="name" id="name" required>
+            </div>
+            <div class="field">
+              <label for="email">Способ связи</label>
+              <input type="text" name="contact" id="contact" required>
+            </div>
+            <div class="field">
+              <label for="message">Сообщение</label>
+              <textarea name="message" id="message" rows="4" required></textarea>
+            </div>
+          </div>
+          <ul class="actions">
+            <li><input type="submit" value="Отправить сообщение" /></li>
+          </ul>
+        </form>
+        <ul class="contact">
+          <li class="icon solid fa-envelope"><a href="mailto:marichev.ap@yandex.ru">marichev.ap@yandex.ru</a></li>
+          <li class="icon brands fa-telegram"><a href="https://t.me/Smailkiller">@Smailkiller</a></li>
+        </ul>
+        <ul class="copyright">
+          <li>Made by Алексей Маричев</li>
+          <li><a href="https://t.me/SMailsPub" target="_blank">Лисья таверна - личный блог</a></li>
+          <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
