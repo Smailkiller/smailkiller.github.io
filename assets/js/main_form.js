@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const text = `📝 Новое сообщение с сайта:\n👤 Имя: ${name}\n📬 Связь: ${contact}\n💬 Сообщение: ${message}`;
 
-      fetch("https://marichevai.synology.me/send", {
+      fetch("https://marichevai.synology.me/send",{
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, contact, message })
