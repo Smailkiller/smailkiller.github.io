@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Видео → цветовой штрих-код + анимация</title>
+  <style>
+    :root{
+      --accent:#FC5C02; --bg:#312B1E; --text:#E2CEAE; --muted:#bcae93; --stroke:#7C6B51;
+      --shadow:rgba(0,0,0,.35); --bad:#ff6b6b;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:18px;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(1200px 700px at 20% 10%, rgba(252,92,2,.16), transparent 55%),
+        radial-gradient(1200px 700px at 80% 20%, rgba(226,206,174,.08), transparent 55%),
+        var(--bg);
+      color:var(--text);
+    }
+    h1{margin:0 0 10px 0;font-size:18px;font-weight:700}
+    .wrap{max-width:1200px;margin:0 auto}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid rgba(124,107,81,.55);
+      border-radius:14px;
+      box-shadow:0 10px 28px var(--shadow);
+      padding:14px;
+    }
+    .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;align-items:start}
+    @media (max-width:980px){.grid{grid-template-columns:1fr}}
+
+    .file{
+      display:flex;gap:10px;align-items:center;width:100%;
+      padding:10px;border-radius:12px;border:1px dashed rgba(226,206,174,.35);
+      background:rgba(0,0,0,.15);min-width:0
+    }
+    .file input[type="file"]{width:100%;color:var(--muted);min-width:0}
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;
+      border:1px solid rgba(124,107,81,.55);background:rgba(0,0,0,.12);
+      font-size:12px;color:var(--muted);white-space:nowrap;flex:0 0 auto
+    }
+    .hint{margin-top:8px;color:var(--muted);font-size:13px;line-height:1.35}
+
+    .controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+    @media (max-width:650px){.controls{grid-template-columns:1fr}}
+    .field{
+      padding:10px;border-radius:12px;border:1px solid rgba(124,107,81,.55);
+      background:rgba(0,0,0,.12)
+    }
+    .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+    .field .desc{font-size:12px;color:rgba(226,206,174,.85);margin-top:6px;line-height:1.25}
+    .field input[type="number"], .field select{
+      width:100%;padding:9px 10px;border-radius:10px;border:1px solid rgba(226,206,174,.22);
+      background:rgba(0,0,0,.25);color:var(--text);outline:none
+    }
+    .field input[type="range"]{width:100%;accent-color:var(--accent)}
+
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+    button{
+      padding:10px 12px;border-radius:12px;border:1px solid rgba(226,206,174,.25);
+      background:rgba(0,0,0,.22);color:var(--text);cursor:pointer
+    }
+    button.primary{
+      background:linear-gradient(180deg, rgba(252,92,2,.85), rgba(252,92,2,.68));
+      border-color:rgba(252,92,2,.8);color:#1b110b;font-weight:700
+    }
+    button:disabled{opacity:.5;cursor:not-allowed}
+
+    .status{
+      margin-top:10px;font-size:13px;color:var(--muted);white-space:pre-line;
+      padding:10px;border-radius:12px;border:1px solid rgba(124,107,81,.45);background:rgba(0,0,0,.12)
+    }
+    .status.err{color:var(--bad);border-color:rgba(255,107,107,.45)}
+    .k{font-variant-numeric:tabular-nums}
+
+    .canvasWrap{
+      overflow-x:auto;overflow-y:hidden;border-radius:12px;border:1px solid rgba(124,107,81,.55);
+      background:rgba(0,0,0,.18)
+    }
+    .canvasWrap canvas{display:block;width:auto;height:260px;image-rendering:pixelated}
+
+    .previewBox{display:flex;flex-direction:column;gap:10px}
+
+    /* ====== ВАЖНО: фиксируем превью, чтобы НЕ “уезжало” ====== */
+    .inspect{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      flex-wrap:wrap; /* если узко — перенос */
+    }
+    .inspectCard{
+      border:1px solid rgba(124,107,81,.55);background:rgba(0,0,0,.12);
+      border-radius:12px;padding:10px;
+    }
+
+    /* контейнер превью фиксированной ширины */
+    .frameCol{
+      display:flex;
+      flex-direction:column;     /* СТРОГО друг под другом */
+      gap:10px;
+      align-items:center;        /* центрируем фикс. блок */
+      width:fit-content;
+    }
+    .frameWrap{
+      border-radius:10px;border:1px solid rgba(124,107,81,.35);background:rgba(0,0,0,.18);
+      overflow:hidden;
+      width:var(--pvw);          /* фикс. размер через CSS variables */
+      height:var(--pvh);
+    }
+    .frameWrap canvas{
+      display:block;
+      width:var(--pvw);          /* НЕ 100% */
+      height:var(--pvh);
+    }
+
+    .swatch{width:180px;height:120px;border-radius:12px;border:1px solid rgba(124,107,81,.55);background:rgba(0,0,0,.18)}
+    .swatchMeta{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.3}
+
+    video, #frame, #recCanvas{display:none}
+  </style>
+</head>
+<body>
+<div class="wrap" id="root" style="--pvw:420px;--pvh:240px;">
+  <h1>Видео → “цветовой штрих-код” + запись анимации</h1>
+
+  <div class="card">
+    <div class="grid">
+      <div>
+        <div class="file">
+          <span class="pill">1) Загрузка</span>
+          <input id="file" type="file" accept="video/*" />
+        </div>
+
+        <div class="hint">
+          AVI часто не поддерживается браузером. Лучше MP4 (H.264) или WebM.
+        </div>
+
+        <div class="controls">
+          <div class="field">
+            <label>Шаг по времени (сек)</label>
+            <input id="step" type="number" min="0.01" step="0.01" value="0.10" />
+            <div class="desc">Оценка полос: <span class="k" id="estStripes">—</span></div>
+          </div>
+
+          <div class="field">
+            <label>Ширина одной полосы (px)</label>
+            <input id="stripeW" type="number" min="1" step="1" value="2" />
+            <div class="desc">Итоговая ширина (px): <span class="k" id="estWidth">—</span></div>
+          </div>
+
+          <div class="field">
+            <label>Высота результата (px)</label>
+            <input id="outH" type="number" min="80" step="10" value="260" />
+            <div class="desc">Это высота PNG и превью.</div>
+          </div>
+
+          <div class="field">
+            <label>Даунскейл кадра (px)</label>
+            <input id="sampleSize" type="number" min="16" step="8" value="96" />
+            <div class="desc">Макс. сторона уменьшенного кадра для анализа.</div>
+          </div>
+
+          <div class="field">
+            <label>Игнор “почти чёрных” пикселей</label>
+            <input id="darkIgnore" type="number" min="0" step="1" value="10" />
+            <div class="desc">0 = не игнорировать.</div>
+          </div>
+
+          <div class="field">
+            <label>Метод извлечения кадров</label>
+            <select id="method">
+              <option value="rvfc">RVFC (рекомендуется)</option>
+              <option value="seek" selected>Seek (fallback)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Обрезка сверху/снизу (letterbox), %</label>
+            <input id="cropTB" type="range" min="0" max="35" step="1" value="12" />
+            <div class="desc">Срез: <span class="k" id="cropTBVal">12</span>% сверху и снизу.</div>
+          </div>
+
+          <div class="field">
+            <label>Обрезка слева/справа, %</label>
+            <input id="cropLR" type="range" min="0" max="20" step="1" value="0" />
+            <div class="desc">Срез: <span class="k" id="cropLRVal">0</span>% слева и справа.</div>
+          </div>
+
+          <div class="field">
+            <label>Формат анимации</label>
+            <select id="animFormat">
+              <option value="webm" selected>WebM (рекомендуется)</option>
+              <option value="gif">GIF (через gif.js)</option>
+              <option value="webp" disabled>WebP (аним.) — недоступно</option>
+            </select>
+            <div class="desc">GIF требует загрузки библиотеки. WebP-анимация без внешних кодеков обычно недоступна.</div>
+          </div>
+
+          <div class="field">
+            <label>Качество анимации</label>
+            <select id="animQuality">
+              <option value="low">Low (≈1.5 Mbps)</option>
+              <option value="med" selected>Medium (≈4 Mbps)</option>
+              <option value="high">High (≈8 Mbps)</option>
+            </select>
+            <div class="desc">Для WebM влияет на размер/детализацию.</div>
+          </div>
+
+          <div class="field">
+            <label>FPS анимации</label>
+            <input id="recFps" type="number" min="5" step="1" value="30" />
+          </div>
+
+          <div class="field">
+            <label>Размер превью кадров</label>
+            <select id="previewSize">
+              <option value="420x240" selected>420×240</option>
+              <option value="480x270">480×270</option>
+              <option value="640x360">640×360</option>
+            </select>
+            <div class="desc">Фиксированный размер. Не меняется между запусками.</div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="run" class="primary" disabled>2) Собрать палитру</button>
+          <button id="downloadPng" disabled>Скачать PNG</button>
+          <button id="downloadAnim" disabled>Скачать анимацию</button>
+          <button id="clear">Сброс</button>
+        </div>
+
+        <div id="status" class="status">Загрузи видео, затем нажми “Собрать палитру”.</div>
+      </div>
+
+      <div class="previewBox">
+        <span class="pill">Результат</span>
+        <div class="canvasWrap">
+          <canvas id="out"></canvas>
+        </div>
+
+        <span class="pill">Превью кадров / Цвет</span>
+        <div class="inspect">
+          <div class="inspectCard">
+            <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Кадры (фикс. размер, строго столбиком)</div>
+            <div class="frameCol">
+              <div class="frameWrap"><canvas id="curFrame"></canvas></div>
+              <div class="frameWrap"><canvas id="downFrame"></canvas></div>
+            </div>
+          </div>
+
+          <div class="inspectCard">
+            <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Выбранный цвет</div>
+            <div class="swatch" id="swatch"></div>
+            <div class="swatchMeta">
+              rgb: <span class="k" id="rgbTxt">—</span><br/>
+              t: <span class="k" id="timeTxt">—</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hint">
+          Резукльтаты анимации: сверху кадр, снизу штрих-код (растёт слева направо).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <video id="v" muted playsinline></video>
+  <canvas id="frame"></canvas>
+  <canvas id="recCanvas"></canvas>
+</div>
+
+<script>
+(() => {
+  const root = document.getElementById('root');
+
+  const fileInput = document.getElementById('file');
+  const runBtn = document.getElementById('run');
+  const dlPngBtn = document.getElementById('downloadPng');
+  const dlAnimBtn = document.getElementById('downloadAnim');
+  const clearBtn = document.getElementById('clear');
+  const statusEl = document.getElementById('status');
+
+  const stepEl = document.getElementById('step');
+  const stripeWEl = document.getElementById('stripeW');
+  const outHEl = document.getElementById('outH');
+  const sampleSizeEl = document.getElementById('sampleSize');
+  const darkIgnoreEl = document.getElementById('darkIgnore');
+  const methodEl = document.getElementById('method');
+  const cropTBEl = document.getElementById('cropTB');
+  const cropLREl = document.getElementById('cropLR');
+  const cropTBValEl = document.getElementById('cropTBVal');
+  const cropLRValEl = document.getElementById('cropLRVal');
+
+  const animFormatEl = document.getElementById('animFormat');
+  const animQualityEl = document.getElementById('animQuality');
+  const recFpsEl = document.getElementById('recFps');
+  const previewSizeEl = document.getElementById('previewSize');
+
+  const estStripesEl = document.getElementById('estStripes');
+  const estWidthEl = document.getElementById('estWidth');
+
+  const video = document.getElementById('v');
+
+  const outCanvas = document.getElementById('out');
+  const outCtx = outCanvas.getContext('2d', { willReadFrequently: true });
+
+  const frameCanvas = document.getElementById('frame');
+  const frameCtx = frameCanvas.getContext('2d', { willReadFrequently: true });
+
+  const curFrameC = document.getElementById('curFrame');
+  const curFrameCtx = curFrameC.getContext('2d', { willReadFrequently: true });
+
+  const downFrameC = document.getElementById('downFrame');
+  const downFrameCtx = downFrameC.getContext('2d', { willReadFrequently: true });
+
+  const recCanvas = document.getElementById('recCanvas');
+  const recCtx = recCanvas.getContext('2d', { willReadFrequently: true });
+
+  const swatchEl = document.getElementById('swatch');
+  const rgbTxtEl = document.getElementById('rgbTxt');
+  const timeTxtEl = document.getElementById('timeTxt');
+
+  let objectUrl = null;
+  let abortFlag = false;
+  let lastDuration = null;
+
+  // WebM recorder state
+  let recRecorder = null;
+  let recChunks = [];
+  let animBlobUrl = null;
+
+  // GIF state (gif.js)
+  let gifInstance = null;
+  let gifFrames = 0;
+
+  function setStatus(text, isError=false){
+    statusEl.textContent = text;
+    statusEl.classList.toggle('err', !!isError);
+  }
+  function clamp(v,a,b){ if(!isFinite(v)) return a; return Math.min(b, Math.max(a,v)); }
+  function clampInt(v){ v=v|0; return v<0?0:(v>255?255:v); }
+  function formatTime(sec){
+    sec=Math.max(0,sec);
+    const m=Math.floor(sec/60);
+    const s=Math.floor(sec%60);
+    const ms=Math.floor((sec-Math.floor(sec))*1000);
+    return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(ms).padStart(3,'0')}`;
+  }
+  function nextFrame(){ return new Promise(r=>requestAnimationFrame(()=>r())); }
+  async function safePlay(v){
+    try{ const p=v.play(); if(p && typeof p.then==='function') await p; }catch(_){}
+  }
+  function plannedStripes(duration, step){
+    if(!(isFinite(duration)&&duration>0)) return 1;
+    if(!(isFinite(step)&&step>0)) return 1;
+    if(step>=duration) return 1;
+    return Math.max(1, Math.floor((duration-1e-9)/step)+1);
+  }
+
+  function parsePreviewSize(){
+    const [w,h] = previewSizeEl.value.split('x').map(n=>parseInt(n,10));
+    return { w: Math.max(1,w|0), h: Math.max(1,h|0) };
+  }
+
+  // Фиксируем превью “железно”: и canvas размеры, и CSS variables
+  function applyPreviewSize(){
+    const {w,h} = parsePreviewSize();
+    root.style.setProperty('--pvw', `${w}px`);
+    root.style.setProperty('--pvh', `${h}px`);
+
+    curFrameC.width = w; curFrameC.height = h;
+    downFrameC.width = w; downFrameC.height = h;
+
+    curFrameCtx.clearRect(0,0,w,h);
+    downFrameCtx.clearRect(0,0,w,h);
+  }
+  previewSizeEl.addEventListener('change', applyPreviewSize);
+  applyPreviewSize();
+
+  function updateEstimates(){
+    if(!isFinite(lastDuration)||lastDuration<=0){
+      estStripesEl.textContent='—';
+      estWidthEl.textContent='—';
+      return;
+    }
+    const rawStep=parseFloat(stepEl.value);
+    const step=clamp(rawStep, 0.01, lastDuration);
+    const stripeW=clamp(parseInt(stripeWEl.value,10), 1, 200);
+    const n=plannedStripes(lastDuration, step);
+    estStripesEl.textContent=String(n);
+    estWidthEl.textContent=String(n*stripeW);
+  }
+  stepEl.addEventListener('input', updateEstimates);
+  stripeWEl.addEventListener('input', updateEstimates);
+
+  cropTBEl.addEventListener('input', ()=>cropTBValEl.textContent=cropTBEl.value);
+  cropLREl.addEventListener('input', ()=>cropLRValEl.textContent=cropLREl.value);
+  cropTBValEl.textContent=cropTBEl.value;
+  cropLRValEl.textContent=cropLREl.value;
+
+  function waitLoadedMeta(v){
+    return new Promise((resolve,reject)=>{
+      const t=setTimeout(()=>reject(new Error('timeout metadata')), 12000);
+      const ok=()=>{cleanup(); resolve();};
+      const err=()=>{cleanup(); reject(new Error('media error'));};
+      const cleanup=()=>{
+        clearTimeout(t);
+        v.removeEventListener('loadedmetadata', ok);
+        v.removeEventListener('loadeddata', ok);
+        v.removeEventListener('durationchange', ok);
+        v.removeEventListener('error', err);
+      };
+      v.addEventListener('loadedmetadata', ok, {once:true});
+      v.addEventListener('loadeddata', ok, {once:true});
+      v.addEventListener('durationchange', ok, {once:true});
+      v.addEventListener('error', err, {once:true});
+    });
+  }
+
+  function drawAspectFit(ctx, src, cw, ch){
+    ctx.clearRect(0,0,cw,ch);
+    const sw = src.videoWidth ?? src.width;
+    const sh = src.videoHeight ?? src.height;
+    if(!sw || !sh) return;
+    const scale = Math.min(cw/sw, ch/sh);
+    const dw = Math.round(sw*scale);
+    const dh = Math.round(sh*scale);
+    const dx = Math.floor((cw-dw)/2);
+    const dy = Math.floor((ch-dh)/2);
+    ctx.drawImage(src, dx, dy, dw, dh);
+  }
+
+  function dominantColorQuantized(rgba, darkIgnore){
+    const bins=new Map();
+    const len=rgba.length;
+    let ra=0,ga=0,ba=0,ca=0;
+    let rf=0,gf=0,bf=0,cf=0;
+
+    for(let i=0;i<len;i+=4){
+      const a=rgba[i+3];
+      if(a<16) continue;
+      const r=rgba[i], g=rgba[i+1], b=rgba[i+2];
+
+      ra+=r; ga+=g; ba+=b; ca++;
+
+      const y=(r*0.299+g*0.587+b*0.114);
+      if(y<=darkIgnore) continue;
+
+      rf+=r; gf+=g; bf+=b; cf++;
+
+      const rq=r>>2, gq=g>>2, bq=b>>2;
+      const key=(rq<<12)|(gq<<6)|bq;
+      bins.set(key, (bins.get(key)||0)+1);
+    }
+
+    if(bins.size===0){
+      if(ca===0) return {r:0,g:0,b:0};
+      return {r:Math.round(ra/ca), g:Math.round(ga/ca), b:Math.round(ba/ca)};
+    }
+
+    let bestKey=0, bestCount=-1;
+    for(const [k,c] of bins.entries()){
+      if(c>bestCount){bestCount=c; bestKey=k;}
+    }
+
+    const rq=(bestKey>>12)&63, gq=(bestKey>>6)&63, bq=bestKey&63;
+    let r=(rq<<2)+2, g=(gq<<2)+2, b=(bq<<2)+2;
+
+    if((r+g+b)<30 && cf>0){
+      r=Math.round(rf/cf); g=Math.round(gf/cf); b=Math.round(bf/cf);
+    }
+    return {r:clampInt(r), g:clampInt(g), b:clampInt(b)};
+  }
+
+  async function seekTo(v, time){
+    if(Math.abs(v.currentTime-time)<0.0005) return;
+    return new Promise((resolve,reject)=>{
+      let settled=false;
+      const onSeeked=async()=>{
+        try{
+          await nextFrame();
+          await new Promise(r=>setTimeout(r,40));
+          if(!settled){settled=true; cleanup(); resolve();}
+        }catch(e){
+          if(!settled){settled=true; cleanup(); reject(e);}
+        }
+      };
+      const onErr=()=>{
+        if(!settled){settled=true; cleanup(); reject(new Error('seek error'));}
+      };
+      const cleanup=()=>{
+        v.removeEventListener('seeked', onSeeked);
+        v.removeEventListener('error', onErr);
+      };
+      v.addEventListener('seeked', onSeeked);
+      v.addEventListener('error', onErr, {once:true});
+      try{ v.currentTime=time; }catch(e){ cleanup(); reject(e); }
+    });
+  }
+
+  function revokeAnimUrl(){
+    if(animBlobUrl){ URL.revokeObjectURL(animBlobUrl); animBlobUrl=null; }
+  }
+
+  // ===== WebM recording =====
+  function qualityToBitrate(q){
+    if(q==='low') return 1500_000;
+    if(q==='high') return 8000_000;
+    return 4000_000;
+  }
+
+  function startWebmRecording(fps, bitrate){
+    revokeAnimUrl();
+    recChunks = [];
+
+    const stream = recCanvas.captureStream(fps);
+    let mime = 'video/webm;codecs=vp9';
+    if(typeof MediaRecorder === 'undefined') return false;
+    if(!MediaRecorder.isTypeSupported(mime)) mime = 'video/webm;codecs=vp8';
+    if(!MediaRecorder.isTypeSupported(mime)) mime = 'video/webm';
+
+    recRecorder = new MediaRecorder(stream, {
+      mimeType: mime,
+      videoBitsPerSecond: bitrate
+    });
+
+    recRecorder.ondataavailable = (e) => {
+      if(e.data && e.data.size>0) recChunks.push(e.data);
+    };
+    recRecorder.onstop = () => {
+      const blob = new Blob(recChunks, { type: recRecorder.mimeType || 'video/webm' });
+      animBlobUrl = URL.createObjectURL(blob);
+      dlAnimBtn.disabled = false;
+      dlAnimBtn.textContent = 'Скачать анимацию (WebM)';
+      setStatus(statusEl.textContent + `\nАнимация WebM готова: ${Math.round(blob.size/1024/1024*10)/10} MB`, false);
+    };
+
+    recRecorder.start(250);
+    return true;
+  }
+
+  function stopWebm(){
+    if(recRecorder && recRecorder.state !== 'inactive'){
+      recRecorder.stop();
+    }
+  }
+
+  // ===== GIF via gif.js (CDN) =====
+  async function ensureGifJsLoaded(){
+    if(window.GIF) return true;
+
+    // gif.js requires two files: gif.js and gif.worker.js
+    // We'll load gif.js from CDN; worker will be set via workerScript option (same CDN).
+    const src = 'https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js';
+    await new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = resolve;
+      s.onerror = () => reject(new Error('Не удалось загрузить gif.js'));
+      document.head.appendChild(s);
+    });
+    return !!window.GIF;
+  }
+
+  function startGifRecording(){
+    revokeAnimUrl();
+    gifFrames = 0;
+    gifInstance = new window.GIF({
+      workers: 2,
+      quality: 10,
+      workerScript: 'https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.worker.js'
+    });
+
+    gifInstance.on('finished', (blob) => {
+      animBlobUrl = URL.createObjectURL(blob);
+      dlAnimBtn.disabled = false;
+      dlAnimBtn.textContent = 'Скачать анимацию (GIF)';
+      setStatus(statusEl.textContent + `\nGIF готов: ${Math.round(blob.size/1024/1024*10)/10} MB • кадров: ${gifFrames}`, false);
+    });
+
+    return true;
+  }
+
+  function addGifFrame(delayMs){
+    if(!gifInstance) return;
+    // добавляем recCanvas как кадр (copy = true)
+    gifInstance.addFrame(recCanvas, {copy:true, delay: delayMs});
+    gifFrames++;
+  }
+
+  function stopGif(){
+    if(gifInstance){
+      gifInstance.render();
+    }
+  }
+
+  // ===== UI Handlers =====
+  dlPngBtn.addEventListener('click', ()=>{
+    if(!outCanvas.width || !outCanvas.height) return;
+    const a=document.createElement('a');
+    a.download='video_palette.png';
+    a.href=outCanvas.toDataURL('image/png');
+    a.click();
+  });
+
+  dlAnimBtn.addEventListener('click', ()=>{
+    if(!animBlobUrl) return;
+    const fmt = animFormatEl.value;
+    const a=document.createElement('a');
+    a.download = (fmt === 'gif') ? 'palette_animation.gif' : 'palette_animation.webm';
+    a.href=animBlobUrl;
+    a.click();
+  });
+
+  clearBtn.addEventListener('click', ()=>{
+    abortFlag=true;
+    try{video.pause();}catch{}
+    if(objectUrl){URL.revokeObjectURL(objectUrl); objectUrl=null;}
+    revokeAnimUrl();
+
+    fileInput.value='';
+    runBtn.disabled=true;
+    dlPngBtn.disabled=true;
+    dlAnimBtn.disabled=true;
+
+    outCanvas.width=0; outCanvas.height=0;
+    outCtx.clearRect(0,0,1,1);
+
+    applyPreviewSize(); // вернёт фиксированный размер всегда
+    swatchEl.style.background='rgba(0,0,0,.18)';
+    rgbTxtEl.textContent='—';
+    timeTxtEl.textContent='—';
+
+    lastDuration=null;
+    updateEstimates();
+    setStatus('Сброшено. Загрузи видео заново.');
+  });
+
+  fileInput.addEventListener('change', async ()=>{
+    abortFlag=true;
+    runBtn.disabled=true;
+    dlPngBtn.disabled=true;
+    dlAnimBtn.disabled=true;
+
+    const file=fileInput.files?.[0];
+    if(!file) return;
+
+    if(objectUrl) URL.revokeObjectURL(objectUrl);
+    objectUrl=URL.createObjectURL(file);
+
+    video.removeAttribute('src');
+    video.load();
+    video.src=objectUrl;
+
+    try{ await waitLoadedMeta(video); }
+    catch{
+      setStatus('Ошибка: не удалось прочитать видео (кодек/контейнер может не поддерживаться браузером).', true);
+      return;
+    }
+
+    if(!isFinite(video.duration) || video.duration<=0){
+      setStatus('Ошибка: длительность видео не определена.', true);
+      return;
+    }
+
+    lastDuration=video.duration;
+    updateEstimates();
+    applyPreviewSize(); // на всякий случай при смене видео
+
+    setStatus(
+      `Видео загружено: ${formatTime(video.duration)} • ${video.videoWidth}×${video.videoHeight}\n` +
+      `План полос (по текущему шагу): ${estStripesEl.textContent}`,
+      false
+    );
+
+    runBtn.disabled=false;
+  });
+
+  // ===== Main process =====
+  runBtn.addEventListener('click', async ()=>{
+    const file=fileInput.files?.[0];
+    if(!file) return;
+
+    abortFlag=false;
+    runBtn.disabled=true;
+    dlPngBtn.disabled=true;
+    dlAnimBtn.disabled=true;
+    revokeAnimUrl();
+
+    // критично: фиксируем превью перед каждым прогоном
+    applyPreviewSize();
+
+    const duration=video.duration;
+    if(!isFinite(duration)||duration<=0){
+      setStatus('Ошибка: видео без корректной длительности.', true);
+      runBtn.disabled=false;
+      return;
+    }
+
+    const rawStep=parseFloat(stepEl.value);
+    const step=clamp(rawStep, 0.01, duration);
+
+    const stripeW=clamp(parseInt(stripeWEl.value,10), 1, 200);
+    const outH=clamp(parseInt(outHEl.value,10), 80, 4000);
+    const sampleSize=clamp(parseInt(sampleSizeEl.value,10), 16, 1024);
+    const darkIgnore=clamp(parseInt(darkIgnoreEl.value,10), 0, 80);
+    const cropTBp=clamp(parseInt(cropTBEl.value,10), 0, 35);
+    const cropLRp=clamp(parseInt(cropLREl.value,10), 0, 20);
+    const method=methodEl.value;
+
+    outCanvas.style.height = `${outH}px`;
+
+    const vw=video.videoWidth||1;
+    const vh=video.videoHeight||1;
+
+    // downscale for analysis
+    const scale=sampleSize/Math.max(vw,vh);
+    frameCanvas.width=Math.max(1, Math.round(vw*scale));
+    frameCanvas.height=Math.max(1, Math.round(vh*scale));
+
+    // crop in downscale coords
+    const dw=frameCanvas.width, dh=frameCanvas.height;
+    const cropTB=Math.round(dh*(cropTBp/100));
+    const cropLR=Math.round(dw*(cropLRp/100));
+    const sx=cropLR, sy=cropTB;
+    const sw=Math.max(1, dw-cropLR*2);
+    const sh=Math.max(1, dh-cropTB*2);
+
+    const n=plannedStripes(duration, step);
+
+    // output stripes
+    outCanvas.width=n*stripeW;
+    outCanvas.height=outH;
+    outCtx.clearRect(0,0,outCanvas.width,outCanvas.height);
+
+    // recording canvas setup: TOP frame + BOTTOM stripes
+    const recTopH = 360;
+    const recBottomH = 200;
+
+    // ширина анимации: стараемся уместить все полосы “как есть”, но не делаем безумно широкую
+    const maxRecW = 1600;
+    const minRecW = 800;
+    const targetW = clamp(outCanvas.width, minRecW, maxRecW);
+    const recStripeW = Math.max(1, Math.floor(targetW / n));
+    const recW = recStripeW * n;
+
+    recCanvas.width = recW;
+    recCanvas.height = recTopH + recBottomH;
+
+    function paintRecBackground(){
+      recCtx.fillStyle = 'rgb(49,43,30)';
+      recCtx.fillRect(0,0,recCanvas.width,recCanvas.height);
+    }
+
+    function drawRecComposite(frameSource, stripeIndex, color){
+      paintRecBackground();
+
+      // top frame aspect-fit
+      const topW = recCanvas.width, topH = recTopH;
+      const sw2 = frameSource.videoWidth ?? frameSource.width;
+      const sh2 = frameSource.videoHeight ?? frameSource.height;
+      const s = Math.min(topW/sw2, topH/sh2);
+      const dw2 = Math.round(sw2*s), dh2 = Math.round(sh2*s);
+      const dx2 = Math.floor((topW-dw2)/2), dy2 = Math.floor((topH-dh2)/2);
+      recCtx.drawImage(frameSource, dx2, dy2, dw2, dh2);
+
+      // separator
+      recCtx.fillStyle = 'rgba(226,206,174,.25)';
+      recCtx.fillRect(0, recTopH, recCanvas.width, 1);
+
+      // bottom stripes scaled to recW × recBottomH
+      const bottomY = recTopH + 1;
+      recCtx.drawImage(outCanvas, 0, 0, outCanvas.width, outCanvas.height, 0, bottomY, recCanvas.width, recBottomH);
+
+      // current stripe highlight
+      const stripeX = stripeIndex * recStripeW;
+      recCtx.fillStyle = 'rgba(252,92,2,.35)';
+      recCtx.fillRect(stripeX, bottomY, recStripeW, recBottomH);
+
+      // swatch
+      recCtx.fillStyle = `rgb(${color.r},${color.g},${color.b})`;
+      recCtx.fillRect(recCanvas.width - 96, 12, 84, 40);
+      recCtx.strokeStyle = 'rgba(226,206,174,.55)';
+      recCtx.strokeRect(recCanvas.width - 96, 12, 84, 40);
+    }
+
+    // start animation recording
+    const fmt = animFormatEl.value;
+    const fps = clamp(parseInt(recFpsEl.value,10), 5, 60);
+    const q = animQualityEl.value;
+    const bitrate = qualityToBitrate(q);
+
+    let gifDelayMs = Math.round(1000 / fps);
+    let usingWebm = false;
+    let usingGif = false;
+
+    try{
+      if(fmt === 'webm'){
+        if(typeof MediaRecorder === 'undefined' || !recCanvas.captureStream){
+          setStatus('MediaRecorder/captureStream не поддерживается браузером. Запись отключена.', true);
+        } else {
+          usingWebm = startWebmRecording(fps, bitrate);
+          if(!usingWebm){
+            setStatus('Не удалось стартовать запись WebM (тип кодека не поддерживается).', true);
+          }
+        }
+      } else if(fmt === 'gif'){
+        const ok = await ensureGifJsLoaded();
+        if(!ok){
+          setStatus('Не удалось загрузить gif.js. Переключи формат анимации на WebM.', true);
+        } else {
+          usingGif = startGifRecording();
+          if(!usingGif){
+            setStatus('Не удалось инициализировать GIF запись. Переключи на WebM.', true);
+          }
+        }
+      }
+
+      setStatus(
+        `Старт…\nМетод: ${method.toUpperCase()} • шаг: ${step}s • полос: ${n}\n` +
+        `PNG: ${outCanvas.width}px • Анимация: ${recCanvas.width}×${recCanvas.height} • FPS=${fps} • ${fmt.toUpperCase()}`,
+        false
+      );
+
+      // processing
+      if(method==='rvfc'){
+        if(typeof video.requestVideoFrameCallback!=='function'){
+          setStatus('Ошибка: RVFC недоступен. Переключи на Seek.', true);
+          throw new Error('RVFC not available');
+        }
+
+        video.currentTime=0;
+        await safePlay(video);
+
+        let sampled=0;
+        let nextT=0;
+        let x=0;
+
+        await new Promise((resolve)=>{
+          const tick=()=>{
+            if(abortFlag){ resolve(); return; }
+            video.requestVideoFrameCallback((now, meta)=>{
+              if(abortFlag){ resolve(); return; }
+              const t=(meta && typeof meta.mediaTime==='number') ? meta.mediaTime : (video.currentTime||0);
+
+              if(t + 1e-6 >= nextT){
+                frameCtx.drawImage(video, 0,0, frameCanvas.width, frameCanvas.height);
+                const img = frameCtx.getImageData(sx,sy,sw,sh);
+                const col = dominantColorQuantized(img.data, darkIgnore);
+
+                outCtx.fillStyle = `rgb(${col.r},${col.g},${col.b})`;
+                outCtx.fillRect(x, 0, stripeW, outH);
+
+                drawAspectFit(curFrameCtx, video, curFrameC.width, curFrameC.height);
+                drawAspectFit(downFrameCtx, frameCanvas, downFrameC.width, downFrameC.height);
+
+                swatchEl.style.background = `rgb(${col.r},${col.g},${col.b})`;
+                rgbTxtEl.textContent = `${col.r}, ${col.g}, ${col.b}`;
+                timeTxtEl.textContent = formatTime(t);
+
+                drawRecComposite(video, sampled, col);
+                if(usingGif) addGifFrame(gifDelayMs);
+
+                x += stripeW;
+                sampled++;
+                nextT += step;
+
+                if(sampled===1 || sampled%25===0){
+                  setStatus(`В процессе…\nПолоса ${sampled}/${n}\nt=${formatTime(t)} • rgb(${col.r},${col.g},${col.b})`, false);
+                }
+
+                if(sampled>=n || nextT>duration+1e-3){
+                  try{video.pause();}catch{}
+                  resolve(); return;
+                }
+              }
+              tick();
+            });
+          };
+          tick();
+        });
+
+      } else {
+        // SEEK
+        await safePlay(video); try{video.pause();}catch{}
+
+        let x=0;
+        for(let i=0;i<n;i++){
+          if(abortFlag) break;
+          const t = (n===1) ? 0 : Math.min(duration, i*step);
+          await seekTo(video, t);
+
+          frameCtx.drawImage(video, 0,0, frameCanvas.width, frameCanvas.height);
+          const img = frameCtx.getImageData(sx,sy,sw,sh);
+          const col = dominantColorQuantized(img.data, darkIgnore);
+
+          outCtx.fillStyle = `rgb(${col.r},${col.g},${col.b})`;
+          outCtx.fillRect(x, 0, stripeW, outH);
+
+          drawAspectFit(curFrameCtx, video, curFrameC.width, curFrameC.height);
+          drawAspectFit(downFrameCtx, frameCanvas, downFrameC.width, downFrameC.height);
+
+          swatchEl.style.background = `rgb(${col.r},${col.g},${col.b})`;
+          rgbTxtEl.textContent = `${col.r}, ${col.g}, ${col.b}`;
+          timeTxtEl.textContent = formatTime(t);
+
+          drawRecComposite(video, i, col);
+          if(usingGif) addGifFrame(gifDelayMs);
+
+          x += stripeW;
+
+          if(i===0 || i%25===0 || i===n-1){
+            setStatus(`В процессе…\nПолоса ${i+1}/${n}\nt=${formatTime(t)} • rgb(${col.r},${col.g},${col.b})`, false);
+            await nextFrame();
+          }
+        }
+      }
+
+      setStatus(`Готово.\nПолос: ${n}\nШирина PNG: ${outCanvas.width}px`, false);
+      dlPngBtn.disabled = false;
+
+    } catch(e){
+      setStatus(`Ошибка: ${String(e && e.message ? e.message : e)}`, true);
+    } finally {
+      try{video.pause();}catch{}
+      runBtn.disabled=false;
+      updateEstimates();
+
+      // finalize animation
+      if(usingWebm) stopWebm();
+      if(usingGif) stopGif();
+
+      // если не писали, кнопку не активируем
+      if(!usingWebm && !usingGif){
+        dlAnimBtn.disabled = true;
+        dlAnimBtn.textContent = 'Скачать анимацию';
+      }
+    }
+  });
+
+  // initial
+  setStatus('Загрузи видео, затем нажми “Собрать палитру”.');
+})();
+</script>
+</body>
+</html>
