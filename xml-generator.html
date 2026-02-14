@@ -52,16 +52,13 @@
 	  height: fit-content;    /* чтобы не растягивалась */
 	}
     *{ box-sizing:border-box; }
-    body{
-	  margin:0;
-	  font-family: var(--sans);
-	  background:
-		radial-gradient(900px 600px at 20% 10%, rgba(252,92,2,0.08), transparent 60%),
-		radial-gradient(900px 600px at 90% 30%, rgba(124,107,81,0.20), transparent 62%),
-		var(--bg);
-	  background-attachment: fixed;
-	  color: var(--light);
-	}
+   body{
+margin:0;
+font-family:system-ui, sans-serif;
+background:var(--bg);
+color:var(--light);
+zoom:1.25;
+}
 
 
     .wrap{
@@ -79,11 +76,8 @@
     }
 
     h1{
-      margin:0;
-      font-size: 20px;
-      letter-spacing: 0.2px;
-      font-weight: 700;
-    }
+margin-top:0;
+}
     .subtitle{
       margin-top:6px;
       color: var(--muted);
@@ -124,12 +118,11 @@
     }
 
     .card{
-      background: linear-gradient(180deg, var(--card), rgba(226,206,174,0.03));
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
+background:rgba(226,206,174,0.05);
+border:1px solid rgba(226,206,174,0.2);
+padding:20px;
+border-radius:14px;
+}
     .card-sticky{
       position: sticky;
       top: 14px;
@@ -410,17 +403,35 @@
     }
 
     .footer{
-      margin-top: 16px;
-      text-align:center;
-      font-size: 11px;
-      color: rgba(226,206,174,0.75);
-    }
+	margin-top:60px;
+	padding:25px 0;
+	text-align:center;
+	border-top:1px solid rgba(226,206,174,0.15);
+	background:rgba(49,43,30,0.95);
+	}
     .footer a{
-      color: rgba(252,92,2,0.95);
-      text-decoration: none;
-      border-bottom: 1px dashed rgba(252,92,2,0.55);
-    }
-    .footer a:hover{ border-bottom-style: solid; }
+color:var(--accent);
+text-decoration:none;
+}
+	  .metrika-box{
+display:inline-flex;
+align-items:center;
+gap:10px;
+padding:10px 16px;
+border-radius:14px;
+background:rgba(226,206,174,0.06);
+border:1px solid rgba(226,206,174,0.20);
+transition:all .2s ease;
+}
+
+.metrika-box:hover{
+border-color:rgba(252,92,2,0.5);
+background:rgba(252,92,2,0.08);
+}
+
+.metrika-box img{
+filter:brightness(0.85) contrast(1.05);
+}
 
     .warn{
       color: rgba(226,206,174,0.92);
@@ -998,16 +1009,21 @@
     </div>
 
     <div class="footer">
-  <div style="display:flex; justify-content:center; align-items:center; gap:12px; flex-wrap:wrap;">
-    <a href="https://metrika.yandex.ru/stat/?id=106828542&amp;from=informer" target="_blank" rel="nofollow">
-      <img src="https://informer.yandex.ru/informer/106828542/3_1_FFFFFFFF_EFEFEFFF_0_pageviews"
-           style="width:88px; height:31px; border:0;"
-           alt="Яндекс.Метрика"
-           title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" />
-    </a>
+<div style="display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;">
 
-    <span>разработано <a href="https://t.me/SMailsPub" target="_blank" rel="noopener">Маричевым Алексеем</a></span>
-  </div>
+<div class="metrika-box">
+<a href="https://metrika.yandex.ru/stat/?id=106828542&amp;from=informer"
+target="_blank" rel="nofollow">
+<img src="https://informer.yandex.ru/informer/106828542/3_1_FFFFFFFF_EFEFEFFF_0_pageviews"
+width="88"
+height="31"
+alt="Яндекс.Метрика">
+</a>
+</div>
+
+<span>разработано<a href="https://t.me/SMailsPub" target="_blank">Маричевым Алексеем</a>
+</span>
+
 </div>
 
   <script>
@@ -2047,5 +2063,6 @@
   </script>
 </body>
 </html>
+
 
 
