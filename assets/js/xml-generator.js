@@ -42,7 +42,7 @@
     }
 
     function setXmlState(ok){
-      $("xmlState").textContent = ok ? "XML сформирован" : "XML не сформирован";
+      $("xmlState").textContent = ok ? "✔️ XML сформирован" : "❌XML не сформирован";
       $("btnDownload").disabled = !ok;
       $("btnCopyXml").disabled = !ok;
       $("xmlState").style.borderColor = ok ? "rgba(124,107,81,0.55)" : "rgba(226,206,174,0.22)";
