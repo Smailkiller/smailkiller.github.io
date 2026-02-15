@@ -462,4 +462,6 @@ filter:brightness(0.85) contrast(1.05);
       gap: 10px;
       flex-wrap: wrap;
     }
-  
+  :root { --bg: #0f1115; } /* страховка, если вдруг блок переменных не прочитался */
+html, body { background: var(--bg) !important; }
+body { outline: 6px solid red !important; }
