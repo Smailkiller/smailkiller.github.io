@@ -414,6 +414,8 @@ function setTab(which){
   const isIfc = which === "ifc";
   const isCheck = which === "xmlcheck";
 
+  document.body.classList.toggle("hide-right-panel", isCheck);
+
   $("tabManual").classList.toggle("active", isManual);
   $("tabIfc").classList.toggle("active", isIfc);
   $("tabXmlCheck").classList.toggle("active", isCheck);
@@ -427,6 +429,7 @@ function setTab(which){
   if (isManual) markInvalids("manual");
   if (isIfc) markInvalids("ifc");
 }
+
 
 // IFC availability check
 function ifcAllowed(){
