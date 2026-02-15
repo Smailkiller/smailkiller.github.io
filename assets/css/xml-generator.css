@@ -462,4 +462,4 @@ filter:brightness(0.85) contrast(1.05);
       gap: 10px;
       flex-wrap: wrap;
     }
-  
+  html, body { background: var(--bg) !important; }
