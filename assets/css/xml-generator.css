@@ -473,3 +473,12 @@ th{
   font-size: 12px;
   line-height: 1.35;
 }
+/* Hide right preview panel on XML Check tab */
+body.hide-right-panel .card-sticky{
+  display: none !important;
+}
+
+/* Make left panel full-width when right is hidden */
+body.hide-right-panel .grid{
+  grid-template-columns: 1fr !important;
+}
