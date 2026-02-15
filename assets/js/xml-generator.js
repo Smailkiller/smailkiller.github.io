@@ -1,4 +1,3 @@
-<script>
     // =========================
     // Helpers
     // =========================
@@ -1032,4 +1031,4 @@
 
     updateFillProgress();
     markInvalids("manual");
-  </script>
+  

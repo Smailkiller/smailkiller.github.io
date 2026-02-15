@@ -1,4 +1,3 @@
-<style>
     :root{
       --bg:#312B1E;
       --accent:#FC5C02;
@@ -463,4 +462,4 @@ filter:brightness(0.85) contrast(1.05);
       gap: 10px;
       flex-wrap: wrap;
     }
-  </style>
+  
