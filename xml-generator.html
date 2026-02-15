@@ -1,30 +1,29 @@
 <!doctype html>
 <html lang="ru">
 <head>
-	<!-- Yandex.Metrika counter -->
-	<script type="text/javascript">
-	  (function(m,e,t,r,i,k,a){
-	      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)}
-	      m[i].l=1*new Date();
-	      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-	      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-	  })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106828542', 'ym');
-	
-	  ym(106828542, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-	</script>
-	<noscript>
-		<div>
-			<img src="https://mc.yandex.ru/watch/106828542" style="position:absolute; left:-9999px;" alt="" />
-		</div>
-	</noscript>
-<!-- /Yandex.Metrika counter -->
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)}
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106828542', 'ym');
+
+    ym(106828542, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript>
+    <div>
+      <img src="https://mc.yandex.ru/watch/106828542" style="position:absolute; left:-9999px;" alt="" />
+    </div>
+  </noscript>
+  <!-- /Yandex.Metrika counter -->
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Онлайн генератор XML (ТЭП / АГР)</title>
 
-<link rel="stylesheet" href="assets/css/xml-generator.css?v=2">
-
+  <link rel="stylesheet" href="assets/css/xml-generator.css?v=3">
 </head>
 
 <body>
@@ -48,6 +47,7 @@
           <div class="tabs">
             <div class="tab active" id="tabManual">Ручной ввод</div>
             <div class="tab" id="tabIfc">IFC</div>
+            <div class="tab" id="tabXmlCheck">Проверка XML</div>
           </div>
         </div>
 
@@ -512,13 +512,53 @@
 
           </div>
 
+          <!-- XML CHECK PANEL -->
+          <div id="panelXmlCheck" style="display:none;">
+
+            <div class="section">
+              <div class="section-h">
+                <div class="name">Проверка XML</div>
+                <div class="hint">Загрузите XML → проверка синтаксиса + минимально обязательных параметров. Можно автоматически дополнить и скачать.</div>
+              </div>
+              <div class="form">
+                <div class="row">
+                  <div>
+                    <label>XML-файл</label>
+                    <input id="xmlCheckFile" type="file" accept=".xml" />
+                    <div class="help"><span class="k">Параметр:</span>поддерживается XML с дополнительными полями (мы проверяем минимум).</div>
+                  </div>
+                  <div>
+                    <div class="small" style="margin-top:4px;">
+                      Если синтаксис XML битый — автоисправление недоступно (сначала нужно починить структуру файла).
+                    </div>
+                  </div>
+                </div>
+
+                <div class="btns">
+                  <button class="primary" id="btnXmlCheck" type="button">Проверить</button>
+                  <button class="ghost" id="btnXmlFix" type="button" disabled>Исправить и скачать</button>
+                  <span class="pill" id="xmlCheckStatus">Ожидание</span>
+                </div>
+
+                <div class="hr"></div>
+
+                <div>
+                  <label>Отчёт</label>
+                  <pre id="xmlCheckReport" class="report"></pre>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </div>
 
       <!-- RIGHT -->
       <div class="card card-sticky">
         <div class="card-h">
-                  <div class="topActions">
+          <div class="topActions">
             <button class="primary" id="btnGenerateTop">Сгенерировать XML</button>
             <div class="pill" id="xmlState">XML не сформирован</div>
           </div>
@@ -556,13 +596,13 @@
             <button class="ghost" id="btnCopyXml" disabled>Скопировать XML</button>
           </div>
 
-			<div style="margin-top:18px;">
-	  <a href="https://forms.yandex.ru/cloud/6991b7b76d2d73bd3aa9f78a"
-	     target="_blank"
-	     class="feedback-btn">
-	     Оставить обратную связь
-	  </a>
-	</div>
+          <div style="margin-top:18px;">
+            <a href="https://forms.yandex.ru/cloud/6991b7b76d2d73bd3aa9f78a"
+               target="_blank"
+               class="feedback-btn">
+               Оставить обратную связь
+            </a>
+          </div>
 
           <div id="validationBox" style="margin-top:10px;"></div>
         </div>
@@ -571,22 +611,22 @@
     </div>
 
     <div class="footer">
-<div style="display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;">
+      <div style="display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;">
 
-<div class="metrika-box">
-<a href="https://metrika.yandex.ru/stat/?id=106828542&amp;from=informer"
-target="_blank" rel="nofollow">
-<img src="https://informer.yandex.ru/informer/106828542/1_0_312B1EFF_312B1EFF_1_pageviews"
-width="80"
-height="15"
-alt="Яндекс.Метрика">
-</a>
-</div>
+        <div class="metrika-box">
+          <a href="https://metrika.yandex.ru/stat/?id=106828542&amp;from=informer"
+             target="_blank" rel="nofollow">
+            <img src="https://informer.yandex.ru/informer/106828542/1_0_312B1EFF_312B1EFF_1_pageviews"
+                 width="80"
+                 height="15"
+                 alt="Яндекс.Метрика">
+          </a>
+        </div>
 
-<span>разработано <a href="https://t.me/SMailsPub" target="_blank"> Маричевым Алексеем</a>
-</span>
+        <span>разработано <a href="https://t.me/SMailsPub" target="_blank"> Маричевым Алексеем</a></span>
 
-</div>
+      </div>
+    </div>
 
   <script src="assets/js/xml-generator.js"></script>
 </body>
