@@ -44,16 +44,21 @@ function fmtDecimal(v){
 }
 
 function addSignatureCommentToXml(xmlText){
-  const comment = `<!-- ${SIGNATURE_COMMENT} -->\n`;
-
   if (!xmlText || !xmlText.trim()) return xmlText;
   if (xmlText.includes("t.me/SMailsPub")) return xmlText; // защита от дубля
 
-  if (/^\s*<\?xml\b[^>]*\?>/i.test(xmlText)) {
-    return xmlText.replace(/^\s*(<\?xml\b[^>]*\?>\s*)/i, `$1\n${comment}`);
+  const comment = `\n\t<!-- ${SIGNATURE_COMMENT} -->\n`;
+
+  // Вставляем перед закрывающим корневым тегом
+  const closeTag = "</ArchitecturalUrbanPlanningSolution>";
+  if (xmlText.includes(closeTag)){
+    return xmlText.replace(closeTag, comment + closeTag);
   }
-  return comment + xmlText;
+
+  // fallback: если вдруг корневой тег другой/не найден — просто дописываем в конец
+  return xmlText.trimEnd() + `\n<!-- ${SIGNATURE_COMMENT} -->\n`;
 }
+
 
 function setXmlState(ok){
   $("xmlState").textContent = ok ? "✔️ XML сформирован" : "❌XML не сформирован";
@@ -1136,11 +1141,19 @@ function ensureSignatureCommentInDoc(doc){
   const root = getRoot(doc);
   if (!root) return;
 
-  for (const n of doc.childNodes){
-    if (n.nodeType === 8 && (n.nodeValue || "").includes("t.me/SMailsPub")) return;
+  // если уже есть — ничего не делаем
+  const it = doc.createNodeIterator(doc, NodeFilter.SHOW_COMMENT);
+  let n;
+  while ((n = it.nextNode())){
+    if ((n.nodeValue || "").includes("t.me/SMailsPub")) return;
   }
-  doc.insertBefore(doc.createComment(" " + SIGNATURE_COMMENT + " "), root);
+
+  // добавляем коммент в конец корня
+  root.appendChild(doc.createTextNode("\n\t"));
+  root.appendChild(doc.createComment(" " + SIGNATURE_COMMENT + " "));
+  root.appendChild(doc.createTextNode("\n"));
 }
+
 
 function checkMinimalMissing(doc){
   const miss = [];
