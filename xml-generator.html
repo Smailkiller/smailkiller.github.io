@@ -49,7 +49,8 @@
           <div class="tabs">
             <div class="tab active" id="tabManual">Ручной ввод</div>
             <div class="tab" id="tabIfc">IFC</div>
-            <div class="tab" id="tabXmlCheck">Проверка XML</div>
+            <div class="tab" id="tabXmlCheck">Проверка XML ТЭП</div>
+            <div class="tab" id="tabCimArList">Список ЦИМ АР</div>
           </div>
         </div>
 
@@ -554,19 +555,101 @@
 
           </div>
 
+          <!-- CIM AR LIST PANEL -->
+          <div id="panelCimArList" style="display:none;">
+
+            <div class="section">
+              <div class="section-h">
+                <div class="name">Список ЦИМ АР</div>
+                <div class="hint">Отдельный XML-файл: проверка структуры или ручное создание таблицы.</div>
+              </div>
+
+              <div class="form">
+
+                <div class="tabs" style="margin-bottom:6px;">
+                  <div class="tab active" id="subTabCimManual">Ручное создание</div>
+                  <div class="tab" id="subTabCimCheck">Проверка XML</div>
+                </div>
+
+                <!-- CIM MANUAL -->
+                <div id="cimPanelManual">
+                  <div class="small">Таблица дисциплинарных файлов ЦИМ АГР.</div>
+
+                  <div class="cimTableWrap">
+                    <table class="cimTable">
+                      <thead>
+                        <tr>
+                          <th style="width: 10%;">№ п.п.</th>
+                          <th style="width: 30%;">Наименование ЦИМ АГР</th>
+                          <th style="width: 30%;">Описание ЦИМ АГР</th>
+                          <th>Раздел</th>
+                        </tr>
+                      </thead>
+                      <tbody id="cimTableBody"></tbody>
+                    </table>
+                  </div>
+
+                  <div class="btns" style="margin-top:10px;">
+                    <button class="ghost" type="button" id="btnCimAddRow">+ Добавить строку</button>
+                    <button class="ghost" type="button" id="btnCimRemoveRow">Удалить последнюю</button>
+                    <button class="primary" type="button" id="btnCimGenerate">Сформировать XML</button>
+                    <span class="pill" id="cimManualStatus">Ожидание</span>
+                  </div>
+                </div>
+
+                <!-- CIM CHECK -->
+                <div id="cimPanelCheck" style="display:none;">
+                  <div class="row">
+                    <div>
+                      <label>XML-файл</label>
+                      <input id="cimCheckFile" type="file" accept=".xml" />
+                      <div class="help"><span class="k">Параметр:</span>проверяем синтаксис + минимальную структуру списка.</div>
+                    </div>
+                    <div>
+                      <div class="small" style="margin-top:4px;">
+                        Если синтаксис XML битый — автоисправление недоступно (сначала нужно починить структуру файла).
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="btns">
+                    <button class="primary" id="btnCimCheck" type="button">Проверить</button>
+                    <button class="ghost" id="btnCimFix" type="button" disabled>Исправить и скачать</button>
+                    <span class="pill" id="cimCheckStatus">Ожидание</span>
+                  </div>
+
+                  <div class="hr"></div>
+
+                  <div>
+                    <label>Отчёт</label>
+                    <pre id="cimCheckReport" class="report"></pre>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </div>
 
       <!-- RIGHT -->
       <div class="card card-sticky">
         <div class="card-h">
-          <div class="topActions">
+          <div id="rightTepHead" class="topActions">
             <button class="primary" id="btnGenerateTop">Сгенерировать XML</button>
             <div class="pill" id="xmlState">XML не сформирован</div>
+          </div>
+          <div id="rightCimHead" class="topActions" style="display:none;">
+            <button class="primary" id="btnGenerateCimTop">Сформировать XML списка</button>
+            <div class="pill" id="cimXmlState">XML списка не сформирован</div>
           </div>
         </div>
 
         <div class="card-b">
+
+          <div id="rightTepBody">
 
           <div class="fillBox">
             <div class="fillRow">
@@ -607,6 +690,27 @@
           </div>
 
           <div id="validationBox" style="margin-top:10px;"></div>
+          </div><!-- /rightTepBody -->
+
+          <div id="rightCimBody" style="display:none;">
+            <div class="small">Правила заполнения полей (4.1.7–4.1.10):</div>
+            <div class="ruleBox" style="margin-top:10px;">
+              <div class="small"><b>№ п.п.</b> — порядковый номер дисциплинарного файла ЦИМ АГР.</div>
+              <div class="small" style="margin-top:8px;"><b>Наименование ЦИМ АГР</b> — наименование дисциплинарного файла ЦИМ АГР.</div>
+              <div class="small" style="margin-top:8px;"><b>Описание ЦИМ АГР</b> — краткое описание содержания (принадлежность к разделу и/или подразделу).</div>
+              <div class="small" style="margin-top:8px;"><b>Раздел</b> — обозначение раздела ПД по ПП РФ №87: базовое обозначение, шифры, номера и наименования разделов/подразделов/томов; если относится к нескольким — перечислить все.</div>
+            </div>
+
+            <div style="margin-top:12px;">
+              <label>XML списка (readonly)</label>
+              <textarea id="cimXmlOut" readonly spellcheck="false"></textarea>
+            </div>
+
+            <div class="btns" style="margin-top:10px;">
+              <button class="primary" id="btnCimDownload" disabled>Скачать XML файл</button>
+              <button class="ghost" id="btnCimCopyXml" disabled>Скопировать XML</button>
+            </div>
+          </div><!-- /rightCimBody -->
         </div>
       </div>
 

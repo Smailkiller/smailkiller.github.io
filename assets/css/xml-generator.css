@@ -482,3 +482,41 @@ body.hide-right-panel .card-sticky{
 body.hide-right-panel .grid{
   grid-template-columns: 1fr !important;
 }
+
+/* === NEW: Список ЦИМ АР === */
+.cimTableWrap{
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid rgba(226,206,174,0.14);
+  border-radius: 12px;
+  background: rgba(226,206,174,0.03);
+}
+.cimTable{
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  font-size: 12px;
+}
+.cimTable th, .cimTable td{
+  border: 1px solid rgba(226,206,174,0.22);
+  padding: 8px 8px;
+  vertical-align: top;
+}
+.cimTable th{
+  background: rgba(226,206,174,0.10);
+  color: var(--light);
+  font-weight: 800;
+  font-size: 11px;
+}
+.cimTable td{
+  background: rgba(49,43,30,0.35);
+}
+.cimTable input{
+  width: 100%;
+}
+.ruleBox{
+  padding: 10px 12px;
+  border: 1px solid rgba(226,206,174,0.14);
+  border-radius: 12px;
+  background: rgba(226,206,174,0.03);
+}

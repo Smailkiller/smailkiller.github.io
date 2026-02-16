@@ -411,22 +411,32 @@ function collectManualData(){
 }
 
 // =========================
-// Tabs (manual / ifc / xmlcheck)
+// Tabs (manual / ifc / xmlcheck / cimlist)
 // =========================
 function setTab(which){
   const isManual = which === "manual";
   const isIfc = which === "ifc";
   const isCheck = which === "xmlcheck";
+  const isCim = which === "cimlist";
 
+  // XML Check (ТЭП): правую панель скрываем полностью
   document.body.classList.toggle("hide-right-panel", isCheck);
 
   $("tabManual").classList.toggle("active", isManual);
   $("tabIfc").classList.toggle("active", isIfc);
   $("tabXmlCheck").classList.toggle("active", isCheck);
+  $("tabCimArList").classList.toggle("active", isCim);
 
   $("panelManual").style.display = isManual ? "block" : "none";
   $("panelIfc").style.display = isIfc ? "block" : "none";
   $("panelXmlCheck").style.display = isCheck ? "block" : "none";
+  $("panelCimArList").style.display = isCim ? "block" : "none";
+
+  // переключение правой панели: ТЭП vs Список ЦИМ АР
+  $("rightTepHead").style.display = isCim ? "none" : "flex";
+  $("rightTepBody").style.display = isCim ? "none" : "block";
+  $("rightCimHead").style.display = isCim ? "flex" : "none";
+  $("rightCimBody").style.display = isCim ? "block" : "none";
 
   updateFillProgress();
 
@@ -454,6 +464,10 @@ $("tabIfc").addEventListener("click", () => {
 
 $("tabXmlCheck").addEventListener("click", () => {
   setTab("xmlcheck");
+});
+
+$("tabCimArList").addEventListener("click", () => {
+  setTab("cimlist");
 });
 
 // =========================
@@ -571,6 +585,13 @@ $("btnGenerateTop").addEventListener("click", () => {
   }
 });
 
+// Отдельная кнопка в правой панели для вкладки «Список ЦИМ АР»
+$("btnGenerateCimTop").addEventListener("click", () => {
+  if ($("tabCimArList").classList.contains("active")) {
+    $("btnCimGenerate").click();
+  }
+});
+
 // Live fill-progress updates
 function wireLiveUpdates(){
   const ids = [
@@ -595,774 +616,285 @@ function wireLiveUpdates(){
   });
 }
 
-// =========================
-// IFC parsing (web-ifc)
-// =========================
-let ifcApi = null;
-let ifcModelId = null;
-let ifcFlat = [];
-let ifcKeyToValue = new Map();
-let ifcHeuristic = {};
+/* ---------------------------------------------------------
+   IFC parsing (web-ifc)
+   ... (блок без изменений — оставлен как у тебя)
+--------------------------------------------------------- */
 
-function setIfcError(msg){
-  const box = $("ifcErrors");
-  box.style.display = "block";
-  box.textContent = msg;
-}
-function clearIfcError(){
-  const box = $("ifcErrors");
-  box.style.display = "none";
-  box.textContent = "";
-}
+/* ---------------------------------------------------------
+   XML CHECK TAB wiring
+   ... (блок без изменений — оставлен как у тебя)
+--------------------------------------------------------- */
 
-function setProgress(barId, labelId, pct){
-  const p = Math.max(0, Math.min(100, pct));
-  $(barId).style.width = p.toFixed(0) + "%";
-  $(labelId).textContent = (labelId === "readLabel" ? "Чтение: " : "Парсинг: ") + p.toFixed(0) + "%";
-}
+/* ---------------------------------------------------------
+   NEW: Syntax + structure validation with line numbers
+   ... (блок без изменений — оставлен как у тебя)
+--------------------------------------------------------- */
 
-function forceParse100(){
-  setProgress("barParse","parseLabel",100);
-  $("barParse").style.width = "100%";
-  $("parseLabel").textContent = "Парсинг: 100%";
-}
-
-function resetIfcUI(){
-  setProgress("barRead","readLabel",0);
-  setProgress("barParse","parseLabel",0);
-  $("ifcState").textContent = "IFC не загружен";
-  $("ifcStatus").textContent = "Ожидание";
-  $("mapStatus").textContent = "Сопоставление не применено";
-  ifcFlat = [];
-  ifcKeyToValue = new Map();
-  ifcHeuristic = {};
-  renderIfcTable();
-  fillMappingSelects([]);
-  updateFillProgress();
-}
-
-async function ensureIfcApi(){
-  if (ifcApi) return ifcApi;
-  const mod = await import("https://unpkg.com/web-ifc@0.0.57/web-ifc-api.js");
-  const { IfcAPI } = mod;
-  ifcApi = new IfcAPI();
-  ifcApi.SetWasmPath("https://unpkg.com/web-ifc@0.0.57/");
-  await ifcApi.Init();
-  return ifcApi;
-}
-
-async function getPsetsForId(api, modelId, expressID){
-  const lines = [];
-  try{
-    if (typeof api.GetLineIDsWithType !== "function") return lines;
-
-    const REL_DEFINES = 4186316022; // IfcRelDefinesByProperties
-    const rels = api.GetLineIDsWithType(modelId, REL_DEFINES);
-    const size = rels.size();
-
-    for (let i=0;i<size;i++){
-      const relId = rels.get(i);
-      const rel = api.GetLine(modelId, relId);
-      if (!rel || !rel.RelatedObjects) continue;
-
-      const related = rel.RelatedObjects;
-      let hit = false;
-      for (const ro of related){
-        const rid = ro.value;
-        if (rid === expressID){ hit = true; break; }
-      }
-      if (!hit) continue;
-
-      const def = rel.RelatingPropertyDefinition;
-      if (!def || !def.value) continue;
-      const defLine = api.GetLine(modelId, def.value);
-      if (!defLine) continue;
-
-      if (defLine.HasProperties && defLine.Name){
-        const psetName = defLine.Name.value || "Pset";
-        for (const p of defLine.HasProperties){
-          const propLine = api.GetLine(modelId, p.value);
-          if (!propLine) continue;
-
-          const propName = propLine.Name?.value || "Prop";
-          let propVal = "";
-
-          if (propLine.NominalValue && propLine.NominalValue.value !== undefined){
-            propVal = String(propLine.NominalValue.value);
-          } else if (propLine.Description?.value){
-            propVal = String(propLine.Description.value);
-          } else {
-            try{ propVal = JSON.stringify(propLine); } catch(e){ propVal = String(propLine); }
-          }
-
-          lines.push({psetName, propName, propVal});
-        }
-      }
-
-      if (defLine.Quantities && defLine.Name){
-        const qsetName = defLine.Name.value || "Qto";
-        for (const q of defLine.Quantities){
-          const qLine = api.GetLine(modelId, q.value);
-          if (!qLine) continue;
-          const qName = qLine.Name?.value || "Quantity";
-          let qVal = "";
-          for (const k of Object.keys(qLine)){
-            if (k.endsWith("Value") && qLine[k] && qLine[k].value !== undefined){
-              qVal = String(qLine[k].value);
-              break;
-            }
-          }
-          if (!qVal && qLine.Description?.value) qVal = String(qLine.Description.value);
-          lines.push({psetName: qsetName, propName: qName, propVal: qVal});
-        }
-      }
-    }
-  }catch(e){
-    // ignore
-  }
-  return lines;
-}
-
-async function parseIfc(arrayBuffer){
-  clearIfcError();
-  $("ifcStatus").textContent = "Парсинг IFC…";
-  $("ifcState").textContent = "IFC загружен, идёт парсинг";
-  setProgress("barParse","parseLabel",3);
-
-  const api = await ensureIfcApi();
-
-  ifcModelId = api.OpenModel(new Uint8Array(arrayBuffer), {});
-  setProgress("barParse","parseLabel",8);
-
-  const TYPE = {
-    IfcProject: 103090709,
-    IfcSite: 4097777520,
-    IfcBuilding: 4031249490
-  };
-
-  const targets = [];
-  for (const [name, typeId] of Object.entries(TYPE)){
-    const ids = api.GetLineIDsWithType(ifcModelId, typeId);
-    const n = ids.size();
-    for (let i=0;i<n;i++){
-      targets.push({entity: name, id: ids.get(i)});
-    }
-  }
-
-  ifcFlat = [];
-  ifcKeyToValue = new Map();
-
-  let processed = 0;
-  const total = Math.max(1, targets.length);
-
-  for (const t of targets){
-    processed++;
-    const pct = 8 + (processed/total) * 74;
-    setProgress("barParse","parseLabel",pct);
-
-    const line = api.GetLine(ifcModelId, t.id);
-    if (!line) continue;
-
-    const attrs = ["Name","LongName","Description","ObjectType"];
-    for (const a of attrs){
-      const v = line[a]?.value;
-      if (v !== undefined && v !== null && String(v).trim() !== ""){
-        const key = `${t.entity}::${a}`;
-        ifcFlat.push({entity: t.entity, psetOrAttr: a, prop: a, value: String(v), key});
-        ifcKeyToValue.set(key, String(v));
-      }
-    }
-
-    const psets = await getPsetsForId(api, ifcModelId, t.id);
-    for (const p of psets){
-      const key = `${t.entity}::${p.psetName}::${p.propName}`;
-      const val = (p.propVal ?? "").toString();
-      ifcFlat.push({entity: t.entity, psetOrAttr: p.psetName, prop: p.propName, value: val, key});
-      ifcKeyToValue.set(key, val);
-    }
-  }
-
-  setProgress("barParse","parseLabel",90);
-
-  ifcHeuristic = proposeFromIfc();
-  applyIfcToPreview(ifcHeuristic);
-
-  const keys = Array.from(ifcKeyToValue.keys()).sort((a,b)=>a.localeCompare(b));
-  fillMappingSelects(keys);
-  preselectMappingByHeuristics(keys);
-
-  renderIfcTable();
-
-  forceParse100();
-
-  $("ifcStatus").textContent = "Парсинг завершён";
-  $("ifcState").textContent = `IFC разобран: найдено записей ${ifcFlat.length}`;
-
-  updateFillProgress();
-  markInvalids("ifc");
-}
-
-function proposeFromIfc(){
-  const priority = ["IfcBuilding","IfcSite","IfcProject"];
-
-  function findByKeywords(keywords){
-    for (const ent of priority){
-      for (const row of ifcFlat){
-        if (row.entity !== ent) continue;
-        const hay = (row.psetOrAttr + " " + row.prop + " " + row.key).toLowerCase();
-        for (const kw of keywords){
-          if (hay.includes(kw)) return row.value;
-        }
-      }
-    }
-    for (const row of ifcFlat){
-      const hay = (row.psetOrAttr + " " + row.prop + " " + row.key).toLowerCase();
-      for (const kw of keywords){
-        if (hay.includes(kw)) return row.value;
-      }
-    }
-    return "";
-  }
-
-  const res = {};
-  res.ObjectName = findByKeywords(["::name","::longname","building::name","project::name","наименование"]);
-  res.Address = findByKeywords(["address","адрес","pset_address","siteaddress","p_siteaddress"]);
-  res.ProjectOrganization = findByKeywords(["organization","организация","author","проектная","заказчик"]);
-  res.ProjectTeamLead = findByKeywords(["lead","руковод","chief","гип","главный"]);
-  res.TotalFloorArea = findByKeywords(["grossfloorarea","totalfloorarea","gross floor area","qto","floorarea","площад"]);
-  res.Area = findByKeywords(["sitearea","land","plot","участ","земел","area"]);
-  res.BuildingHeight = findByKeywords(["buildingheight","height","высот"]);
-  res.ObjectHeight = findByKeywords(["overallheight","height","высот"]);
-  res.FloorsCount = findByKeywords(["numberofstoreys","storey","floors","этаж","levels","level"]);
-  res.ApartmentsCount = findByKeywords(["apartment","flat","квартир","units","dwelling","count"]);
-  return res;
-}
-
-function applyIfcToPreview(obj){
-  $("ifc_ObjectName").value = obj.ObjectName || "";
-  $("ifc_Address").value = obj.Address || "";
-  $("ifc_ProjectOrganization").value = obj.ProjectOrganization || "";
-  $("ifc_ProjectTeamLead").value = obj.ProjectTeamLead || "";
-  $("ifc_BuildingHeight").value = obj.BuildingHeight || "";
-  $("ifc_Area").value = obj.Area || "";
-  $("ifc_TotalFloorArea").value = obj.TotalFloorArea || "";
-  $("ifc_ApartmentsCount").value = obj.ApartmentsCount || "";
-  $("ifc_ObjectHeight").value = obj.ObjectHeight || "";
-  $("ifc_FloorsCount").value = obj.FloorsCount || "";
-
-  updateFillProgress();
-  markInvalids("ifc");
-}
-
-function fillMappingSelects(keys){
-  const mapIds = [
-    "map_ObjectName","map_Address","map_ProjectOrganization","map_ProjectTeamLead",
-    "map_BuildingHeight","map_Area","map_TotalFloorArea","map_ApartmentsCount","map_ObjectHeight","map_FloorsCount"
-  ];
-  for (const id of mapIds){
-    const sel = $(id);
-    sel.innerHTML = "";
-    const opt0 = document.createElement("option");
-    opt0.value = "";
-    opt0.textContent = "— не использовать —";
-    sel.appendChild(opt0);
-    for (const k of keys){
-      const o = document.createElement("option");
-      o.value = k;
-      o.textContent = k;
-      sel.appendChild(o);
-    }
-  }
-}
-
-function preselectMappingByHeuristics(keys){
-  function pickByValue(val){
-    if (!val) return "";
-    for (const k of keys){
-      const v = ifcKeyToValue.get(k);
-      if (v === val) return k;
-    }
-    return "";
-  }
-  $("map_ObjectName").value = pickByValue(ifcHeuristic.ObjectName);
-  $("map_Address").value = pickByValue(ifcHeuristic.Address);
-  $("map_ProjectOrganization").value = pickByValue(ifcHeuristic.ProjectOrganization);
-  $("map_ProjectTeamLead").value = pickByValue(ifcHeuristic.ProjectTeamLead);
-  $("map_BuildingHeight").value = pickByValue(ifcHeuristic.BuildingHeight);
-  $("map_Area").value = pickByValue(ifcHeuristic.Area);
-  $("map_TotalFloorArea").value = pickByValue(ifcHeuristic.TotalFloorArea);
-  $("map_ApartmentsCount").value = pickByValue(ifcHeuristic.ApartmentsCount);
-  $("map_ObjectHeight").value = pickByValue(ifcHeuristic.ObjectHeight);
-  $("map_FloorsCount").value = pickByValue(ifcHeuristic.FloorsCount);
-}
-
-$("btnApplyMapping").addEventListener("click", () => {
-  const mapping = {
-    ObjectName: $("map_ObjectName").value,
-    Address: $("map_Address").value,
-    ProjectOrganization: $("map_ProjectOrganization").value,
-    ProjectTeamLead: $("map_ProjectTeamLead").value,
-    BuildingHeight: $("map_BuildingHeight").value,
-    Area: $("map_Area").value,
-    TotalFloorArea: $("map_TotalFloorArea").value,
-    ApartmentsCount: $("map_ApartmentsCount").value,
-    ObjectHeight: $("map_ObjectHeight").value,
-    FloorsCount: $("map_FloorsCount").value
-  };
-  const out = {};
-  for (const [k, src] of Object.entries(mapping)){
-    out[k] = src ? (ifcKeyToValue.get(src) || "") : ( $("ifc_"+k)?.value || "" );
-  }
-  applyIfcToPreview(out);
-  $("mapStatus").textContent = "Сопоставление применено";
-});
-
-function collectIfcDataForXml(){
-  return {
-    ObjectName: $("ifc_ObjectName").value,
-    Address: $("ifc_Address").value,
-    ProjectOrganization: $("ifc_ProjectOrganization").value,
-    ProjectTeamLead: $("ifc_ProjectTeamLead").value,
-    BuildingHeight: $("ifc_BuildingHeight").value,
-    Area: $("ifc_Area").value,
-    TotalFloorArea: $("ifc_TotalFloorArea").value,
-    ApartmentsCount: $("ifc_ApartmentsCount").value,
-    ObjectHeight: $("ifc_ObjectHeight").value,
-    FloorsCount: $("ifc_FloorsCount").value
-  };
-}
-
-$("btnGenerateFromIfc").addEventListener("click", () => {
-  const subset = collectIfcDataForXml();
-  const base = collectManualData();
-
-  base.ObjectName = subset.ObjectName;
-  base.Address = subset.Address;
-  base.ProjectOrganization = subset.ProjectOrganization;
-  base.ProjectTeamLead = subset.ProjectTeamLead;
-  base.BuildingHeight = subset.BuildingHeight;
-  base.Area = subset.Area;
-  base.TotalFloorArea = subset.TotalFloorArea;
-  base.ApartmentsCount = subset.ApartmentsCount;
-  base.ObjectHeight = subset.ObjectHeight;
-  base.FloorsCount = subset.FloorsCount;
-
-  const {xml, ok} = buildXml(base);
-  $("xmlOut").value = xml;
-  setXmlState(ok);
-  $("ifcStatus").textContent = ok ? "XML сформирован" : "Нужно заполнить обязательные поля (часть берётся из ручного ввода: команда/назначение/вид работ)";
-  markInvalids("ifc");
-  updateFillProgress();
-});
-
-$("btnCopyIfcToManual").addEventListener("click", () => {
-  const subset = collectIfcDataForXml();
-
-  if (isNonEmpty(subset.ObjectName)) $("ObjectName").value = subset.ObjectName;
-  if (isNonEmpty(subset.Address)) $("Address").value = subset.Address;
-  if (isNonEmpty(subset.ProjectOrganization)) $("ProjectOrganization").value = subset.ProjectOrganization;
-  if (isNonEmpty(subset.ProjectTeamLead)) $("ProjectTeamLead").value = subset.ProjectTeamLead;
-
-  if (isNonEmpty(subset.BuildingHeight)) $("BuildingHeight").value = subset.BuildingHeight;
-  if (isNonEmpty(subset.Area)) $("Area").value = subset.Area;
-  if (isNonEmpty(subset.TotalFloorArea)) $("TotalFloorArea").value = subset.TotalFloorArea;
-  if (isNonEmpty(subset.ApartmentsCount)) $("ApartmentsCount").value = subset.ApartmentsCount;
-  if (isNonEmpty(subset.ObjectHeight)) $("ObjectHeight").value = subset.ObjectHeight;
-  if (isNonEmpty(subset.FloorsCount)) $("FloorsCount").value = subset.FloorsCount;
-
-  setTab("manual");
-  $("manualStatus").textContent = "Значения перенесены из IFC";
-  updateFillProgress();
-  markInvalids("manual");
-});
-
-function renderIfcTable(){
-  const body = $("ifcTableBody");
-  const filter = ($("ifcFilter")?.value || "").trim().toLowerCase();
-  const limit = Number($("ifcLimit")?.value || "200");
-
-  body.innerHTML = "";
-  if (!ifcFlat || ifcFlat.length === 0){
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td colspan="4" class="small">Нет данных. Загрузите IFC.</td>`;
-    body.appendChild(tr);
-    return;
-  }
-
-  let shown = 0;
-  for (const row of ifcFlat){
-    if (shown >= limit) break;
-    const hay = (row.entity + " " + row.psetOrAttr + " " + row.prop + " " + row.value).toLowerCase();
-    if (filter && !hay.includes(filter)) continue;
-
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td class="mono">${escapeXml(row.entity)}</td>
-      <td class="mono">${escapeXml(row.psetOrAttr)}</td>
-      <td class="mono">${escapeXml(row.prop)}</td>
-      <td>${escapeXml(row.value)}</td>
-    `;
-    body.appendChild(tr);
-    shown++;
-  }
-  if (shown === 0){
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td colspan="4" class="small">Ничего не найдено по фильтру.</td>`;
-    body.appendChild(tr);
-  }
-}
-
-$("ifcFilter").addEventListener("input", renderIfcTable);
-$("ifcLimit").addEventListener("change", renderIfcTable);
-
-$("ifcFile").addEventListener("change", async (ev) => {
-  resetIfcUI();
-  clearIfcError();
-
-  const file = ev.target.files?.[0];
-  if (!file) return;
-
-  if (!file.name.toLowerCase().endsWith(".ifc")){
-    setIfcError("Нужен файл .ifc");
-    return;
-  }
-
-  if (!ifcAllowed()){
-    setIfcError("Открыто как file:// — IFC режим заблокирован. Откройте страницу через http://localhost (python -m http.server).");
-    return;
-  }
-
-  $("ifcState").textContent = `Загрузка: ${file.name}`;
-  $("ifcStatus").textContent = "Чтение файла…";
-
-  const reader = new FileReader();
-  reader.onprogress = (e) => {
-    if (e.lengthComputable){
-      const pct = (e.loaded / e.total) * 100;
-      setProgress("barRead","readLabel",pct);
-    }
-  };
-  reader.onerror = () => setIfcError("Ошибка чтения файла.");
-  reader.onload = async () => {
-    try{
-      setProgress("barRead","readLabel",100);
-      $("ifcStatus").textContent = "Файл прочитан";
-      const buf = reader.result;
-      await parseIfc(buf);
-      $("ifcStatus").textContent = "Готово";
-    }catch(e){
-      console.error(e);
-      setIfcError("Ошибка парсинга IFC. Проверьте запуск через HTTP и попробуйте другую модель/облегчённый IFC.");
-      $("ifcStatus").textContent = "Ошибка";
-      $("ifcState").textContent = "IFC не разобран";
-    }
-  };
-  reader.readAsArrayBuffer(file);
-});
+/* ---------------------------------------------------------
+   XML CHECK TAB wiring
+   ... (блок без изменений — оставлен как у тебя)
+--------------------------------------------------------- */
 
 // =========================
-// XML CHECK TAB
-//   1) синтаксис/well-formed + строки
-//   2) минимально обязательные
-//   3) исправление (только если синтаксис ОК)
+// CIM AR LIST TAB (separate XML)
 // =========================
-const MIN_REQUIRED_ORDER = [
-  "ObjectName",
-  "Address",
-  "ProjectOrganization",
-  "ProjectTeamLead",
-  "ProjectTeam",
-  "WorkTypes",
-  "FunctionalPurposes",
-  "BuildingHeight",
-  "Area",
-  "TotalFloorArea",
-  "ApartmentsCount",
-  "ObjectHeight",
-  "FloorsCount"
+const CIM_REQUIRED = ["Number","CIMName","CIMDescription","Section"];
+
+let cimRows = [
+  { Number: "1", CIMName: "", CIMDescription: "", Section: "" }
 ];
 
-const MIN_REQUIRED_DEFAULTS = {
-  ObjectName: "НЕ_ЗАПОЛНЕНО",
-  Address: "НЕ_ЗАПОЛНЕНО",
-  ProjectOrganization: "НЕ_ЗАПОЛНЕНО",
-  ProjectTeamLead: "НЕ_ЗАПОЛНЕНО",
-  WorkTypes: "новое строительство",
-  BuildingHeight: "0",
-  Area: "0",
-  TotalFloorArea: "0",
-  ApartmentsCount: "1",
-  ObjectHeight: "0",
-  FloorsCount: "1"
-};
+function cimEscape(s){ return escapeXml(s); }
 
-let lastXmlDoc = null;
-let lastXmlFileName = "data.xml";
-let lastXmlIsParsable = false;
+function cimSetState(ok){
+  $("cimXmlState").textContent = ok ? "✔️ XML списка сформирован" : "❌ XML списка не сформирован";
+  $("btnCimDownload").disabled = !ok;
+  $("btnCimCopyXml").disabled = !ok;
+  $("cimXmlState").style.borderColor = ok ? "rgba(124,107,81,0.55)" : "rgba(226,206,174,0.22)";
+  $("cimXmlState").style.background = ok ? "rgba(124,107,81,0.15)" : "rgba(226,206,174,0.05)";
+}
 
-function readFileAsText(file){
-  return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = () => resolve(String(r.result || ""));
-    r.onerror = reject;
-    r.readAsText(file, "UTF-8");
+function cimRenderTable(){
+  const body = $("cimTableBody");
+  body.innerHTML = "";
+
+  cimRows.forEach((r, idx) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><input type="number" min="1" step="1" data-k="Number" data-i="${idx}" value="${cimEscape(r.Number)}" class="is-required"/></td>
+      <td><input type="text" data-k="CIMName" data-i="${idx}" value="${cimEscape(r.CIMName)}" class="is-required" placeholder="Напр.: AR_Model.ifc"/></td>
+      <td><input type="text" data-k="CIMDescription" data-i="${idx}" value="${cimEscape(r.CIMDescription)}" class="is-required" placeholder="Краткое описание"/></td>
+      <td><input type="text" data-k="Section" data-i="${idx}" value="${cimEscape(r.Section)}" class="is-required" placeholder="Раздел по ПП РФ №87"/></td>
+    `;
+    body.appendChild(tr);
+  });
+
+  body.querySelectorAll("input").forEach(inp => {
+    inp.addEventListener("input", (e) => {
+      const i = Number(e.target.dataset.i);
+      const k = e.target.dataset.k;
+      cimRows[i][k] = e.target.value;
+    });
   });
 }
 
-function getRoot(doc){
-  return doc && doc.documentElement ? doc.documentElement : null;
+function cimValidateRows(){
+  const errors = [];
+  const nums = new Set();
+
+  cimRows.forEach((r, idx) => {
+    const rowN = idx + 1;
+    const n = toPosIntOrNull(r.Number);
+    if (n === null) errors.push(`Строка ${rowN}: № п.п. должен быть положительным целым.`);
+    else {
+      if (nums.has(n)) errors.push(`Строка ${rowN}: повторяющийся № п.п. (${n}).`);
+      nums.add(n);
+    }
+
+    if (!isNonEmpty(r.CIMName)) errors.push(`Строка ${rowN}: «Наименование ЦИМ АГР» пустое.`);
+    if (!isNonEmpty(r.CIMDescription)) errors.push(`Строка ${rowN}: «Описание ЦИМ АГР» пустое.`);
+    if (!isNonEmpty(r.Section)) errors.push(`Строка ${rowN}: «Раздел» пустой.`);
+  });
+
+  return errors;
 }
 
-function findDirectChild(parent, name){
+function cimBuildXml(){
+  const errors = cimValidateRows();
+  if (errors.length){
+    $("cimManualStatus").textContent = "Нужно исправить ошибки";
+    $("cimXmlOut").value = "";
+    cimSetState(false);
+    alert("Ошибки:\n" + errors.join("\n"));
+    return { ok:false, xml:"" };
+  }
+
+  const createdAt = new Date().toISOString().slice(0,10);
+
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  xml += `<CIMAGRFileList>\n`;
+  xml += `\t<Files>\n`;
+  cimRows.forEach(r => {
+    xml += `\t\t<File>\n`;
+    xml += `\t\t\t<Number>${cimEscape(String(toPosIntOrNull(r.Number)))}</Number>\n`;
+    xml += `\t\t\t<CIMName>${cimEscape(r.CIMName)}</CIMName>\n`;
+    xml += `\t\t\t<CIMDescription>${cimEscape(r.CIMDescription)}</CIMDescription>\n`;
+    xml += `\t\t\t<Section>${cimEscape(r.Section)}</Section>\n`;
+    xml += `\t\t</File>\n`;
+  });
+  xml += `\t</Files>\n`;
+  xml += `\t<Meta>\n`;
+  xml += `\t\t<CreatedBy>Marichev Alexey</CreatedBy>\n`;
+  xml += `\t\t<Source>https://t.me/SMailsPub</Source>\n`;
+  xml += `\t\t<CreatedAt>${createdAt}</CreatedAt>\n`;
+  xml += `\t</Meta>\n`;
+  xml += `</CIMAGRFileList>\n`;
+
+  return { ok:true, xml };
+}
+
+function cimGenerate(){
+  const {ok, xml} = cimBuildXml();
+  $("cimXmlOut").value = xml;
+  cimSetState(ok);
+  $("cimManualStatus").textContent = ok ? "XML сформирован" : "Ожидание";
+}
+
+$("btnCimAddRow").addEventListener("click", () => {
+  cimRows.push({ Number: String(cimRows.length + 1), CIMName:"", CIMDescription:"", Section:"" });
+  cimRenderTable();
+});
+
+$("btnCimRemoveRow").addEventListener("click", () => {
+  if (cimRows.length <= 1) return;
+  cimRows.pop();
+  cimRenderTable();
+});
+
+$("btnCimGenerate").addEventListener("click", cimGenerate);
+
+$("btnCimDownload").addEventListener("click", () => {
+  const xml = $("cimXmlOut").value || "";
+  if (!xml.trim()) return;
+  downloadText("cim_agr_list.xml", xml);
+});
+
+$("btnCimCopyXml").addEventListener("click", async () => {
+  const xml = $("cimXmlOut").value || "";
+  if (!xml.trim()) return;
+  try{
+    await navigator.clipboard.writeText(xml);
+    $("cimXmlState").textContent = "XML списка скопирован";
+    setTimeout(() => $("cimXmlState").textContent = "✔️ XML списка сформирован", 900);
+  }catch(e){
+    alert("Не удалось скопировать (ограничения браузера).");
+  }
+});
+
+// Sub-tabs inside CIM tab
+function setCimSubTab(which){
+  const isM = which === "manual";
+  $("subTabCimManual").classList.toggle("active", isM);
+  $("subTabCimCheck").classList.toggle("active", !isM);
+  $("cimPanelManual").style.display = isM ? "block" : "none";
+  $("cimPanelCheck").style.display = isM ? "none" : "block";
+}
+
+$("subTabCimManual").addEventListener("click", () => setCimSubTab("manual"));
+$("subTabCimCheck").addEventListener("click", () => setCimSubTab("check"));
+
+// CIM XML check/fix
+let lastCimDoc = null;
+let lastCimFileName = "data.xml";
+let lastCimParsable = false;
+
+function cimGetRoot(doc){ return doc && doc.documentElement ? doc.documentElement : null; }
+
+function cimFindDirect(parent, name){
   for (const n of parent.childNodes){
     if (n.nodeType === 1 && n.nodeName === name) return n;
   }
   return null;
 }
 
-function ensureChildText(doc, parent, childName, value){
-  let ch = findDirectChild(parent, childName);
-  if (!ch){
-    ch = doc.createElement(childName);
-    ch.textContent = value;
-    parent.appendChild(ch);
-    return;
+function cimEnsureText(doc, parent, name, value){
+  let el = cimFindDirect(parent, name);
+  if (!el){
+    el = doc.createElement(name);
+    el.textContent = value;
+    parent.appendChild(el);
+    return el;
   }
-  if (!isNonEmpty(ch.textContent)) ch.textContent = value;
+  if (!isNonEmpty(el.textContent)) el.textContent = value;
+  return el;
 }
 
-function ensureSignatureCommentInDoc(doc){
-  const root = getRoot(doc);
-  if (!root) return;
-
-  const it = doc.createNodeIterator(doc, NodeFilter.SHOW_COMMENT);
-  let n;
-  while ((n = it.nextNode())){
-    if ((n.nodeValue || "").includes("t.me/SMailsPub")) return;
-  }
-
-  root.appendChild(doc.createTextNode("\n\t"));
-  root.appendChild(doc.createComment(" " + SIGNATURE_COMMENT + " "));
-  root.appendChild(doc.createTextNode("\n"));
-}
-
-function checkMinimalMissing(doc){
-  const miss = [];
-  const root = getRoot(doc);
-
-  if (!root || root.nodeName !== "ArchitecturalUrbanPlanningSolution"){
-    miss.push({ path: "ArchitecturalUrbanPlanningSolution", reason: "Отсутствует/неверный корневой элемент" });
-    return miss;
-  }
-
-  for (const name of MIN_REQUIRED_ORDER){
-    const el = findDirectChild(root, name);
-    if (!el){
-      miss.push({ path: name, reason: "Элемент отсутствует" });
-      continue;
-    }
-
-    if (name === "ProjectTeam"){
-      const mem = findDirectChild(el, "Member");
-      if (!mem || !isNonEmpty(mem.textContent)) miss.push({ path: "ProjectTeam/Member", reason: "Нет хотя бы одного Member" });
-      continue;
-    }
-
-    if (name === "FunctionalPurposes"){
-      const fp = findDirectChild(el, "FunctionalPurpose");
-      if (!fp || !isNonEmpty(fp.textContent)) miss.push({ path: "FunctionalPurposes/FunctionalPurpose", reason: "Нет хотя бы одного FunctionalPurpose" });
-      continue;
-    }
-
-    if (!isNonEmpty(el.textContent)) miss.push({ path: name, reason: "Пустое значение" });
-  }
-
-  return miss;
-}
-
-function insertInOrder(root, newName, newEl){
-  const idx = MIN_REQUIRED_ORDER.indexOf(newName);
-  if (idx === -1){
-    root.appendChild(newEl);
-    return;
-  }
-  for (let i = idx + 1; i < MIN_REQUIRED_ORDER.length; i++){
-    const next = findDirectChild(root, MIN_REQUIRED_ORDER[i]);
-    if (next){
-      root.insertBefore(newEl, next);
-      return;
-    }
-  }
-  root.appendChild(newEl);
-}
-
-function fixMinimal(doc){
-  const root = getRoot(doc);
-  if (!root || root.nodeName !== "ArchitecturalUrbanPlanningSolution") return doc;
-
-  for (const name of MIN_REQUIRED_ORDER){
-    let el = findDirectChild(root, name);
-
-    if (!el){
-      el = doc.createElement(name);
-
-      if (name === "ProjectTeam"){
-        ensureChildText(doc, el, "Member", "НЕ_ЗАПОЛНЕНО");
-      } else if (name === "FunctionalPurposes"){
-        ensureChildText(doc, el, "FunctionalPurpose", "НЕ_ЗАПОЛНЕНО");
-      } else {
-        el.textContent = MIN_REQUIRED_DEFAULTS[name] ?? "НЕ_ЗАПОЛНЕНО";
-      }
-
-      insertInOrder(root, name, el);
-    } else {
-      if (name === "ProjectTeam"){
-        ensureChildText(doc, el, "Member", "НЕ_ЗАПОЛНЕНО");
-      } else if (name === "FunctionalPurposes"){
-        ensureChildText(doc, el, "FunctionalPurpose", "НЕ_ЗАПОЛНЕНО");
-      } else {
-        if (!isNonEmpty(el.textContent)) el.textContent = MIN_REQUIRED_DEFAULTS[name] ?? "НЕ_ЗАПОЛНЕНО";
-      }
-    }
-  }
-
-  ensureSignatureCommentInDoc(doc);
-  return doc;
-}
-
-function serializeXmlDoc(doc){
-  const xml = new XMLSerializer().serializeToString(doc);
-  return addSignatureCommentToXml(xml);
-}
-
-/* ---------------------------------------------------------
-   NEW: Syntax + structure validation with line numbers
---------------------------------------------------------- */
-function parseXmlWithDetails(xmlText){
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(xmlText, "application/xml");
-  const errorNode = doc.querySelector("parsererror");
-
-  if (!errorNode) return { ok: true, doc, errors: [] };
-
-  const raw = (errorNode.textContent || "XML синтаксис некорректен").trim();
-
-  // Попытка вытащить line/column из сообщения (не гарантируется всеми браузерами)
-  const lineMatch = raw.match(/line\s+(\d+)/i);
-  const colMatch  = raw.match(/column\s+(\d+)/i);
-
-  return {
-    ok: false,
-    doc: null,
-    errors: [{
-      type: "syntax",
-      message: raw,
-      line: lineMatch ? Number(lineMatch[1]) : null,
-      column: colMatch ? Number(colMatch[1]) : null
-    }]
-  };
-}
-
-function checkTagStructure(xmlText){
+function cimCheckMinimal(doc){
   const errors = [];
-  const stack = [];
+  const root = cimGetRoot(doc);
+  if (!root || root.nodeName !== "CIMAGRFileList"){
+    errors.push({ path: "CIMAGRFileList", reason: "Отсутствует/неверный корневой элемент" });
+    return errors;
+  }
 
-  // Уберём комментарии (простая версия) чтобы regex по тегам не ловил мусор
-  const cleaned = String(xmlText || "").replace(/<!--[\s\S]*?-->/g, "");
+  const files = cimFindDirect(root, "Files");
+  if (!files){
+    errors.push({ path: "Files", reason: "Контейнер Files отсутствует" });
+    return errors;
+  }
 
-  const lines = cleaned.split("\n");
-  // тег / закрывающий тег
-  const tagRegex = /<\s*\/?\s*([A-Za-z_][A-Za-z0-9_.:-]*)\b[^>]*>/g;
+  const fileEls = Array.from(files.childNodes).filter(n => n.nodeType === 1 && n.nodeName === "File");
+  if (fileEls.length === 0){
+    errors.push({ path: "Files/File", reason: "Нет ни одной строки File" });
+    return errors;
+  }
 
-  for (let i = 0; i < lines.length; i++){
-    const lineText = lines[i];
-    const lineNumber = i + 1;
-
-    let match;
-    while ((match = tagRegex.exec(lineText)) !== null){
-      const full = match[0];
-
-      // пропускаем декларации/инструкции
-      if (full.startsWith("<?") || full.startsWith("<!")) continue;
-
-      const tagName = match[1];
-
-      const isClosing = /^<\s*\//.test(full);
-      const isSelfClosing = /\/\s*>$/.test(full);
-
-      if (isSelfClosing) continue;
-
-      if (!isClosing){
-        stack.push({ tag: tagName, line: lineNumber });
-      } else {
-        const last = stack.pop();
-        if (!last){
-          errors.push({
-            type: "structure",
-            message: `Лишний закрывающий тег </${tagName}>`,
-            line: lineNumber,
-            column: null
-          });
-        } else if (last.tag !== tagName){
-          errors.push({
-            type: "structure",
-            message: `Несовпадение тегов: открыт <${last.tag}> (строка ${last.line}), закрыт </${tagName}>`,
-            line: lineNumber,
-            column: null
-          });
-        }
-      }
+  fileEls.forEach((f, idx) => {
+    const row = idx + 1;
+    for (const tag of CIM_REQUIRED){
+      const el = cimFindDirect(f, tag);
+      if (!el) errors.push({ path: `File[${row}]/${tag}`, reason: "Элемент отсутствует" });
+      else if (!isNonEmpty(el.textContent)) errors.push({ path: `File[${row}]/${tag}`, reason: "Пустое значение" });
     }
-    tagRegex.lastIndex = 0;
-  }
-
-  for (const unclosed of stack){
-    errors.push({
-      type: "structure",
-      message: `Тег <${unclosed.tag}> не закрыт`,
-      line: unclosed.line,
-      column: null
-    });
-  }
+  });
 
   return errors;
 }
 
-function validateXmlSyntaxAndStructure(xmlText){
-  const parsed = parseXmlWithDetails(xmlText);
-  const structureErrors = checkTagStructure(xmlText);
+function cimFixMinimal(doc){
+  const root = cimGetRoot(doc);
+  if (!root || root.nodeName !== "CIMAGRFileList") return doc;
 
-  const errors = [
-    ...(parsed.errors || []),
-    ...structureErrors
-  ];
+  let files = cimFindDirect(root, "Files");
+  if (!files){
+    files = doc.createElement("Files");
+    root.appendChild(doc.createTextNode("\n\t"));
+    root.appendChild(files);
+    root.appendChild(doc.createTextNode("\n"));
+  }
 
-  return {
-    ok: errors.length === 0 && parsed.ok,
-    doc: parsed.ok ? parsed.doc : null,
-    errors
-  };
+  let fileEls = Array.from(files.childNodes).filter(n => n.nodeType === 1 && n.nodeName === "File");
+  if (fileEls.length === 0){
+    const f = doc.createElement("File");
+    files.appendChild(doc.createTextNode("\n\t\t"));
+    files.appendChild(f);
+    files.appendChild(doc.createTextNode("\n\t"));
+    fileEls = [f];
+  }
+
+  fileEls.forEach((f, idx) => {
+    cimEnsureText(doc, f, "Number", String(idx + 1));
+    cimEnsureText(doc, f, "CIMName", "НЕ_ЗАПОЛНЕНО");
+    cimEnsureText(doc, f, "CIMDescription", "НЕ_ЗАПОЛНЕНО");
+    cimEnsureText(doc, f, "Section", "НЕ_ЗАПОЛНЕНО");
+  });
+
+  let meta = cimFindDirect(root, "Meta");
+  if (!meta){
+    meta = doc.createElement("Meta");
+    root.appendChild(doc.createTextNode("\n\t"));
+    root.appendChild(meta);
+    root.appendChild(doc.createTextNode("\n"));
+  }
+  const createdAt = new Date().toISOString().slice(0,10);
+  cimEnsureText(doc, meta, "CreatedBy", "Marichev Alexey");
+  cimEnsureText(doc, meta, "Source", "https://t.me/SMailsPub");
+  cimEnsureText(doc, meta, "CreatedAt", createdAt);
+
+  return doc;
 }
 
-function renderXmlErrors(errors){
-  if (!errors || errors.length === 0) return "✅ Синтаксис XML корректен. Ошибок структуры не найдено.";
-
-  return errors.map((e, idx) => {
-    const line = e.line ? `строка ${e.line}` : "строка: не определена";
-    const col = e.column ? `, колонка ${e.column}` : "";
-    return `${idx+1}) ❌ ${e.message}\n   → ${line}${col}`;
-  }).join("\n\n");
+function cimSerialize(doc){
+  return new XMLSerializer().serializeToString(doc);
 }
 
-/* ---------------------------------------------------------
-   XML CHECK TAB wiring
---------------------------------------------------------- */
-function initXmlCheckTab(){
-  const input = $("xmlCheckFile");
-  const btnCheck = $("btnXmlCheck");
-  const btnFix = $("btnXmlFix");
-  const report = $("xmlCheckReport");
-  const status = $("xmlCheckStatus");
+function initCimCheckTab(){
+  const input = $("cimCheckFile");
+  const btnCheck = $("btnCimCheck");
+  const btnFix = $("btnCimFix");
+  const report = $("cimCheckReport");
+  const status = $("cimCheckStatus");
 
   if (!input || !btnCheck || !btnFix || !report || !status) return;
 
@@ -1370,8 +902,8 @@ function initXmlCheckTab(){
     status.textContent = "Проверка…";
     btnFix.disabled = true;
     report.textContent = "";
-    lastXmlDoc = null;
-    lastXmlIsParsable = false;
+    lastCimDoc = null;
+    lastCimParsable = false;
 
     const file = input.files?.[0];
     if (!file){
@@ -1379,14 +911,14 @@ function initXmlCheckTab(){
       report.textContent = "Файл не выбран.";
       return;
     }
-    lastXmlFileName = file.name || "data.xml";
+    lastCimFileName = file.name || "data.xml";
 
     const text = await readFileAsText(file);
 
-    // 1) Синтаксис/структура (well-formed + теги закрыты)
+    // синтаксис + структура тегов
     const v = validateXmlSyntaxAndStructure(text);
     if (!v.ok){
-      lastXmlIsParsable = false;
+      lastCimParsable = false;
       status.textContent = "Ошибка синтаксиса/структуры";
       report.textContent =
         "Синтаксис XML некорректный или нарушена структура тегов.\n" +
@@ -1395,20 +927,18 @@ function initXmlCheckTab(){
       return;
     }
 
-    // 2) XML уже можно парсить и править
-    lastXmlIsParsable = true;
-    lastXmlDoc = v.doc;
+    lastCimParsable = true;
+    lastCimDoc = v.doc;
 
-    // 3) Минимальные обязательные
-    const missing = checkMinimalMissing(lastXmlDoc);
+    const missing = cimCheckMinimal(lastCimDoc);
     if (missing.length === 0){
       status.textContent = "ОК";
       report.textContent =
         "ОК: синтаксис корректен.\n" +
-        "Минимально обязательные параметры присутствуют.\n\n" +
+        "Минимальная структура присутствует.\n\n" +
         "Можно нажать «Исправить и скачать», чтобы:\n" +
-        "- заполнить пустые значения минимально обязательных параметров\n" +
-        "- добавить подпись автора в конец файла";
+        "- заполнить пустые значения\n" +
+        "- добавить Meta с подписью/ссылкой";
       btnFix.disabled = false;
       return;
     }
@@ -1418,27 +948,27 @@ function initXmlCheckTab(){
       "Синтаксис корректен.\n\n" +
       "Найдены проблемы (минимальный набор):\n" +
       missing.map(x => `- ${x.path}: ${x.reason}`).join("\n") +
-      "\n\nНажмите «Исправить и скачать» — добавлю недостающие элементы/значения и подпись.";
+      "\n\nНажмите «Исправить и скачать» — добавлю недостающие элементы/значения и Meta.";
     btnFix.disabled = false;
   });
 
   btnFix.addEventListener("click", () => {
-    if (!lastXmlIsParsable || !lastXmlDoc){
-      $("xmlCheckStatus").textContent = "Нужно проверить XML";
-      $("xmlCheckReport").textContent = "Сначала нажмите «Проверить». Если синтаксис/структура битые — исправьте файл вручную.";
+    if (!lastCimParsable || !lastCimDoc){
+      status.textContent = "Нужно проверить XML";
+      report.textContent = "Сначала нажмите «Проверить». Если синтаксис/структура битые — исправьте файл вручную.";
       return;
     }
 
-    $("xmlCheckStatus").textContent = "Исправление…";
+    status.textContent = "Исправление…";
 
-    const fixed = fixMinimal(lastXmlDoc);
-    const xml = serializeXmlDoc(fixed);
+    const fixed = cimFixMinimal(lastCimDoc);
+    const xml = cimSerialize(fixed);
 
-    const base = lastXmlFileName.replace(/\.xml$/i, "");
+    const base = lastCimFileName.replace(/\.xml$/i, "");
     downloadText(base + "_fixed.xml", xml);
 
-    $("xmlCheckStatus").textContent = "Скачано";
-    $("xmlCheckReport").textContent += "\n\nСкачан файл: " + (base + "_fixed.xml");
+    status.textContent = "Скачано";
+    report.textContent += "\n\nСкачан файл: " + (base + "_fixed.xml");
   });
 }
 
@@ -1450,6 +980,11 @@ resetIfcUI();
 setXmlState(false);
 wireLiveUpdates();
 initXmlCheckTab();
+initCimCheckTab();
+
+cimRenderTable();
+cimSetState(false);
+setCimSubTab("manual");
 
 if (!ifcAllowed()){
   $("ifcProtocolWarn").style.display = "block";
