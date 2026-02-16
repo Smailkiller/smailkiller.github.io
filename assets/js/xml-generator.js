@@ -59,7 +59,6 @@ function addSignatureCommentToXml(xmlText){
   return xmlText.trimEnd() + `\n<!-- ${SIGNATURE_COMMENT} -->\n`;
 }
 
-
 function setXmlState(ok){
   $("xmlState").textContent = ok ? "✔️ XML сформирован" : "❌XML не сформирован";
   $("btnDownload").disabled = !ok;
@@ -434,7 +433,6 @@ function setTab(which){
   if (isManual) markInvalids("manual");
   if (isIfc) markInvalids("ifc");
 }
-
 
 // IFC availability check
 function ifcAllowed(){
@@ -1063,7 +1061,10 @@ $("ifcFile").addEventListener("change", async (ev) => {
 });
 
 // =========================
-// XML CHECK TAB (validate + fix minimal required + signature)
+// XML CHECK TAB
+//   1) синтаксис/well-formed + строки
+//   2) минимально обязательные
+//   3) исправление (только если синтаксис ОК)
 // =========================
 const MIN_REQUIRED_ORDER = [
   "ObjectName",
@@ -1108,13 +1109,6 @@ function readFileAsText(file){
   });
 }
 
-function parseXmlText(text){
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(text, "application/xml");
-  const err = doc.getElementsByTagName("parsererror")[0];
-  return { doc, err: err || null };
-}
-
 function getRoot(doc){
   return doc && doc.documentElement ? doc.documentElement : null;
 }
@@ -1141,19 +1135,16 @@ function ensureSignatureCommentInDoc(doc){
   const root = getRoot(doc);
   if (!root) return;
 
-  // если уже есть — ничего не делаем
   const it = doc.createNodeIterator(doc, NodeFilter.SHOW_COMMENT);
   let n;
   while ((n = it.nextNode())){
     if ((n.nodeValue || "").includes("t.me/SMailsPub")) return;
   }
 
-  // добавляем коммент в конец корня
   root.appendChild(doc.createTextNode("\n\t"));
   root.appendChild(doc.createComment(" " + SIGNATURE_COMMENT + " "));
   root.appendChild(doc.createTextNode("\n"));
 }
-
 
 function checkMinimalMissing(doc){
   const miss = [];
@@ -1164,7 +1155,6 @@ function checkMinimalMissing(doc){
     return miss;
   }
 
-  // простые поля
   for (const name of MIN_REQUIRED_ORDER){
     const el = findDirectChild(root, name);
     if (!el){
@@ -1242,9 +1232,131 @@ function fixMinimal(doc){
 
 function serializeXmlDoc(doc){
   const xml = new XMLSerializer().serializeToString(doc);
-  return addSignatureCommentToXml(xml); // доп. защита от дубля/отсутствия
+  return addSignatureCommentToXml(xml);
 }
 
+/* ---------------------------------------------------------
+   NEW: Syntax + structure validation with line numbers
+--------------------------------------------------------- */
+function parseXmlWithDetails(xmlText){
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xmlText, "application/xml");
+  const errorNode = doc.querySelector("parsererror");
+
+  if (!errorNode) return { ok: true, doc, errors: [] };
+
+  const raw = (errorNode.textContent || "XML синтаксис некорректен").trim();
+
+  // Попытка вытащить line/column из сообщения (не гарантируется всеми браузерами)
+  const lineMatch = raw.match(/line\s+(\d+)/i);
+  const colMatch  = raw.match(/column\s+(\d+)/i);
+
+  return {
+    ok: false,
+    doc: null,
+    errors: [{
+      type: "syntax",
+      message: raw,
+      line: lineMatch ? Number(lineMatch[1]) : null,
+      column: colMatch ? Number(colMatch[1]) : null
+    }]
+  };
+}
+
+function checkTagStructure(xmlText){
+  const errors = [];
+  const stack = [];
+
+  // Уберём комментарии (простая версия) чтобы regex по тегам не ловил мусор
+  const cleaned = String(xmlText || "").replace(/<!--[\s\S]*?-->/g, "");
+
+  const lines = cleaned.split("\n");
+  // тег / закрывающий тег
+  const tagRegex = /<\s*\/?\s*([A-Za-z_][A-Za-z0-9_.:-]*)\b[^>]*>/g;
+
+  for (let i = 0; i < lines.length; i++){
+    const lineText = lines[i];
+    const lineNumber = i + 1;
+
+    let match;
+    while ((match = tagRegex.exec(lineText)) !== null){
+      const full = match[0];
+
+      // пропускаем декларации/инструкции
+      if (full.startsWith("<?") || full.startsWith("<!")) continue;
+
+      const tagName = match[1];
+
+      const isClosing = /^<\s*\//.test(full);
+      const isSelfClosing = /\/\s*>$/.test(full);
+
+      if (isSelfClosing) continue;
+
+      if (!isClosing){
+        stack.push({ tag: tagName, line: lineNumber });
+      } else {
+        const last = stack.pop();
+        if (!last){
+          errors.push({
+            type: "structure",
+            message: `Лишний закрывающий тег </${tagName}>`,
+            line: lineNumber,
+            column: null
+          });
+        } else if (last.tag !== tagName){
+          errors.push({
+            type: "structure",
+            message: `Несовпадение тегов: открыт <${last.tag}> (строка ${last.line}), закрыт </${tagName}>`,
+            line: lineNumber,
+            column: null
+          });
+        }
+      }
+    }
+    tagRegex.lastIndex = 0;
+  }
+
+  for (const unclosed of stack){
+    errors.push({
+      type: "structure",
+      message: `Тег <${unclosed.tag}> не закрыт`,
+      line: unclosed.line,
+      column: null
+    });
+  }
+
+  return errors;
+}
+
+function validateXmlSyntaxAndStructure(xmlText){
+  const parsed = parseXmlWithDetails(xmlText);
+  const structureErrors = checkTagStructure(xmlText);
+
+  const errors = [
+    ...(parsed.errors || []),
+    ...structureErrors
+  ];
+
+  return {
+    ok: errors.length === 0 && parsed.ok,
+    doc: parsed.ok ? parsed.doc : null,
+    errors
+  };
+}
+
+function renderXmlErrors(errors){
+  if (!errors || errors.length === 0) return "✅ Синтаксис XML корректен. Ошибок структуры не найдено.";
+
+  return errors.map((e, idx) => {
+    const line = e.line ? `строка ${e.line}` : "строка: не определена";
+    const col = e.column ? `, колонка ${e.column}` : "";
+    return `${idx+1}) ❌ ${e.message}\n   → ${line}${col}`;
+  }).join("\n\n");
+}
+
+/* ---------------------------------------------------------
+   XML CHECK TAB wiring
+--------------------------------------------------------- */
 function initXmlCheckTab(){
   const input = $("xmlCheckFile");
   const btnCheck = $("btnXmlCheck");
@@ -1270,40 +1382,50 @@ function initXmlCheckTab(){
     lastXmlFileName = file.name || "data.xml";
 
     const text = await readFileAsText(file);
-    const { doc, err } = parseXmlText(text);
 
-    if (err){
+    // 1) Синтаксис/структура (well-formed + теги закрыты)
+    const v = validateXmlSyntaxAndStructure(text);
+    if (!v.ok){
       lastXmlIsParsable = false;
-      status.textContent = "Ошибка синтаксиса";
-      report.textContent = "Синтаксис XML некорректный.\nАвтоисправление недоступно.\n\nДетали:\n" + (err.textContent || "").trim();
+      status.textContent = "Ошибка синтаксиса/структуры";
+      report.textContent =
+        "Синтаксис XML некорректный или нарушена структура тегов.\n" +
+        "Автоисправление недоступно (сначала нужно починить структуру файла).\n\n" +
+        "Ошибки:\n" + renderXmlErrors(v.errors);
       return;
     }
 
+    // 2) XML уже можно парсить и править
     lastXmlIsParsable = true;
-    lastXmlDoc = doc;
+    lastXmlDoc = v.doc;
 
-    const missing = checkMinimalMissing(doc);
+    // 3) Минимальные обязательные
+    const missing = checkMinimalMissing(lastXmlDoc);
     if (missing.length === 0){
       status.textContent = "ОК";
       report.textContent =
-        "ОК: синтаксис корректный, минимально обязательные параметры присутствуют.\n" +
-        "Можно нажать «Исправить и скачать», чтобы заполнить пустые значения необходимых параметров.";
+        "ОК: синтаксис корректен.\n" +
+        "Минимально обязательные параметры присутствуют.\n\n" +
+        "Можно нажать «Исправить и скачать», чтобы:\n" +
+        "- заполнить пустые значения минимально обязательных параметров\n" +
+        "- добавить подпись автора в конец файла";
       btnFix.disabled = false;
       return;
     }
 
     status.textContent = `Проблем: ${missing.length}`;
     report.textContent =
+      "Синтаксис корректен.\n\n" +
       "Найдены проблемы (минимальный набор):\n" +
       missing.map(x => `- ${x.path}: ${x.reason}`).join("\n") +
-      "\n\nНажмите «Исправить и скачать» — добавлю недостающее параметры.";
+      "\n\nНажмите «Исправить и скачать» — добавлю недостающие элементы/значения и подпись.";
     btnFix.disabled = false;
   });
 
   btnFix.addEventListener("click", () => {
     if (!lastXmlIsParsable || !lastXmlDoc){
       $("xmlCheckStatus").textContent = "Нужно проверить XML";
-      $("xmlCheckReport").textContent = "Сначала нажмите «Проверить». Если синтаксис битый — исправьте файл вручную.";
+      $("xmlCheckReport").textContent = "Сначала нажмите «Проверить». Если синтаксис/структура битые — исправьте файл вручную.";
       return;
     }
 
