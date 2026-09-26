@@ -13,7 +13,7 @@
   _src/config.json        — название, ссылка на канал, комнаты и их хэштеги
   _src/catalog/*.json     — каталоги (забивки, растения, миниатюры, полка, ярлыки ИИ), правятся руками
   _src/posts.json         — посты канала после импорта (создаётся сам)
-  _src/scene.svg          — рисунок трактира на главной
+  _src/pixel_scene.py     — рисует пиксельный зал (assets/scene/*, hotspots.json)
   tavern/*.html, scroll/  — готовые страницы (генерируются, руками не править)
 """
 import argparse
@@ -483,7 +483,7 @@ class Site:
 <meta property="og:description" content="{esc(desc or s['tagline'])}">
 <meta property="og:url" content="{esc(canonical)}">
 <meta name="theme-color" content="#1b120c">
-<link rel="icon" href="{root}assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="{root}assets/favicon.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ruslan+Display&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Pixelify+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -496,7 +496,7 @@ class Site:
 <header class="top">
   <a class="sign" href="{root}index.html" title="В общий зал">
     <span class="sign-chain" aria-hidden="true"></span>
-    <span class="sign-board"><span class="sign-small">трактиръ</span>{esc(s['title'])}</span>
+    <span class="sign-board"><span class="sign-small">{esc(s['channel_title'])}</span>{esc(s['title'])}</span>
   </a>
   <nav class="planks" aria-label="Комнаты трактира">{nav}<a class="plank plank-search{' is-here' if room == 'search' else ''}" href="{root}search.html"><span>Писарь</span><small>поиск</small></a></nav>
 </header>
@@ -593,7 +593,7 @@ class Site:
         n = len(self.room_posts[r["id"]])
         tags = " ".join(f"#{t}" for t in r["hashtags"][:4])
         return f"""<section class="room-head">
-  <div class="marginalia marg-{r['id']}" aria-hidden="true">{MARGINALIA.get(r['id'], '')}</div>
+  <div class="marginalia marg-{r['id']}" aria-hidden="true"><img class="pix" src="assets/scene/icon-{r['id']}.png" alt=""></div>
   <div>
     <p class="crumbs"><a href="index.html">Общий зал</a> › {esc(r['name'])}</p>
     <h1>{esc(r['name'])}</h1>
@@ -637,25 +637,52 @@ def facet_chips(values, facet, mode="any", label=None):
     return f'<div class="chips" data-mode="{mode}" data-group="{facet}">{lab}{chips}</div>'
 
 
-# ───────────────────────── маргиналии (картинки на полях) ─────────────────────────
-
-MARGINALIA = {
-    "ai": """<svg viewBox="0 0 120 120"><circle cx="60" cy="58" r="34" fill="#9fd3e8" stroke="#1a100a" stroke-width="3"/><circle cx="60" cy="58" r="34" fill="url(#none)" opacity=".3"/><path d="M40 50q20-18 40 0" stroke="#fff" stroke-width="3" fill="none" opacity=".7"/><rect x="36" y="92" width="48" height="14" rx="3" fill="#8a5a2b" stroke="#1a100a" stroke-width="3"/><circle cx="50" cy="62" r="4" fill="#1a100a"/><circle cx="70" cy="62" r="4" fill="#1a100a"/><path d="M50 76q10-6 20 0" stroke="#1a100a" stroke-width="3" fill="none"/></svg>""",
-    "hookah": """<svg viewBox="0 0 120 120"><path d="M45 110h30l-4-30q12-8 0-20H49q-12 12 0 20z" fill="#3b6ea5" stroke="#1a100a" stroke-width="3"/><rect x="56" y="30" width="8" height="30" fill="#b8860b" stroke="#1a100a" stroke-width="3"/><path d="M48 30h24l-4-10H52z" fill="#a0522d" stroke="#1a100a" stroke-width="3"/><path d="M60 16q-10-8 0-14M66 14q8-8 0-12" stroke="#9a8f86" stroke-width="3" fill="none"/><path d="M70 70q30 0 34 26" stroke="#1a100a" stroke-width="3" fill="none"/></svg>""",
-    "garden": """<svg viewBox="0 0 120 120"><path d="M34 80h52l-8 34H42z" fill="#a0522d" stroke="#1a100a" stroke-width="3"/><path d="M60 80V30" stroke="#2f5a2f" stroke-width="4"/><path d="M60 56q-26-4-28-24 22 0 28 24zM60 44q22-6 26-26-22 2-26 26z" fill="#4c8a3c" stroke="#1a100a" stroke-width="3"/><circle cx="72" cy="66" r="6" fill="#e25822" stroke="#1a100a" stroke-width="2"/><path d="M42 106q4-6 8 0" stroke="#1a100a" stroke-width="2" fill="none"/></svg>""",
-    "minis": """<svg viewBox="0 0 120 120"><ellipse cx="60" cy="108" rx="30" ry="7" fill="#3a2a1e" stroke="#1a100a" stroke-width="3"/><path d="M50 104l2-36h16l2 36z" fill="#6b7a3a" stroke="#1a100a" stroke-width="3"/><circle cx="60" cy="58" r="10" fill="#e8c9a0" stroke="#1a100a" stroke-width="3"/><path d="M50 52q10-14 20 0z" fill="#6b6b6b" stroke="#1a100a" stroke-width="3"/><path d="M74 100V20" stroke="#5a3a22" stroke-width="3"/><path d="M74 22h26l-6 9 6 9H74z" fill="#9b2226" stroke="#1a100a" stroke-width="3"/><path d="M56 60h2M62 60h2" stroke="#1a100a" stroke-width="2"/><path d="M56 66q4-3 8 0" stroke="#1a100a" stroke-width="2" fill="none"/></svg>""",
-    "shelf": """<svg viewBox="0 0 120 120"><path d="M16 36q22-8 44 4v70q-22-12-44-4z" fill="#f1e2c0" stroke="#1a100a" stroke-width="3"/><path d="M104 36q-22-8-44 4v70q22-12 44-4z" fill="#f1e2c0" stroke="#1a100a" stroke-width="3"/><path d="M24 52q14-4 28 2M24 64q14-4 28 2M24 76q14-4 28 2M68 54q14-6 28-2M68 66q14-6 28-2" stroke="#9b2226" stroke-width="2" fill="none"/><path d="M84 14l6 22-6-4-6 4z" fill="#b8860b" stroke="#1a100a" stroke-width="2"/></svg>""",
-}
-
-
 # ───────────────────────── страницы ─────────────────────────
 
+def pixel_scene_html(site):
+    """Пиксельный зал: кадры анимации, подсветки и кликабельные зоны из hotspots.json."""
+    spots = load_json(SRC / "hotspots.json")
+    sw, sh = spots["size"]
+    rooms = {r["id"]: r for r in site.rooms}
+    targets = {
+        "garden": "garden", "shelf": "shelf", "search": None, "channel": None,
+        "ai": "ai", "minis": "minis", "hookah": "hookah",
+    }
+    order = ["channel", "garden", "shelf", "search", "ai", "minis", "hookah"]  # кальян поверх низа полки
+    hls, links = [], []
+    for key in order:
+        if key not in spots["hot"]:
+            continue
+        x0, y0, x1, y1 = spots["hot"][key]
+        rid = targets.get(key)
+        if rid in rooms:
+            r = rooms[rid]
+            href, name, n = r["page"], r["sign"], len(site.room_posts[rid])
+            aria = f'{r["name"]}: {n} {plural(n, "свиток", "свитка", "свитков")}'
+        elif key == "search":
+            href, name, n = "search.html", "Картотека", len(site.posts)
+            aria = f"Картотека писаря: поиск по {n} свиткам"
+        else:
+            href, name, n = site.s["channel_url"], "Канал", None
+            aria = f"Канал {site.s['channel_title']} в Telegram"
+        style = (f"left:{x0 / sw * 100:.3f}%;top:{y0 / sh * 100:.3f}%;"
+                 f"width:{(x1 - x0) / sw * 100:.3f}%;height:{(y1 - y0) / sh * 100:.3f}%")
+        count = f" <b>{n}</b>" if n is not None else " <b>↗</b>"
+        hls.append(f'<img class="pix-hl" data-hl="{key}" src="assets/scene/hl-{key}.png" alt="">')
+        links.append(f'<a class="pix-hot" data-room="{key}" href="{esc(href)}" style="{style}" aria-label="{esc(aria)}">'
+                     f'<span class="pix-label">{esc(name)}{count}</span></a>')
+    snail = (f"left:{300 / sw * 100:.3f}%;top:{256 / sh * 100:.3f}%;"
+             f"width:{56 / sw * 100:.3f}%;height:{22 / sh * 100:.3f}%")
+    return f"""<div class="pix-scene" role="group" aria-label="Общий зал Лисьей таверны: окно с огородом, книжная полка, очаг, доска объявлений, стол алхимика с магическим шаром, шкаф с оловянными воинами и лис с кальяном">
+      <div class="pix-film" aria-hidden="true"><img src="assets/scene/frames.png" alt="" width="{sw * 4}" height="{sh}"></div>
+      {''.join(hls)}
+      {''.join(links)}
+      <button type="button" class="pix-snail" style="{snail}" aria-label="Улитка против рыцаря"></button>
+    </div>"""
+
+
 def build_hall(site):
-    scene = (SRC / "scene.svg").read_text(encoding="utf-8")
-    for r in site.rooms:
-        scene = scene.replace("{{count:%s}}" % r["id"], str(len(site.room_posts[r["id"]])))
-    scene = scene.replace("{{count:all}}", str(len(site.posts)))
-    scene = scene.replace("{{channel_url}}", esc(site.s["channel_url"]))
+    scene = pixel_scene_html(site)
     lines = []
     for r in site.rooms:
         n = len(site.room_posts[r["id"]])
@@ -802,7 +829,7 @@ def build_garden(site, r):
         days = (site.today - dt.date.fromisoformat(it["since"])).days if it.get("since") else None
         diary = "".join(diary_entry(site, d) for d in it.get("diary", []))
         care = "".join(f"<div><dt>{esc(k)}</dt><dd>{esc(v)}</dd></div>" for k, v in it.get("care", {}).items())
-        pic = f'<img src="{esc(it["photo"])}" alt="{esc(it["name"])}" loading="lazy">' if it.get("photo") else MARGINALIA["garden"]
+        pic = f'<img src="{esc(it["photo"])}" alt="{esc(it["name"])}" loading="lazy">' if it.get("photo") else '<img class="pix" src="assets/scene/icon-garden.png" alt="">'
         st = it.get("status", "")
         search = " ".join([it["name"], it.get("latin", ""), st, it.get("place", "")] + [d["text"] for d in it.get("diary", [])]).lower()
         cards.append(f"""<article class="card plant entry" data-search="{esc(search)}" data-status="{esc(st)}" data-date="{esc(it.get('since', ''))}" data-name="{esc(it['name'].lower())}">
@@ -835,7 +862,7 @@ def build_garden(site, r):
 
 
 def mini_placeholder(color):
-    return f"""<svg viewBox="0 0 100 120" class="mini-ph" aria-hidden="true"><rect width="100" height="120" fill="{color}" opacity=".25"/><ellipse cx="50" cy="106" rx="26" ry="6" fill="#2a1c14"/><path d="M40 102l2-40h16l2 40z" fill="{color}" stroke="#1a100a" stroke-width="3"/><circle cx="50" cy="52" r="10" fill="#e8c9a0" stroke="#1a100a" stroke-width="3"/><path d="M40 46q10-14 20 0z" fill="#777" stroke="#1a100a" stroke-width="3"/><path d="M64 100V22" stroke="#5a3a22" stroke-width="3"/><path d="M64 24h22l-5 8 5 8H64z" fill="{color}" stroke="#1a100a" stroke-width="3"/></svg>"""
+    return f'<div class="mini-ph" style="--fc:{esc(color)}"><img class="pix" src="assets/scene/icon-soldier.png" alt=""></div>'
 
 
 def build_minis(site, r):
@@ -934,7 +961,7 @@ def build_search(site):
                     for t, n in sorted(counts.items(), key=lambda kv: -kv[1])[:60])
     opts = "".join(f'<option value="{r["id"]}">{esc(r["name"])}</option>' for r in site.rooms)
     body = f"""<section class="room-head">
-  <div class="marginalia" aria-hidden="true">{MARGINALIA['shelf']}</div>
+  <div class="marginalia" aria-hidden="true"><img class="pix" src="assets/scene/icon-search.png" alt=""></div>
   <div><p class="crumbs"><a href="index.html">Общий зал</a> › Картотека писаря</p>
   <h1>Картотека писаря</h1>
   <p class="epigraph">Спроси — и писарь, ворча, пороется в сундуках.</p>

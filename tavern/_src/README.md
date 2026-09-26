@@ -34,7 +34,7 @@
 | `_src/catalog/minis.json` | фракции и миниатюры |
 | `_src/catalog/shelf.json` | книги, манга, аниме |
 | `_src/catalog/ai.json` | закреплённые гайды в келье ИИ |
-| `_src/scene.svg` | рисунок общего зала (генерируется `make_scene.py`) |
+| `_src/pixel_scene.py` | рисует пиксельный зал: `python tavern/_src/pixel_scene.py` (нужны pillow и numpy), результат в `assets/scene/` |
 | `assets/tavern.css`, `assets/tavern.js` | стили и скрипты |
 
 У записей-образцов стоит `"example": true`: из-за него на карточке красная печать «ОБРАЗЕЦ».

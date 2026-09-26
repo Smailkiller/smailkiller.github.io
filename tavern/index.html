@@ -11,7 +11,7 @@
 <meta property="og:description" content="Летопись трактира: дым, книги, огород, оловянные воины и механические духи">
 <meta property="og:url" content="https://smailkiller.github.io/tavern/">
 <meta name="theme-color" content="#1b120c">
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ruslan+Display&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Pixelify+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -24,369 +24,21 @@
 <header class="top">
   <a class="sign" href="index.html" title="В общий зал">
     <span class="sign-chain" aria-hidden="true"></span>
-    <span class="sign-board"><span class="sign-small">трактиръ</span>Трактирная книга</span>
+    <span class="sign-board"><span class="sign-small">Лисья таверна</span>Трактирная книга</span>
   </a>
   <nav class="planks" aria-label="Комнаты трактира"><a class="plank" href="ai.html"><span>Келья</span><small>#ии</small></a><a class="plank" href="hookah.html"><span>Горница</span><small>#кальян</small></a><a class="plank" href="garden.html"><span>Огород</span><small>#растения</small></a><a class="plank" href="minis.html"><span>Оружейная</span><small>#миниатюры</small></a><a class="plank" href="shelf.html"><span>Полка</span><small>#книги</small></a><a class="plank plank-search" href="search.html"><span>Писарь</span><small>поиск</small></a></nav>
 </header>
 <div class="sample-bar">Трактир обставлен <b>образцами</b>: настоящие посты появятся после импорта экспорта канала.</div>
 <main id="main">
 <section class="hall">
-  <h1 class="visually-hidden">Трактирная книга — архив канала Таверна</h1>
+  <h1 class="visually-hidden">Трактирная книга — архив канала Лисья таверна</h1>
   <div class="scene-frame">
-    <svg class="scene" viewBox="0 0 1200 700" role="img" aria-labelledby="scene-title" xmlns="http://www.w3.org/2000/svg">
-<title id="scene-title">Общий зал трактира: окно с огородом, книжная полка, очаг, кальян, стол алхимика с магическим шаром, шкаф с оловянными воинами</title>
-<defs>
-  <pattern id="stones" width="120" height="60" patternUnits="userSpaceOnUse">
-    <rect width="120" height="60" fill="#3a2a1f"/>
-    <path d="M2 2h54v26H2zM60 2h58v26H60zM-28 32h56v26h-56zM32 32h56v26H32zM92 32h56v26H92z" fill="#4a3627" stroke="#24170f" stroke-width="3"/>
-    <path d="M10 10l8 2M70 18l10-3M40 44l12 2M100 40l6 6" stroke="#5b4432" stroke-width="2"/>
-  </pattern>
-  <pattern id="planks" width="200" height="36" patternUnits="userSpaceOnUse">
-    <rect width="200" height="36" fill="#5a3a22"/>
-    <path d="M0 35h200M70 0v36M160 0v18M20 18v18" stroke="#2e1d11" stroke-width="3"/>
-    <path d="M10 10q20-4 40 0M100 24q20 4 40 0" stroke="#6e4a2e" stroke-width="2" fill="none"/>
-  </pattern>
-  <linearGradient id="night" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d1330"/><stop offset="1" stop-color="#2b3a6b"/></linearGradient>
-  <radialGradient id="hearthGlow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#ffb347" stop-opacity=".55"/><stop offset=".6" stop-color="#ff7b00" stop-opacity=".12"/><stop offset="1" stop-color="#ff7b00" stop-opacity="0"/></radialGradient>
-  <radialGradient id="candleGlow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#ffd27a" stop-opacity=".7"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>
-  <radialGradient id="orb" cx="0.38" cy="0.35" r="0.7"><stop offset="0" stop-color="#e6fbff"/><stop offset=".45" stop-color="#6fd6e8"/><stop offset="1" stop-color="#1f5f7a"/></radialGradient>
-  <radialGradient id="orbGlow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#7fe7ff" stop-opacity=".6"/><stop offset="1" stop-color="#7fe7ff" stop-opacity="0"/></radialGradient>
-  <radialGradient id="vignette" cx="0.5" cy="0.55" r="0.75"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".65"/></radialGradient>
-  <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3"/><feColorMatrix values="0 0 0 0 .1  0 0 0 0 .06  0 0 0 0 .03  0 0 0 .5 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>
-</defs>
-
-<!-- стены, потолок, пол -->
-<rect width="1200" height="560" fill="url(#stones)"/>
-<rect x="0" y="0" width="1200" height="50" fill="#3a2415" stroke="#1a100a" stroke-width="3"/>
-<path d="M0 50h1200" stroke="#1a100a" stroke-width="4"/>
-<path d="M120 0v50M360 0v50M600 0v50M840 0v50M1080 0v50" stroke="#24170f" stroke-width="4"/>
-<rect x="0" y="560" width="1200" height="140" fill="url(#planks)"/>
-<rect x="0" y="552" width="1200" height="12" fill="#2e1d11" stroke="#1a100a" stroke-width="3"/>
-<rect x="0" y="50" width="26" height="510" fill="#4a2e1a" stroke="#1a100a" stroke-width="3"/>
-<rect x="1174" y="50" width="26" height="510" fill="#4a2e1a" stroke="#1a100a" stroke-width="3"/>
-<circle class="hearth-glow" cx="580" cy="470" r="420" fill="url(#hearthGlow)"/>
-
-<!-- люстра -->
-<g class="chandelier" style="transform-origin:600px 0px">
-  <path d="M600 50v48" stroke="#1a100a" stroke-width="3"/>
-  <ellipse cx="600" cy="112" rx="90" ry="14" fill="none" stroke="#3a2415" stroke-width="7"/>
-  <ellipse cx="600" cy="112" rx="90" ry="14" fill="none" stroke="#1a100a" stroke-width="2"/>
-  <path d="M600 98L520 110M600 98L680 110M600 98L600 126" stroke="#1a100a" stroke-width="2"/>
-  <rect x="515" y="92" width="10" height="20" fill="#f3ead2" stroke="#1a100a" stroke-width="2"/><circle cx="520" cy="82" r="16" fill="url(#candleGlow)"/><path class="flame fl2" style="transform-origin:520px 91px" d="M520 91q-4.800000000000001 -8.0 0 -17.6q4.800000000000001 9.600000000000001 0 17.6z" fill="#ffcf4a" stroke="#e25822" stroke-width="1.5"/><rect x="555" y="104" width="10" height="20" fill="#f3ead2" stroke="#1a100a" stroke-width="2"/><circle cx="560" cy="94" r="16" fill="url(#candleGlow)"/><path class="flame fl2" style="transform-origin:560px 103px" d="M560 103q-4.800000000000001 -8.0 0 -17.6q4.800000000000001 9.600000000000001 0 17.6z" fill="#ffcf4a" stroke="#e25822" stroke-width="1.5"/><rect x="635" y="104" width="10" height="20" fill="#f3ead2" stroke="#1a100a" stroke-width="2"/><circle cx="640" cy="94" r="16" fill="url(#candleGlow)"/><path class="flame fl2" style="transform-origin:640px 103px" d="M640 103q-4.800000000000001 -8.0 0 -17.6q4.800000000000001 9.600000000000001 0 17.6z" fill="#ffcf4a" stroke="#e25822" stroke-width="1.5"/><rect x="675" y="92" width="10" height="20" fill="#f3ead2" stroke="#1a100a" stroke-width="2"/><circle cx="680" cy="82" r="16" fill="url(#candleGlow)"/><path class="flame fl2" style="transform-origin:680px 91px" d="M680 91q-4.800000000000001 -8.0 0 -17.6q4.800000000000001 9.600000000000001 0 17.6z" fill="#ffcf4a" stroke="#e25822" stroke-width="1.5"/>
-</g>
-
-<!-- ОГОРОД: окно и горшки -->
-<a class="hot" href="garden.html" aria-label="Огород трактирщика: растения, 2 свитков">
- <g class="obj">
-  <path d="M52 370V172Q140 76 228 172V370Z" fill="#5a3a22" stroke="#1a100a" stroke-width="3"/>
-  <path d="M70 356V178Q140 104 210 178V356Z" fill="url(#night)" stroke="#1a100a" stroke-width="3"/>
-  <circle class="twinkle" style="animation-delay:1.3s" cx="101" cy="251" r="2" fill="#fff6c8"/><circle class="twinkle" style="animation-delay:0.2s" cx="187" cy="287" r="1.2" fill="#fff6c8"/><circle class="twinkle" style="animation-delay:1.5s" cx="89" cy="279" r="1.2" fill="#fff6c8"/><circle class="twinkle" style="animation-delay:0.1s" cx="137" cy="257" r="1.2" fill="#fff6c8"/><circle class="twinkle" style="animation-delay:1.0s" cx="152" cy="258" r="1.2" fill="#fff6c8"/><circle class="twinkle" style="animation-delay:3.3s" cx="97" cy="207" r="2" fill="#fff6c8"/><circle class="twinkle" style="animation-delay:2.5s" cx="89" cy="297" r="2" fill="#fff6c8"/><circle class="twinkle" style="animation-delay:1.6s" cx="110" cy="161" r="2" fill="#fff6c8"/><circle class="twinkle" style="animation-delay:3.4s" cx="119" cy="257" r="1.2" fill="#fff6c8"/><circle class="twinkle" style="animation-delay:2.2s" cx="155" cy="228" r="2" fill="#fff6c8"/><circle class="twinkle" style="animation-delay:3.3s" cx="105" cy="176" r="2" fill="#fff6c8"/><circle class="twinkle" style="animation-delay:2.3s" cx="106" cy="245" r="1.2" fill="#fff6c8"/><circle class="twinkle" style="animation-delay:2.2s" cx="90" cy="294" r="1.2" fill="#fff6c8"/><circle class="twinkle" style="animation-delay:2.5s" cx="145" cy="324" r="2" fill="#fff6c8"/><circle class="twinkle" style="animation-delay:1.7s" cx="122" cy="269" r="2" fill="#fff6c8"/><circle class="twinkle" style="animation-delay:3.7s" cx="128" cy="226" r="1.2" fill="#fff6c8"/><circle class="twinkle" style="animation-delay:3.2s" cx="171" cy="212" r="1.2" fill="#fff6c8"/><circle class="twinkle" style="animation-delay:2.3s" cx="149" cy="276" r="1.6" fill="#fff6c8"/>
-  <circle cx="176" cy="168" r="17" fill="#f3e6b3"/><circle cx="184" cy="162" r="15" fill="#15204a" opacity=".9"/>
-  <path d="M140 110V356M70 256h140" stroke="#5a3a22" stroke-width="7"/><path d="M140 110V356M70 256h140" stroke="#1a100a" stroke-width="2"/>
-  <rect x="40" y="356" width="200" height="18" fill="#6e4a2e" stroke="#1a100a" stroke-width="3"/>
-  <!-- кактус -->
-  <path d="M66 356l4-26h26l4 26z" fill="#b5542c" stroke="#1a100a" stroke-width="2.5"/>
-  <path d="M76 330v-38q7-10 14 0v38z" fill="#4c8a3c" stroke="#1a100a" stroke-width="2.5"/>
-  <path d="M76 312h-6v-14q3-5 6 0M90 318h6v-16q-3-5-6 0" fill="#4c8a3c" stroke="#1a100a" stroke-width="2.5"/>
-  <circle cx="83" cy="290" r="4" fill="#e85d9b" stroke="#1a100a" stroke-width="1.5"/>
-  <!-- монстера -->
-  <path d="M112 356l5-30h36l5 30z" fill="#8b4513" stroke="#1a100a" stroke-width="2.5"/>
-  <g class="sway" style="transform-origin:135px 326px">
-   <path d="M135 326q-4-40-30-62M135 326q6-44 34-66M135 326q0-30 0-56" stroke="#2f5a2f" stroke-width="3" fill="none"/>
-   <path d="M105 264q-26-2-24 20 18 6 24-20zM169 260q24-6 28 16-18 10-28-16zM135 270q-18-16 0-34 18 16 0 34z" fill="#3f7a35" stroke="#1a100a" stroke-width="2.5"/>
-   <path d="M92 272l8 4M180 268l8-2M135 250v10" stroke="#8fc07c" stroke-width="2"/>
-  </g>
-  <!-- чили -->
-  <path d="M176 356l4-22h30l4 22z" fill="#b5542c" stroke="#1a100a" stroke-width="2.5"/>
-  <path d="M195 334v-40M195 314l-14-12M195 304l14-12" stroke="#2f5a2f" stroke-width="3"/>
-  <ellipse cx="180" cy="298" rx="8" ry="5" fill="#4c8a3c" stroke="#1a100a" stroke-width="2"/><ellipse cx="210" cy="290" rx="8" ry="5" fill="#4c8a3c" stroke="#1a100a" stroke-width="2"/>
-  <path d="M186 312q-2 12 4 16q2-10-4-16zM203 300q4 12 0 18q-4-8 0-18z" fill="#e0301e" stroke="#1a100a" stroke-width="1.5"/>
- </g>
- <g class="lbl" transform="translate(-24 48)">
-  <path d="M8 4h311l-6 15 6 15H8l6-15z" fill="#f1e2c0" stroke="#1a100a" stroke-width="2.5"/>
-  <path d="M8 4l-8 6 6 9-6 9 8 6M319 4l8 6-6 9 6 9-8 6" fill="#c9b27f" stroke="#1a100a" stroke-width="2.5"/>
-  <text x="164" y="25" text-anchor="middle">Огород ✠ 2</text>
-</g>
-</a>
-
-<!-- ПОЛКА -->
-<a class="hot" href="shelf.html" aria-label="Книжная полка: книги, манга, аниме, 2 свитков">
- <g class="obj">
-  <rect x="252" y="130" width="186" height="422" fill="#4a2e1a" stroke="#1a100a" stroke-width="3"/>
-  <rect x="264" y="142" width="162" height="398" fill="#24170f"/>
-  <rect x="268" y="214" width="45" height="18" fill="#2f4a6b" stroke="#1a100a" stroke-width="2.5"/>
-<rect x="315" y="171" width="17" height="61" fill="#3e5c6b" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M317 181h13M317 220h13" stroke="#e8c66a" stroke-width="2"/>
-<rect x="333" y="175" width="17" height="57" fill="#2f4a6b" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M335 185h13M335 220h13" stroke="#e8c66a" stroke-width="2"/>
-<rect x="352" y="166" width="16" height="66" fill="#3e5c6b" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M354 176h12M354 220h12" stroke="#e8c66a" stroke-width="2"/>
-<rect x="370" y="174" width="18" height="58" fill="#2f4a6b" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M372 184h14M372 220h14" stroke="#e8c66a" stroke-width="2"/>
-<rect x="389" y="175" width="12" height="57" fill="#5a2a5a" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M391 185h8M391 220h8" stroke="#e8c66a" stroke-width="2"/>
-<rect x="403" y="167" width="18" height="65" fill="#8b4513" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M405 177h14M405 220h14" stroke="#e8c66a" stroke-width="2"/>
-  <rect x="268" y="262" width="11" height="70" fill="#3e5c6b" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M270 272h7M270 320h7" stroke="#e8c66a" stroke-width="2"/>
-<rect x="279" y="275" width="18" height="57" fill="#b8860b" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M281 285h14M281 320h14" stroke="#6b3d12" stroke-width="2"/>
-<rect x="297" y="264" width="14" height="68" fill="#8b4513" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M299 274h10M299 320h10" stroke="#e8c66a" stroke-width="2"/>
-<rect x="312" y="271" width="12" height="61" fill="#e8dcc0" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M314 281h8M314 320h8" stroke="#e8c66a" stroke-width="2"/>
-<rect x="325" y="250" width="13" height="82" fill="#8b4513" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M327 260h9M327 320h9" stroke="#e8c66a" stroke-width="2"/>
-<rect x="339" y="265" width="17" height="67" fill="#8b4513" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M341 275h13M341 320h13" stroke="#e8c66a" stroke-width="2"/>
-<rect x="356" y="271" width="12" height="61" fill="#6b7a3a" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M358 281h8M358 320h8" stroke="#e8c66a" stroke-width="2"/>
-<rect x="368" y="261" width="11" height="71" fill="#6b7a3a" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M370 271h7M370 320h7" stroke="#e8c66a" stroke-width="2"/>
-<rect x="379" y="263" width="13" height="69" fill="#264d3b" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M381 273h9M381 320h9" stroke="#e8c66a" stroke-width="2"/>
-<rect x="394" y="272" width="16" height="60" fill="#264d3b" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M396 282h12M396 320h12" stroke="#e8c66a" stroke-width="2"/>
-<rect x="412" y="262" width="11" height="70" fill="#264d3b" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M414 272h7M414 320h7" stroke="#e8c66a" stroke-width="2"/>
-  <rect x="268" y="373" width="17" height="59" fill="#e8dcc0" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M270 383h13M270 420h13" stroke="#e8c66a" stroke-width="2"/>
-<rect x="285" y="374" width="14" height="58" fill="#b8860b" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M287 384h10M287 420h10" stroke="#6b3d12" stroke-width="2"/>
-<rect x="299" y="416" width="55" height="16" fill="#9b2226" stroke="#1a100a" stroke-width="2.5"/>
-<rect x="356" y="412" width="40" height="20" fill="#264d3b" stroke="#1a100a" stroke-width="2.5"/>
-<rect x="398" y="357" width="16" height="75" fill="#9b2226" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M400 367h12M400 420h12" stroke="#e8c66a" stroke-width="2"/>
-  <rect x="268" y="468" width="20" height="62" fill="#6b7a3a" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M270 478h16M270 518h16" stroke="#e8c66a" stroke-width="2"/>
-<rect x="289" y="469" width="20" height="61" fill="#e8dcc0" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M291 479h16M291 518h16" stroke="#e8c66a" stroke-width="2"/>
-<rect x="310" y="465" width="18" height="65" fill="#e8dcc0" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M312 475h14M312 518h14" stroke="#e8c66a" stroke-width="2"/>
-<rect x="328" y="457" width="12" height="73" fill="#3e5c6b" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M330 467h8M330 518h8" stroke="#e8c66a" stroke-width="2"/>
-<rect x="341" y="464" width="13" height="66" fill="#9b2226" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M343 474h9M343 518h9" stroke="#e8c66a" stroke-width="2"/>
-<rect x="356" y="476" width="16" height="54" fill="#264d3b" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M358 486h12M358 518h12" stroke="#e8c66a" stroke-width="2"/>
-<rect x="374" y="460" width="15" height="70" fill="#2f4a6b" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M376 470h11M376 518h11" stroke="#e8c66a" stroke-width="2"/>
-<rect x="390" y="469" width="19" height="61" fill="#6b7a3a" stroke="#1a100a" stroke-width="2.5"/>
-<path d="M392 479h15M392 518h15" stroke="#e8c66a" stroke-width="2"/>
-  <rect x="258" y="232" width="174" height="10" fill="#6e4a2e" stroke="#1a100a" stroke-width="2.5"/>
-  <rect x="258" y="332" width="174" height="10" fill="#6e4a2e" stroke="#1a100a" stroke-width="2.5"/>
-  <rect x="258" y="432" width="174" height="10" fill="#6e4a2e" stroke="#1a100a" stroke-width="2.5"/>
-  <rect x="244" y="120" width="202" height="14" fill="#6e4a2e" stroke="#1a100a" stroke-width="3"/>
-  <!-- череп и свеча наверху -->
-  <path d="M300 120q0-24 20-24t20 24z" fill="#efe4c8" stroke="#1a100a" stroke-width="2.5"/>
-  <circle cx="313" cy="108" r="4" fill="#1a100a"/><circle cx="327" cy="108" r="4" fill="#1a100a"/><path d="M316 118v-4M320 118v-4M324 118v-4" stroke="#1a100a" stroke-width="1.5"/>
-  <rect x="395" y="98" width="10" height="22" fill="#f3ead2" stroke="#1a100a" stroke-width="2"/><circle cx="400" cy="88" r="16" fill="url(#candleGlow)"/><path class="flame fl2" style="transform-origin:400px 97px" d="M400 97q-4.800000000000001 -8.0 0 -17.6q4.800000000000001 9.600000000000001 0 17.6z" fill="#ffcf4a" stroke="#e25822" stroke-width="1.5"/>
- </g>
- <g class="lbl" transform="translate(193 54)">
-  <path d="M8 4h288l-6 15 6 15H8l6-15z" fill="#f1e2c0" stroke="#1a100a" stroke-width="2.5"/>
-  <path d="M8 4l-8 6 6 9-6 9 8 6M296 4l8 6-6 9 6 9-8 6" fill="#c9b27f" stroke="#1a100a" stroke-width="2.5"/>
-  <text x="152" y="25" text-anchor="middle">Полка ✠ 2</text>
-</g>
-</a>
-
-<!-- ОЧАГ = летопись / поиск -->
-<a class="hot" href="search.html" aria-label="Очаг писаря: поиск по всем 12 свиткам">
- <g class="obj">
-  <path d="M462 552V250h236v302z" fill="#6a5a4c" stroke="#1a100a" stroke-width="3"/>
-  <path d="M462 290h236M462 340h236M462 390h236M462 440h236M462 490h236M520 250v40M600 250v40M650 290v50M500 340v50M560 390v50M680 390v50M520 490v62M640 490v62" stroke="#3d322a" stroke-width="3"/>
-  <path d="M492 552V396Q580 310 668 396V552Z" fill="#120804" stroke="#1a100a" stroke-width="3"/>
-  <circle class="hearth-glow" cx="580" cy="500" r="90" fill="url(#hearthGlow)"/>
-  <path d="M520 540l120-16M530 522l110 24" stroke="#4a2e1a" stroke-width="12" stroke-linecap="round"/>
-  <path d="M520 540l120-16M530 522l110 24" stroke="#1a100a" stroke-width="2" fill="none"/>
-  <g class="fire">
-   <path class="flame f1" style="transform-origin:580px 530px" d="M540 530q-10-50 20-80q-4 30 16 40q0-40 26-64q-6 40 18 60q16-16 10-36q24 30 6 80z" fill="#ff7b00" stroke="#b83a00" stroke-width="2"/>
-   <path class="flame f2" style="transform-origin:580px 530px" d="M556 530q-6-34 14-52q0 24 12 30q4-26 18-38q-2 30 10 40q6-6 6-18q12 20 0 38z" fill="#ffcf4a"/>
-   <path class="flame f3" style="transform-origin:580px 530px" d="M570 530q-2-18 8-28q2 14 10 16q2-12 8-18q4 16 0 30z" fill="#fff3b0"/>
-  </g>
-  <!-- котёл -->
-  <path d="M580 330v52" stroke="#1a100a" stroke-width="3" stroke-dasharray="6 3"/>
-  <path d="M548 392q0 36 32 36t32-36z" fill="#2a2a2a" stroke="#1a100a" stroke-width="3"/>
-  <ellipse cx="580" cy="392" rx="34" ry="8" fill="#3c7a3c" stroke="#1a100a" stroke-width="3"/>
-  <circle class="bubble" cx="572" cy="388" r="3" fill="#6fbf5f"/><circle class="bubble b2" cx="590" cy="390" r="2.5" fill="#6fbf5f"/>
-  <rect x="440" y="232" width="280" height="24" fill="#6e4a2e" stroke="#1a100a" stroke-width="3"/>
-  <!-- на полке над очагом: песочные часы, кружка -->
-  <path d="M480 232v-30h22v30zM484 206l14 10-14 10" fill="none" stroke="#1a100a" stroke-width="2.5"/>
-  <path d="M484 206h14l-7 10zM484 228h14l-7-8z" fill="#e8c66a" stroke="#1a100a" stroke-width="1.5"/>
-  <path d="M660 232v-26h24v26zM684 212q10 0 10 8t-10 8" fill="#8a8a8a" stroke="#1a100a" stroke-width="2.5"/>
-  <path d="M660 208q12-8 24 0" fill="#f3ead2" stroke="#1a100a" stroke-width="2"/>
-  <!-- щит с гербом -->
-  <path d="M552 140h56v36q0 24-28 36q-28-12-28-36z" fill="#9b2226" stroke="#1a100a" stroke-width="3"/>
-  <path d="M580 150v54M558 172h44" stroke="#e8c66a" stroke-width="5"/>
-  <path d="M562 150q18 10 36 0" stroke="#1a100a" stroke-width="1.5" fill="none"/>
- </g>
- <g class="lbl" transform="translate(465 268)">
-  <path d="M8 4h214l-6 15 6 15H8l6-15z" fill="#f1e2c0" stroke="#1a100a" stroke-width="2.5"/>
-  <path d="M8 4l-8 6 6 9-6 9 8 6M222 4l8 6-6 9 6 9-8 6" fill="#c9b27f" stroke="#1a100a" stroke-width="2.5"/>
-  <text x="115" y="25" text-anchor="middle">Картотека ✠ 12</text>
-</g>
-</a>
-
-<!-- ДОСКА ОБЪЯВЛЕНИЙ = канал -->
-<a class="hot" href="https://t.me/" aria-label="Доска у входа: канал в Telegram">
- <g class="obj">
-  <rect x="748" y="72" width="150" height="104" fill="#8a5a2b" stroke="#1a100a" stroke-width="3"/>
-  <rect x="758" y="82" width="130" height="84" fill="#b0834f" stroke="#1a100a" stroke-width="2"/>
-  <path d="M766 90h50v44h-50z" fill="#f1e2c0" stroke="#1a100a" stroke-width="2" transform="rotate(-4 790 110)"/>
-  <path d="M772 100h36M772 108h30M772 116h34M772 124h20" stroke="#7a6a5a" stroke-width="2" transform="rotate(-4 790 110)"/>
-  <path d="M826 92h54v38h-54z" fill="#f1e2c0" stroke="#1a100a" stroke-width="2" transform="rotate(5 850 110)"/>
-  <text x="853" y="116" font-size="13" text-anchor="middle" transform="rotate(5 850 110)" class="svg-mono">t.me</text>
-  <path d="M800 138h60v24h-60z" fill="#e8dcc0" stroke="#1a100a" stroke-width="2" transform="rotate(-2 830 150)"/>
-  <text x="830" y="155" font-size="11" text-anchor="middle" class="svg-mono" transform="rotate(-2 830 150)">РАЗЫСК.</text>
-  <circle cx="790" cy="90" r="3.5" fill="#9b2226"/><circle cx="852" cy="94" r="3.5" fill="#9b2226"/><circle cx="830" cy="140" r="3.5" fill="#9b2226"/>
- </g>
- <g class="lbl" transform="translate(748 184)">
-  <path d="M8 4h134l-6 15 6 15H8l6-15z" fill="#f1e2c0" stroke="#1a100a" stroke-width="2.5"/>
-  <path d="M8 4l-8 6 6 9-6 9 8 6M142 4l8 6-6 9 6 9-8 6" fill="#c9b27f" stroke="#1a100a" stroke-width="2.5"/>
-  <text x="75" y="25" text-anchor="middle">Канал ↗</text>
-</g>
-</a>
-
-<!-- КЕЛЬЯ ИИ: стол алхимика -->
-<a class="hot" href="ai.html" aria-label="Келья механических духов: ИИ-агенты, 3 свитков">
- <g class="obj">
-  <g class="gear g1" style="transform-origin:760px 262px"><path d="M786.0 262.0 L785.7 266.1 L779.8 268.4 L778.5 271.4 L781.0 277.3 L778.4 280.4 L772.2 278.8 L769.4 280.5 L768.0 286.7 L764.1 287.7 L760.0 282.8 L756.7 282.5 L752.0 286.7 L748.2 285.2 L747.8 278.8 L745.3 276.7 L739.0 277.3 L736.8 273.8 L740.2 268.4 L739.5 265.3 L734.0 262.0 L734.3 257.9 L740.2 255.6 L741.5 252.6 L739.0 246.7 L741.6 243.6 L747.8 245.2 L750.6 243.5 L752.0 237.3 L755.9 236.3 L760.0 241.2 L763.3 241.5 L768.0 237.3 L771.8 238.8 L772.2 245.2 L774.7 247.3 L781.0 246.7 L783.2 250.2 L779.8 255.6 L780.5 258.7Z" fill="#b08d57" stroke="#1a100a" stroke-width="2.5"/><circle cx="760" cy="262" r="9.1" fill="#6b4a2a" stroke="#1a100a" stroke-width="2.5"/></g><g class="gear g2" style="transform-origin:800px 296px"><path d="M817.0 296.0 L816.7 299.3 L812.6 301.2 L811.3 303.6 L812.0 308.0 L809.4 310.1 L805.2 308.6 L802.7 309.3 L800.0 313.0 L796.7 312.7 L794.8 308.6 L792.4 307.3 L788.0 308.0 L785.9 305.4 L787.4 301.2 L786.7 298.7 L783.0 296.0 L783.3 292.7 L787.4 290.8 L788.7 288.4 L788.0 284.0 L790.6 281.9 L794.8 283.4 L797.3 282.7 L800.0 279.0 L803.3 279.3 L805.2 283.4 L807.6 284.7 L812.0 284.0 L814.1 286.6 L812.6 290.8 L813.3 293.3Z" fill="#b08d57" stroke="#1a100a" stroke-width="2.5"/><circle cx="800" cy="296" r="5.9" fill="#6b4a2a" stroke="#1a100a" stroke-width="2.5"/></g><g class="gear g1" style="transform-origin:746px 312px"><path d="M759.0 312.0 L758.7 314.9 L755.4 316.5 L754.1 318.5 L754.1 322.2 L751.6 323.7 L748.3 322.1 L746.0 322.4 L743.1 324.7 L740.4 323.7 L739.5 320.1 L737.9 318.5 L734.3 317.6 L733.3 314.9 L735.6 312.0 L735.9 309.7 L734.3 306.4 L735.8 303.9 L739.5 303.9 L741.5 302.6 L743.1 299.3 L746.0 299.0 L748.3 301.9 L750.5 302.6 L754.1 301.8 L756.2 303.9 L755.4 307.5 L756.1 309.7Z" fill="#b08d57" stroke="#1a100a" stroke-width="2.5"/><circle cx="746" cy="312" r="4.5" fill="#6b4a2a" stroke="#1a100a" stroke-width="2.5"/></g>
-  <!-- магическое зеркало -->
-  <rect x="826" y="300" width="84" height="104" rx="6" fill="#b8860b" stroke="#1a100a" stroke-width="3"/>
-  <path d="M840 300q28-26 56 0" fill="#b8860b" stroke="#1a100a" stroke-width="3"/>
-  <circle cx="868" cy="288" r="5" fill="#9b2226" stroke="#1a100a" stroke-width="2"/>
-  <rect x="836" y="310" width="64" height="84" fill="#0c1f18" stroke="#1a100a" stroke-width="2"/>
-  <g class="code">
-   <path d="M842 322h30M846 332h40M846 342h24M842 352h36M846 362h18M842 372h28" stroke="#58e08a" stroke-width="3"/>
-   <rect class="cursor" x="874" y="368" width="7" height="8" fill="#58e08a"/>
-  </g>
-  <!-- стол -->
-  <rect x="728" y="430" width="196" height="18" fill="#6e4a2e" stroke="#1a100a" stroke-width="3"/>
-  <path d="M742 448v104M910 448v104" stroke="#4a2e1a" stroke-width="12"/><path d="M742 448v104M910 448v104" stroke="#1a100a" stroke-width="2"/>
-  <rect x="826" y="404" width="84" height="26" fill="#6e4a2e" stroke="#1a100a" stroke-width="2.5"/>
-  <!-- магический шар -->
-  <circle class="orb-glow" cx="782" cy="392" r="66" fill="url(#orbGlow)"/>
-  <path d="M760 430l6-16h32l6 16z" fill="#6b4a2a" stroke="#1a100a" stroke-width="2.5"/>
-  <circle cx="782" cy="388" r="30" fill="url(#orb)" stroke="#1a100a" stroke-width="3"/>
-  <g class="orb-eye"><ellipse cx="782" cy="390" rx="11" ry="7" fill="#fff" stroke="#1a100a" stroke-width="2"/><circle cx="782" cy="390" r="4" fill="#1a100a"/></g>
-  <path d="M766 374q6-8 14-8" stroke="#fff" stroke-width="3" fill="none" opacity=".8"/>
-  <!-- свитки и перо -->
-  <path d="M736 430q0-12 12-12h14q-10 4-10 12z" fill="#f1e2c0" stroke="#1a100a" stroke-width="2"/>
-  <rect x="907" y="412" width="10" height="18" fill="#f3ead2" stroke="#1a100a" stroke-width="2"/><circle cx="912" cy="402" r="16" fill="url(#candleGlow)"/><path class="flame fl2" style="transform-origin:912px 411px" d="M912 411q-4.800000000000001 -8.0 0 -17.6q4.800000000000001 9.600000000000001 0 17.6z" fill="#ffcf4a" stroke="#e25822" stroke-width="1.5"/>
- </g>
- <g class="lbl" transform="translate(715 458)">
-  <path d="M8 4h194l-6 15 6 15H8l6-15z" fill="#f1e2c0" stroke="#1a100a" stroke-width="2.5"/>
-  <path d="M8 4l-8 6 6 9-6 9 8 6M202 4l8 6-6 9 6 9-8 6" fill="#c9b27f" stroke="#1a100a" stroke-width="2.5"/>
-  <text x="105" y="25" text-anchor="middle">Келья ИИ ✠ 3</text>
-</g>
-</a>
-
-<!-- ОРУЖЕЙНАЯ: шкаф с воинами -->
-<a class="hot" href="minis.html" aria-label="Оружейная палата: миниатюры, 2 свитков">
- <g class="obj">
-  <rect x="934" y="200" width="214" height="352" fill="#4a2e1a" stroke="#1a100a" stroke-width="3"/>
-  <path d="M922 200h238l-14-22H936z" fill="#6e4a2e" stroke="#1a100a" stroke-width="3"/>
-  <rect x="946" y="212" width="190" height="328" fill="#1f1510"/>
-  <ellipse cx="952" cy="296" rx="9" ry="3" fill="#2a1c14"/><path d="M946 295l1-18h10l1 18z" fill="#6b7a3a" stroke="#1a100a" stroke-width="2"/><circle cx="952" cy="273" r="5" fill="#e8c9a0" stroke="#1a100a" stroke-width="2"/><path d="M946 271q6-9 12 0z" fill="#8a8a8a" stroke="#1a100a" stroke-width="1.5"/><path d="M960 296V254" stroke="#5a3a22" stroke-width="2"/><path d="M960 254h14l-4 5 4 5h-14z" fill="#6b7a3a" stroke="#1a100a" stroke-width="1.5"/><ellipse cx="990" cy="296" rx="9" ry="3" fill="#2a1c14"/><path d="M984 295l1-18h10l1 18z" fill="#8b1e1e" stroke="#1a100a" stroke-width="2"/><circle cx="990" cy="273" r="5" fill="#e8c9a0" stroke="#1a100a" stroke-width="2"/><path d="M984 271q6-9 12 0z" fill="#8a8a8a" stroke="#1a100a" stroke-width="1.5"/><path d="M998 296V254" stroke="#5a3a22" stroke-width="2"/><path d="M995 254l3-7 3 7z" fill="#cfcfcf" stroke="#1a100a" stroke-width="1.2"/><ellipse cx="1028" cy="296" rx="9" ry="3" fill="#2a1c14"/><path d="M1022 295l1-18h10l1 18z" fill="#3e5c6b" stroke="#1a100a" stroke-width="2"/><circle cx="1028" cy="273" r="5" fill="#e8c9a0" stroke="#1a100a" stroke-width="2"/><path d="M1022 271q6-9 12 0z" fill="#8a8a8a" stroke="#1a100a" stroke-width="1.5"/><path d="M1036 296V254" stroke="#5a3a22" stroke-width="2"/><path d="M1036 254h14l-4 5 4 5h-14z" fill="#3e5c6b" stroke="#1a100a" stroke-width="1.5"/><ellipse cx="1066" cy="296" rx="9" ry="3" fill="#2a1c14"/><path d="M1060 295l1-18h10l1 18z" fill="#3f6b2a" stroke="#1a100a" stroke-width="2"/><circle cx="1066" cy="273" r="5" fill="#e8c9a0" stroke="#1a100a" stroke-width="2"/><path d="M1060 271q6-9 12 0z" fill="#8a8a8a" stroke="#1a100a" stroke-width="1.5"/><path d="M1074 296V254" stroke="#5a3a22" stroke-width="2"/><path d="M1071 254l3-7 3 7z" fill="#cfcfcf" stroke="#1a100a" stroke-width="1.2"/><ellipse cx="1104" cy="296" rx="9" ry="3" fill="#2a1c14"/><path d="M1098 295l1-18h10l1 18z" fill="#6b7a3a" stroke="#1a100a" stroke-width="2"/><circle cx="1104" cy="273" r="5" fill="#e8c9a0" stroke="#1a100a" stroke-width="2"/><path d="M1098 271q6-9 12 0z" fill="#8a8a8a" stroke="#1a100a" stroke-width="1.5"/><path d="M1112 296V254" stroke="#5a3a22" stroke-width="2"/><path d="M1112 254h14l-4 5 4 5h-14z" fill="#6b7a3a" stroke="#1a100a" stroke-width="1.5"/><ellipse cx="952" cy="396" rx="9" ry="3" fill="#2a1c14"/><path d="M946 395l1-18h10l1 18z" fill="#8b1e1e" stroke="#1a100a" stroke-width="2"/><circle cx="952" cy="373" r="5" fill="#e8c9a0" stroke="#1a100a" stroke-width="2"/><path d="M946 371q6-9 12 0z" fill="#8a8a8a" stroke="#1a100a" stroke-width="1.5"/><path d="M960 396V354" stroke="#5a3a22" stroke-width="2"/><path d="M960 354h14l-4 5 4 5h-14z" fill="#8b1e1e" stroke="#1a100a" stroke-width="1.5"/><ellipse cx="990" cy="396" rx="9" ry="3" fill="#2a1c14"/><path d="M984 395l1-18h10l1 18z" fill="#3e5c6b" stroke="#1a100a" stroke-width="2"/><circle cx="990" cy="373" r="5" fill="#e8c9a0" stroke="#1a100a" stroke-width="2"/><path d="M984 371q6-9 12 0z" fill="#8a8a8a" stroke="#1a100a" stroke-width="1.5"/><path d="M998 396V354" stroke="#5a3a22" stroke-width="2"/><path d="M995 354l3-7 3 7z" fill="#cfcfcf" stroke="#1a100a" stroke-width="1.2"/><ellipse cx="1028" cy="396" rx="9" ry="3" fill="#2a1c14"/><path d="M1022 395l1-18h10l1 18z" fill="#3f6b2a" stroke="#1a100a" stroke-width="2"/><circle cx="1028" cy="373" r="5" fill="#e8c9a0" stroke="#1a100a" stroke-width="2"/><path d="M1022 371q6-9 12 0z" fill="#8a8a8a" stroke="#1a100a" stroke-width="1.5"/><path d="M1036 396V354" stroke="#5a3a22" stroke-width="2"/><path d="M1036 354h14l-4 5 4 5h-14z" fill="#3f6b2a" stroke="#1a100a" stroke-width="1.5"/><ellipse cx="1066" cy="396" rx="9" ry="3" fill="#2a1c14"/><path d="M1060 395l1-18h10l1 18z" fill="#6b7a3a" stroke="#1a100a" stroke-width="2"/><circle cx="1066" cy="373" r="5" fill="#e8c9a0" stroke="#1a100a" stroke-width="2"/><path d="M1060 371q6-9 12 0z" fill="#8a8a8a" stroke="#1a100a" stroke-width="1.5"/><path d="M1074 396V354" stroke="#5a3a22" stroke-width="2"/><path d="M1071 354l3-7 3 7z" fill="#cfcfcf" stroke="#1a100a" stroke-width="1.2"/><ellipse cx="1104" cy="396" rx="9" ry="3" fill="#2a1c14"/><path d="M1098 395l1-18h10l1 18z" fill="#8b1e1e" stroke="#1a100a" stroke-width="2"/><circle cx="1104" cy="373" r="5" fill="#e8c9a0" stroke="#1a100a" stroke-width="2"/><path d="M1098 371q6-9 12 0z" fill="#8a8a8a" stroke="#1a100a" stroke-width="1.5"/><path d="M1112 396V354" stroke="#5a3a22" stroke-width="2"/><path d="M1112 354h14l-4 5 4 5h-14z" fill="#8b1e1e" stroke="#1a100a" stroke-width="1.5"/><ellipse cx="952" cy="496" rx="9" ry="3" fill="#2a1c14"/><path d="M946 495l1-18h10l1 18z" fill="#3e5c6b" stroke="#1a100a" stroke-width="2"/><circle cx="952" cy="473" r="5" fill="#e8c9a0" stroke="#1a100a" stroke-width="2"/><path d="M946 471q6-9 12 0z" fill="#8a8a8a" stroke="#1a100a" stroke-width="1.5"/><path d="M960 496V454" stroke="#5a3a22" stroke-width="2"/><path d="M960 454h14l-4 5 4 5h-14z" fill="#3e5c6b" stroke="#1a100a" stroke-width="1.5"/><ellipse cx="990" cy="496" rx="9" ry="3" fill="#2a1c14"/><path d="M984 495l1-18h10l1 18z" fill="#3f6b2a" stroke="#1a100a" stroke-width="2"/><circle cx="990" cy="473" r="5" fill="#e8c9a0" stroke="#1a100a" stroke-width="2"/><path d="M984 471q6-9 12 0z" fill="#8a8a8a" stroke="#1a100a" stroke-width="1.5"/><path d="M998 496V454" stroke="#5a3a22" stroke-width="2"/><path d="M995 454l3-7 3 7z" fill="#cfcfcf" stroke="#1a100a" stroke-width="1.2"/><ellipse cx="1028" cy="496" rx="9" ry="3" fill="#2a1c14"/><path d="M1022 495l1-18h10l1 18z" fill="#6b7a3a" stroke="#1a100a" stroke-width="2"/><circle cx="1028" cy="473" r="5" fill="#e8c9a0" stroke="#1a100a" stroke-width="2"/><path d="M1022 471q6-9 12 0z" fill="#8a8a8a" stroke="#1a100a" stroke-width="1.5"/><path d="M1036 496V454" stroke="#5a3a22" stroke-width="2"/><path d="M1036 454h14l-4 5 4 5h-14z" fill="#6b7a3a" stroke="#1a100a" stroke-width="1.5"/><ellipse cx="1066" cy="496" rx="9" ry="3" fill="#2a1c14"/><path d="M1060 495l1-18h10l1 18z" fill="#8b1e1e" stroke="#1a100a" stroke-width="2"/><circle cx="1066" cy="473" r="5" fill="#e8c9a0" stroke="#1a100a" stroke-width="2"/><path d="M1060 471q6-9 12 0z" fill="#8a8a8a" stroke="#1a100a" stroke-width="1.5"/><path d="M1074 496V454" stroke="#5a3a22" stroke-width="2"/><path d="M1071 454l3-7 3 7z" fill="#cfcfcf" stroke="#1a100a" stroke-width="1.2"/><ellipse cx="1104" cy="496" rx="9" ry="3" fill="#2a1c14"/><path d="M1098 495l1-18h10l1 18z" fill="#3e5c6b" stroke="#1a100a" stroke-width="2"/><circle cx="1104" cy="473" r="5" fill="#e8c9a0" stroke="#1a100a" stroke-width="2"/><path d="M1098 471q6-9 12 0z" fill="#8a8a8a" stroke="#1a100a" stroke-width="1.5"/><path d="M1112 496V454" stroke="#5a3a22" stroke-width="2"/><path d="M1112 454h14l-4 5 4 5h-14z" fill="#3e5c6b" stroke="#1a100a" stroke-width="1.5"/>
-  <rect x="940" y="298" width="202" height="8" fill="#6e4a2e" stroke="#1a100a" stroke-width="2"/>
-  <rect x="940" y="398" width="202" height="8" fill="#6e4a2e" stroke="#1a100a" stroke-width="2"/>
-  <rect x="940" y="498" width="202" height="8" fill="#6e4a2e" stroke="#1a100a" stroke-width="2"/>
-  <rect x="946" y="212" width="190" height="328" fill="#bfe3ff" opacity=".08"/>
-  <path d="M960 222l40 60M1080 222l30 44" stroke="#fff" stroke-width="3" opacity=".25"/>
-  <path d="M1041 212v328" stroke="#1a100a" stroke-width="3"/>
-  <circle cx="1034" cy="380" r="3" fill="#e8c66a" stroke="#1a100a"/><circle cx="1048" cy="380" r="3" fill="#e8c66a" stroke="#1a100a"/>
-  <!-- шлем на шкафу -->
-  <path d="M1010 178q0-34 32-34t32 34z" fill="#9a9a9a" stroke="#1a100a" stroke-width="3"/>
-  <path d="M1042 144v34M1020 162h44" stroke="#1a100a" stroke-width="2.5"/>
-  <path d="M1042 144q10-16 24-12q-8 6-6 14" fill="#9b2226" stroke="#1a100a" stroke-width="2"/>
- </g>
- <g class="lbl" transform="translate(926 98)">
-  <path d="M8 4h214l-6 15 6 15H8l6-15z" fill="#f1e2c0" stroke="#1a100a" stroke-width="2.5"/>
-  <path d="M8 4l-8 6 6 9-6 9 8 6M222 4l8 6-6 9 6 9-8 6" fill="#c9b27f" stroke="#1a100a" stroke-width="2.5"/>
-  <text x="115" y="25" text-anchor="middle">Оружейная ✠ 2</text>
-</g>
-</a>
-
-<!-- ДЫМНАЯ ГОРНИЦА: стол с кальяном (передний план) -->
-<a class="hot" href="hookah.html" aria-label="Дымная горница: кальян и забивки, 2 свитков">
- <g class="obj">
-  <path d="M316 610l-26 76h24l14-60zM376 610l26 76h-24l-14-60z" fill="#4a2e1a" stroke="#1a100a" stroke-width="3"/>
-  <ellipse cx="346" cy="604" rx="124" ry="26" fill="#7a5232" stroke="#1a100a" stroke-width="3"/>
-  <ellipse cx="346" cy="600" rx="112" ry="20" fill="#8a5f3a"/>
-  <!-- колба -->
-  <path d="M330 600q-34-6-34-38q0-22 22-36h56q22 14 22 36q0 32-34 38z" fill="#3b6ea5" stroke="#1a100a" stroke-width="3" opacity=".95"/>
-  <path d="M302 566q44 10 84 0" stroke="#8fc3ff" stroke-width="3" fill="none" opacity=".6"/>
-  <circle class="bubble" cx="336" cy="580" r="4" fill="#a8d4ff"/><circle class="bubble b2" cx="352" cy="584" r="3" fill="#a8d4ff"/>
-  <!-- шахта -->
-  <rect x="338" y="436" width="16" height="92" fill="#b8860b" stroke="#1a100a" stroke-width="3"/>
-  <path d="M330 470h32M330 500h32" stroke="#1a100a" stroke-width="3"/>
-  <ellipse cx="346" cy="468" rx="20" ry="6" fill="#d9a441" stroke="#1a100a" stroke-width="2.5"/>
-  <!-- чаша и калауд -->
-  <path d="M326 436h40l-6-22h-28z" fill="#a0522d" stroke="#1a100a" stroke-width="3"/>
-  <path d="M322 414h48l-4-12h-40z" fill="#8a8a8a" stroke="#1a100a" stroke-width="2.5"/>
-  <rect x="332" y="398" width="8" height="5" fill="#ff7b00"/><rect x="344" y="398" width="8" height="5" fill="#ff7b00"/><rect x="356" y="398" width="8" height="5" fill="#ff7b00"/>
-  <!-- шланг -->
-  <path d="M362 494q60 6 70 50q6 30 34 40" stroke="#2f4a2f" stroke-width="8" fill="none" stroke-linecap="round"/>
-  <path d="M362 494q60 6 70 50q6 30 34 40" stroke="#1a100a" stroke-width="2" fill="none" stroke-dasharray="3 6"/>
-  <rect x="460" y="578" width="24" height="9" rx="3" fill="#b8860b" stroke="#1a100a" stroke-width="2" transform="rotate(20 472 582)"/>
-  <!-- кружка -->
-  <path d="M232 598v-30h26v30zM258 574q12 0 12 10t-12 10" fill="#8a8a8a" stroke="#1a100a" stroke-width="2.5"/>
-  <path d="M230 572q14-10 30 0" fill="#f3ead2" stroke="#1a100a" stroke-width="2"/>
-  <!-- дым -->
-  <g class="smoke">
-   <circle class="puff p1" cx="348" cy="386" r="10" fill="#d9d2c8"/>
-   <circle class="puff p2" cx="340" cy="380" r="8" fill="#d9d2c8"/>
-   <circle class="puff p3" cx="356" cy="384" r="9" fill="#d9d2c8"/>
-  </g>
- </g>
- <g class="lbl" transform="translate(206 334)">
-  <path d="M8 4h264l-6 15 6 15H8l6-15z" fill="#f1e2c0" stroke="#1a100a" stroke-width="2.5"/>
-  <path d="M8 4l-8 6 6 9-6 9 8 6M272 4l8 6-6 9 6 9-8 6" fill="#c9b27f" stroke="#1a100a" stroke-width="2.5"/>
-  <text x="140" y="25" text-anchor="middle">Дымная горница ✠ 2</text>
-</g>
-</a>
-
-<!-- кот у очага -->
-<g class="cat" aria-hidden="true">
-  <path d="M620 600q0-26 34-26q30 0 36 22q2 10-6 12h-60q-6 0-4-8z" fill="#2b2b2b" stroke="#1a100a" stroke-width="2.5"/>
-  <path d="M676 580l6-14 6 12zM690 584l8-10 2 14z" fill="#2b2b2b" stroke="#1a100a" stroke-width="2"/>
-  <path d="M618 606q-26 6-20-12" stroke="#2b2b2b" stroke-width="8" fill="none" stroke-linecap="round"/>
-  <path d="M680 594q4 3 8 0" stroke="#e8c66a" stroke-width="2" fill="none"/>
-  <text class="zzz" x="700" y="566" font-size="16">z</text><text class="zzz z2" x="712" y="552" font-size="12">z</text>
-</g>
-
-<!-- бочка -->
-<g aria-hidden="true">
-  <path d="M1040 690q-14-54 0-110h90q14 56 0 110z" fill="#7a4a26" stroke="#1a100a" stroke-width="3"/>
-  <path d="M1034 606h102M1034 664h102" stroke="#3a3a3a" stroke-width="7"/><path d="M1034 606h102M1034 664h102" stroke="#1a100a" stroke-width="1.5"/>
-  <path d="M1085 580v110" stroke="#5a3a22" stroke-width="2"/>
-  <path d="M1066 580v-26h26v26zM1092 560q12 0 12 10t-12 10" fill="#8a8a8a" stroke="#1a100a" stroke-width="2.5"/>
-  <path d="M1064 556q14-10 30 0" fill="#f3ead2" stroke="#1a100a" stroke-width="2"/>
-</g>
-
-<!-- маргиналия: улитка против рыцаря -->
-<g class="snail-duel" aria-hidden="true">
-  <g class="knight">
-   <path d="M800 686l6-40h26l6 40z" fill="#9a9a9a" stroke="#1a100a" stroke-width="2.5"/>
-   <circle cx="819" cy="636" r="12" fill="#b0b0b0" stroke="#1a100a" stroke-width="2.5"/>
-   <path d="M810 636h18" stroke="#1a100a" stroke-width="2.5"/>
-   <path d="M813 642q6-3 12 0" stroke="#1a100a" stroke-width="1.5" fill="none" transform="rotate(180 819 642)"/>
-   <path d="M806 656l-24 10" stroke="#b0b0b0" stroke-width="5" stroke-linecap="round"/>
-   <path d="M780 668l-20 0" stroke="#dcdcdc" stroke-width="3"/>
-   <path d="M834 656q12 4 6 16" stroke="#b0b0b0" stroke-width="5" fill="none" stroke-linecap="round"/>
-  </g>
-  <g class="snail">
-   <path d="M690 688q-4-12 12-12h48q10 0 8 12z" fill="#c9b27f" stroke="#1a100a" stroke-width="2.5"/>
-   <circle cx="722" cy="664" r="20" fill="#b5542c" stroke="#1a100a" stroke-width="2.5"/>
-   <path d="M722 664m-12 0a12 12 0 1 1 12 12a6 6 0 1 1 -6 -6" fill="none" stroke="#1a100a" stroke-width="2"/>
-   <path d="M752 678l6-20M756 678l12-16" stroke="#1a100a" stroke-width="2"/><circle cx="758" cy="657" r="2.5" fill="#1a100a"/><circle cx="768" cy="661" r="2.5" fill="#1a100a"/>
-   <path d="M740 672l40-10" stroke="#5a3a22" stroke-width="3"/><path d="M780 662l8-4-6 8z" fill="#dcdcdc" stroke="#1a100a" stroke-width="1.5"/>
-  </g>
-</g>
-
-<rect width="1200" height="700" fill="url(#vignette)" pointer-events="none"/>
-<rect width="1200" height="700" filter="url(#grain)" opacity=".35" pointer-events="none"/>
-</svg>
-
+    <div class="pix-scene" role="group" aria-label="Общий зал Лисьей таверны: окно с огородом, книжная полка, очаг, доска объявлений, стол алхимика с магическим шаром, шкаф с оловянными воинами и лис с кальяном">
+      <div class="pix-film" aria-hidden="true"><img src="assets/scene/frames.png" alt="" width="1920" height="280"></div>
+      <img class="pix-hl" data-hl="channel" src="assets/scene/hl-channel.png" alt=""><img class="pix-hl" data-hl="garden" src="assets/scene/hl-garden.png" alt=""><img class="pix-hl" data-hl="shelf" src="assets/scene/hl-shelf.png" alt=""><img class="pix-hl" data-hl="search" src="assets/scene/hl-search.png" alt=""><img class="pix-hl" data-hl="ai" src="assets/scene/hl-ai.png" alt=""><img class="pix-hl" data-hl="minis" src="assets/scene/hl-minis.png" alt=""><img class="pix-hl" data-hl="hookah" src="assets/scene/hl-hookah.png" alt="">
+      <a class="pix-hot" data-room="channel" href="https://t.me/SMailsPub" style="left:62.917%;top:10.714%;width:12.500%;height:14.286%" aria-label="Канал Лисья таверна в Telegram"><span class="pix-label">Канал <b>↗</b></span></a><a class="pix-hot" data-room="garden" href="garden.html" style="left:2.500%;top:10.714%;width:17.917%;height:44.286%" aria-label="Огород трактирщика: 2 свитка"><span class="pix-label">Огород <b>2</b></span></a><a class="pix-hot" data-room="shelf" href="shelf.html" style="left:20.833%;top:8.571%;width:16.250%;height:67.143%" aria-label="Книжная полка: 2 свитка"><span class="pix-label">Полка <b>2</b></span></a><a class="pix-hot" data-room="search" href="search.html" style="left:37.083%;top:17.857%;width:25.833%;height:57.857%" aria-label="Картотека писаря: поиск по 12 свиткам"><span class="pix-label">Картотека <b>12</b></span></a><a class="pix-hot" data-room="ai" href="ai.html" style="left:61.667%;top:28.214%;width:17.500%;height:47.500%" aria-label="Келья механических духов: 3 свитка"><span class="pix-label">Келья <b>3</b></span></a><a class="pix-hot" data-room="minis" href="minis.html" style="left:77.917%;top:9.286%;width:19.583%;height:66.429%" aria-label="Оружейная палата: 2 свитка"><span class="pix-label">Оружейная <b>2</b></span></a><a class="pix-hot" data-room="hookah" href="hookah.html" style="left:11.667%;top:54.643%;width:28.750%;height:42.500%" aria-label="Дымная горница: 2 свитка"><span class="pix-label">Горница <b>2</b></span></a>
+      <button type="button" class="pix-snail" style="left:62.500%;top:91.429%;width:11.667%;height:7.857%" aria-label="Улитка против рыцаря"></button>
+    </div>
   </div>
   <p class="scene-hint">Наведи свечу на предмет и войди. Или выбери дверь в указателе ниже.</p>
   <div class="ticker" aria-label="Свежие свитки"><div class="ticker-track"><span>Вести с тракта ✠ Трактир открывает двери ✠ Как я собрал агента, который разбирает мою почту ✠ Забивка недели: малина, лимон, мята ✠ Фрирен: самое спокойное аниме про смерть ✠ Промпт-шаблон «трактирщик»: как заставить модель отвечать коротко ✠ Докрасил сержанта. Косит, но свой ✠ Хабанеро дал первые плоды ✠ Claude Code против ручного рефакторинга: честное сравнение ✠ </span><span aria-hidden="true">Вести с тракта ✠ Трактир открывает двери ✠ Как я собрал агента, который разбирает мою почту ✠ Забивка недели: малина, лимон, мята ✠ Фрирен: самое спокойное аниме про смерть ✠ Промпт-шаблон «трактирщик»: как заставить модель отвечать коротко ✠ Докрасил сержанта. Косит, но свой ✠ Хабанеро дал первые плоды ✠ Claude Code против ручного рефакторинга: честное сравнение ✠ </span></div></div>
@@ -416,7 +68,7 @@
   </section>
   <section class="parchment directory">
     <h2>Указатель</h2>
-    <ul class="dir"><li><a href="ai.html">Келья механических духов</a><span class="dots"></span><span class="n">3 свитка</span><span class="d">ИИ-агенты · #ии</span></li><li><a href="hookah.html">Дымная горница</a><span class="dots"></span><span class="n">2 свитка</span><span class="d">Кальян · #кальян</span></li><li><a href="garden.html">Огород трактирщика</a><span class="dots"></span><span class="n">2 свитка</span><span class="d">Растения · #растения</span></li><li><a href="minis.html">Оружейная палата</a><span class="dots"></span><span class="n">2 свитка</span><span class="d">Миниатюры · #миниатюры</span></li><li><a href="shelf.html">Книжная полка</a><span class="dots"></span><span class="n">2 свитка</span><span class="d">Книги, манга, аниме · #книги</span></li><li><a href="search.html">Картотека писаря</a><span class="dots"></span><span class="n">12 всего</span><span class="d">поиск по всему каналу</span></li><li><a href="https://t.me/">Доска у входа</a><span class="dots"></span><span class="n">↗</span><span class="d">сам канал в Telegram</span></li></ul>
+    <ul class="dir"><li><a href="ai.html">Келья механических духов</a><span class="dots"></span><span class="n">3 свитка</span><span class="d">ИИ-агенты · #ии</span></li><li><a href="hookah.html">Дымная горница</a><span class="dots"></span><span class="n">2 свитка</span><span class="d">Кальян · #кальян</span></li><li><a href="garden.html">Огород трактирщика</a><span class="dots"></span><span class="n">2 свитка</span><span class="d">Растения · #растения</span></li><li><a href="minis.html">Оружейная палата</a><span class="dots"></span><span class="n">2 свитка</span><span class="d">Миниатюры · #миниатюры</span></li><li><a href="shelf.html">Книжная полка</a><span class="dots"></span><span class="n">2 свитка</span><span class="d">Книги, манга, аниме · #книги</span></li><li><a href="search.html">Картотека писаря</a><span class="dots"></span><span class="n">12 всего</span><span class="d">поиск по всему каналу</span></li><li><a href="https://t.me/SMailsPub">Доска у входа</a><span class="dots"></span><span class="n">↗</span><span class="d">сам канал в Telegram</span></li></ul>
     <h3>Свежие свитки</h3>
     <ul class="latest"><li><time datetime="2026-09-25T10:00:00">25 сентября 2026</time> <a href="scroll/112.html">Трактир открывает двери</a></li><li><time datetime="2026-09-20T19:40:00">20 сентября 2026</time> <a href="scroll/101.html">Как я собрал агента, который разбирает мою почту</a></li><li><time datetime="2026-09-18T22:30:00">18 сентября 2026</time> <a href="scroll/104.html">Забивка недели: малина, лимон, мята</a></li><li><time datetime="2026-09-14T23:00:00">14 сентября 2026</time> <a href="scroll/111.html">Фрирен: самое спокойное аниме про смерть</a></li><li><time datetime="2026-09-12T12:05:00">12 сентября 2026</time> <a href="scroll/102.html">Промпт-шаблон «трактирщик»: как заставить модель отвечать коротко</a></li><li><time datetime="2026-09-03T23:45:00">3 сентября 2026</time> <a href="scroll/108.html">Докрасил сержанта. Косит, но свой</a></li></ul>
     <div class="construction"><span class="snail" aria-hidden="true">🐌</span> Трактир ещё строится. Каменщики пьют, улитка наступает.</div>
@@ -427,7 +79,7 @@
   <div class="foot-grid">
     <section class="box">
       <h3>Грамота</h3>
-      <p>Сие есть архив канала <a href="https://t.me/">Таверна</a>. Лента в Telegram течёт и тонет, а здесь всё лежит по полкам.</p>
+      <p>Сие есть архив канала <a href="https://t.me/SMailsPub">Лисья таверна</a>. Лента в Telegram течёт и тонет, а здесь всё лежит по полкам.</p>
       <p class="quote" data-quotes='[&quot;Всяк сюда входящий — вытри ноги и надежду.&quot;, &quot;Трактирщик не виноват. Виноваты звёзды и понедельник.&quot;, &quot;Улитка снова победила рыцаря. Летописец плачет.&quot;, &quot;Эль тёплый, свечи коптят, Wi-Fi через раз. Средневековье.&quot;, &quot;Здесь могла быть ваша чума.&quot;, &quot;Писано при лучине, дрожащей от сквозняка.&quot;]'>Всяк сюда входящий — вытри ноги и надежду.</p>
     </section>
     <section class="box">
@@ -437,7 +89,7 @@
     </section>
     <section class="box">
       <h3>Трактовое кольцо</h3>
-      <p class="ring"><a href="https://smailkiller.github.io/">Мастерская хозяина (AI и BIM)</a><a href="https://t.me/">Канал в Telegram</a><a href="sitemap.xml">Карта трактира</a></p>
+      <p class="ring"><a href="https://smailkiller.github.io/">Мастерская хозяина (AI и BIM)</a><a href="https://t.me/SMailsPub">Канал в Telegram</a><a href="sitemap.xml">Карта трактира</a></p>
       <div class="buttons88" aria-hidden="true">
         <span class="b88 b-a">лучше смотреть<br>при лучине</span>
         <span class="b88 b-b">сделано<br>гусиным пером</span>

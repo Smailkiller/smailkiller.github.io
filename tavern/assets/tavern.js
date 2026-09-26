@@ -266,19 +266,15 @@
     if (frame && frame.scrollWidth > frame.clientWidth) frame.scrollLeft = (frame.scrollWidth - frame.clientWidth) / 2;
 
     /* пасхалка: улитка побеждает рыцаря */
-    var duel = document.querySelector(".snail-duel"), hits = 0;
-    if (duel) {
-      duel.addEventListener("click", function () {
+    var snail = document.querySelector(".pix-snail"), hits = 0;
+    if (snail) {
+      var lines = ["Улитка наступает.", "Рыцарь дрогнул.", "Улитка неумолима.", "Рыцарь молится.", "Ещё немного…", "Рыцарь пишет завещание."];
+      snail.addEventListener("click", function () {
         hits++;
-        var snail = duel.querySelector(".snail"), knight = duel.querySelector(".knight");
-        snail.style.transform = "translateX(" + Math.min(hits * 6, 42) + "px)";
-        if (hits === 7) {
-          knight.style.transition = "transform .6s";
-          knight.style.transformOrigin = "820px 686px";
-          knight.style.transform = "rotate(80deg)";
-          var hint = document.querySelector(".scene-hint");
-          if (hint) hint.textContent = "Улитка победила рыцаря. Как и предсказано в рукописях XIII века.";
-        }
+        var hint = document.querySelector(".scene-hint");
+        if (!hint) return;
+        hint.textContent = hits >= 7 ? "Улитка победила рыцаря. Как и предсказано в рукописях XIII века."
+          : lines[(hits - 1) % lines.length];
       });
     }
   }
