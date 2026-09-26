@@ -10,96 +10,223 @@
 <meta property="og:title" content="Трактирная книга">
 <meta property="og:description" content="Архив Лисьей таверны: дым и покой, земля и тишина, архивы разума, дела руками и лис в экране">
 <meta property="og:url" content="https://smailkiller.github.io/tavern/">
-<meta name="theme-color" content="#1b120c">
+<meta name="theme-color" content="#050706">
 <link rel="icon" href="assets/favicon.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Ruslan+Display&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Pixelify+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Press+Start+2P&family=Rubik+Glitch&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/tavern.css">
+<script>try{if(localStorage.getItem("tavern-still")==="1")document.documentElement.classList.add("is-still")}catch(e){}</script>
 <script>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id=106884291','ym');ym(106884291,'init',{ssr:true,clickmap:true,trackLinks:true,accurateTrackBounce:true});</script>
 </head>
 <body class="is-hall">
 <a class="skip" href="#main">К содержимому</a>
-<div class="torchlight" aria-hidden="true"></div>
-<header class="top">
-  <a class="sign" href="index.html" title="В общий зал">
-    <span class="sign-chain" aria-hidden="true"></span>
-    <span class="sign-board"><span class="sign-small">Лисья таверна</span>Трактирная книга</span>
-  </a>
-  <nav class="planks" aria-label="Комнаты трактира"><a class="plank" href="shelf.html"><span>Полка</span><small>Пн · #чтение</small></a><a class="plank" href="garden.html"><span>Огород</span><small>Вт · #сад</small></a><a class="plank" href="hookah.html"><span>Горница</span><small>Ср · #кальян</small></a><a class="plank" href="ai.html"><span>Архивы</span><small>Чт · #ai</small></a><a class="plank" href="games.html"><span>Игры</span><small>Пт · #игры</small></a><a class="plank" href="minis.html"><span>Мастерская</span><small>Сб · #хобби</small></a><a class="plank" href="anime.html"><span>Экран</span><small>Вс · #аниме</small></a><a class="plank" href="thoughts.html"><span>Очаг</span><small>#мысль</small></a><a class="plank plank-search" href="search.html"><span>Писарь</span><small>поиск</small></a></nav>
+<header class="topbar">
+  <a class="logo" href="index.html" title="В общий зал"><img src="assets/heroes/kalyanych.png" alt="" width="24" height="24"><span>лисья<b>.</b>таверна</span></a>
+  <nav class="topnav" aria-label="Комнаты таверны"><a class="tn" href="shelf.html" style="--rc:#ff5fa8"><img src="assets/heroes/tomik.png" alt="" width="16" height="16"><span>Полка</span><small>Пн</small></a><a class="tn" href="garden.html" style="--rc:#b6ff5a"><img src="assets/heroes/fomich.png" alt="" width="16" height="16"><span>Огород</span><small>Вт</small></a><a class="tn" href="hookah.html" style="--rc:#ffb05a"><img src="assets/heroes/kalyanych.png" alt="" width="16" height="16"><span>Горница</span><small>Ср</small></a><a class="tn" href="ai.html" style="--rc:#6ff0ff"><img src="assets/heroes/gavrilych.png" alt="" width="16" height="16"><span>Архивы</span><small>Чт</small></a><a class="tn" href="games.html" style="--rc:#c89bff"><img src="assets/heroes/lisivy.png" alt="" width="16" height="16"><span>Игры</span><small>Пт</small></a><a class="tn" href="minis.html" style="--rc:#ffe66a"><img src="assets/heroes/plumbiy.png" alt="" width="16" height="16"><span>Мастерская</span><small>Сб</small></a><a class="tn" href="anime.html" style="--rc:#ff7ae0"><img src="assets/heroes/kalyanych.png" alt="" width="16" height="16"><span>Экран</span><small>Вс</small></a><a class="tn" href="thoughts.html" style="--rc:#ffd259"><img src="assets/heroes/ugolek.png" alt="" width="16" height="16"><span>Очаг</span></a><a class="tn tn-search" href="search.html" style="--rc:#e6ff3a"><img src="assets/heroes/osevoy.png" alt="" width="16" height="16"><span>Картотека</span></a><a class="tn tn-guests" href="guests.html" style="--rc:#ff6a1f"><img src="assets/heroes/lisivy.png" alt="" width="16" height="16"><span>Кто здесь</span></a></nav>
+  <button type="button" class="still-btn" aria-pressed="false" title="Остановить движение на странице"><span aria-hidden="true">⏸</span><span class="visually-hidden">Остановить движение</span></button>
 </header>
 
 <main id="main">
-<section class="hall">
-  <h1 class="visually-hidden">Трактирная книга — архив канала Лисья таверна</h1>
-  <div class="scene-frame">
-    <div class="pix-scene" role="group" aria-label="Общий зал Лисьей таверны: окно с огородом, книжная полка, очаг, доска писаря, стол алхимика с магическим шаром, зеркало с лисом, шкаф с оловянными воинами, бочка с костями и лис с кальяном">
-      <div class="pix-film" aria-hidden="true"><img src="assets/scene/frames.png" alt="" width="1920" height="280"></div>
-      <img class="pix-hl" data-hl="search" src="assets/scene/hl-search.png" alt=""><img class="pix-hl" data-hl="garden" src="assets/scene/hl-garden.png" alt=""><img class="pix-hl" data-hl="shelf" src="assets/scene/hl-shelf.png" alt=""><img class="pix-hl" data-hl="thoughts" src="assets/scene/hl-thoughts.png" alt=""><img class="pix-hl" data-hl="ai" src="assets/scene/hl-ai.png" alt=""><img class="pix-hl" data-hl="anime" src="assets/scene/hl-anime.png" alt=""><img class="pix-hl" data-hl="minis" src="assets/scene/hl-minis.png" alt=""><img class="pix-hl" data-hl="games" src="assets/scene/hl-games.png" alt=""><img class="pix-hl" data-hl="hookah" src="assets/scene/hl-hookah.png" alt="">
-      <a class="pix-hot" data-room="search" href="search.html" style="left:62.917%;top:10.714%;width:12.500%;height:14.286%" aria-label="Доска писаря: поиск по 475 свиткам"><span class="pix-label">Писарь <b>475</b></span></a><a class="pix-hot" data-room="garden" href="garden.html" style="left:2.500%;top:10.714%;width:17.917%;height:44.286%" aria-label="Земля и тишина: 58 свитков"><span class="pix-label">Огород <b>58</b></span></a><a class="pix-hot" data-room="shelf" href="shelf.html" style="left:20.833%;top:8.571%;width:16.250%;height:67.143%" aria-label="Листаем: 7 свитков"><span class="pix-label">Полка <b>7</b></span></a><a class="pix-hot" data-room="thoughts" href="thoughts.html" style="left:37.083%;top:17.857%;width:25.833%;height:57.857%" aria-label="Мысли у очага: 49 свитков"><span class="pix-label">Очаг <b>49</b></span></a><a class="pix-hot" data-room="ai" href="ai.html" style="left:61.667%;top:28.214%;width:17.500%;height:47.500%" aria-label="Архивы разума: 134 свитка"><span class="pix-label">Архивы <b>134</b></span></a><a class="pix-hot" data-room="anime" href="anime.html" style="left:70.000%;top:32.857%;width:7.500%;height:22.857%" aria-label="Лис в экране: 12 свитков"><span class="pix-label">Экран <b>12</b></span></a><a class="pix-hot" data-room="minis" href="minis.html" style="left:77.917%;top:9.286%;width:19.583%;height:66.429%" aria-label="Дела руками: 34 свитка"><span class="pix-label">Мастерская <b>34</b></span></a><a class="pix-hot" data-room="games" href="games.html" style="left:78.750%;top:67.143%;width:17.083%;height:32.500%" aria-label="Конец недели: 37 свитков"><span class="pix-label">Игры <b>37</b></span></a><a class="pix-hot" data-room="hookah" href="hookah.html" style="left:11.667%;top:54.643%;width:28.750%;height:42.500%" aria-label="Дым и покой: 45 свитков"><span class="pix-label">Горница <b>45</b></span></a>
-      <button type="button" class="pix-snail" style="left:62.500%;top:91.429%;width:11.667%;height:7.857%" aria-label="Улитка против рыцаря"></button>
+<section class="threshold" aria-labelledby="hall-title">
+  <div class="moss moss-l" aria-hidden="true"><div class="moss-glow"></div></div>
+  <div class="moss moss-r" aria-hidden="true"><div class="moss-glow"></div></div>
+  <div class="stage">
+    <div class="logo-big tl" aria-hidden="true"><span class="glitch" data-text="Лисья таверна">Лисья таверна</span><small>з а &nbsp;з е р к а л о м</small></div>
+    <div class="logo-big br" aria-hidden="true"><span class="glitch" data-text="Лисья таверна">Лисья таверна</span><small>з а &nbsp;з е р к а л о м</small></div>
+    <h1 class="visually-hidden" id="hall-title">Трактирная книга — архив канала Лисья таверна</h1>
+    <svg class="wires" viewBox="0 0 1100 820" aria-hidden="true"><g class="wire w-days1"><line x1="320" y1="114" x2="470" y2="122"/><circle cx="470" cy="122" r="9"/></g><g class="wire w-days2"><line x1="320" y1="336" x2="470" y2="352"/><circle cx="470" cy="352" r="9"/></g><g class="wire w-tavern"><line x1="350" y1="558" x2="392" y2="486"/><circle cx="392" cy="486" r="9"/></g><g class="wire w-channel"><line x1="790" y1="110" x2="628" y2="116"/><circle cx="628" cy="116" r="9"/></g><g class="wire w-search"><line x1="806" y1="268" x2="665" y2="312"/><circle cx="665" cy="312" r="9"/></g><g class="wire w-friends"><line x1="826" y1="448" x2="744" y2="480"/><circle cx="744" cy="480" r="9"/></g></svg>
+    <div class="figure">
+      <div class="fox-glow" aria-hidden="true"></div>
+      <svg class="fox-svg" viewBox="-60 0 580 780" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <pattern id="quilt" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="16" height="16" fill="#0b150e"/>
+      <path d="M0 0H16M0 0V16" stroke="#2f5a38" stroke-width="1.4"/>
+      <circle cx="8" cy="8" r="1.2" fill="#46654b"/>
+    </pattern>
+    <pattern id="oilcloth" width="14" height="14" patternUnits="userSpaceOnUse">
+      <rect width="14" height="14" fill="#0a1616"/>
+      <rect width="7" height="7" fill="#123030"/>
+      <rect x="7" y="7" width="7" height="7" fill="#123030"/>
+    </pattern>
+    <radialGradient id="flask" cx=".4" cy=".35" r=".7">
+      <stop offset="0" stop-color="#6ff0ff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#0a1a2a" stop-opacity=".9"/>
+    </radialGradient>
+  </defs>
+  <!-- хвост: кончик тлеет, от него раскуривают уголь -->
+  <path class="tail" d="M74,704 C4,700 -48,600 -40,480 C-38,446 -22,420 2,426 C-10,470 -6,560 66,612 Z" fill="#c4551f"/>
+  <path d="M-40,480 C-38,446 -22,420 2,426 C-6,446 -24,470 -40,480 Z" fill="#e8dcc6"/>
+  <circle class="ember tip" cx="-8" cy="428" r="7" fill="#ff6a1f"/>
+  <g class="wisps"><path d="M-8,414 c-10,-18 12,-30 0,-52 c-8,-16 10,-26 4,-44"/><path d="M0,418 c8,-20 -10,-34 4,-56"/></g>
+  <!-- стёганка -->
+  <path class="robe" d="M150,240 L270,240 L330,290 L352,420 L362,760 L58,760 L68,420 L90,290 Z" fill="url(#quilt)"/>
+  <path class="arm" d="M92,292 C48,380 50,470 104,528" fill="none"/>
+  <path class="arm" d="M328,292 C372,360 372,430 334,470" fill="none"/>
+  <!-- фартук из клеёнки -->
+  <path class="apron" d="M160,300 L260,300 L278,760 L142,760 Z" fill="url(#oilcloth)"/>
+  <path class="strap" d="M160,300 L182,252 M260,300 L238,252"/>
+  <!-- чаша: кальян -->
+  <ellipse class="brass" cx="430" cy="752" rx="42" ry="8" fill="#1c120b"/>
+  <circle class="glass" cx="430" cy="700" r="46" fill="url(#flask)"/>
+  <g class="bubbles"><circle cx="418" cy="712" r="3"/><circle cx="436" cy="722" r="2"/><circle cx="428" cy="700" r="2.5"/></g>
+  <rect class="brass" x="424" y="470" width="12" height="186" fill="#2a1a0c"/>
+  <ellipse class="brass" cx="430" cy="530" rx="36" ry="6" fill="#1c120b"/>
+  <ellipse class="brass" cx="430" cy="610" rx="18" ry="5" fill="#1c120b"/>
+  <path class="brass" d="M410,470 L450,470 L444,448 L416,448 Z" fill="#592815"/>
+  <g class="coals"><rect x="418" y="440" width="7" height="6"/><rect x="427" y="438" width="7" height="8"/><rect x="436" y="440" width="7" height="6"/></g>
+  <g class="wisps"><path d="M430,432 c-12,-20 10,-34 -2,-58 c-8,-16 12,-28 2,-50"/><path d="M438,434 c10,-18 -8,-30 6,-50"/></g>
+  <path class="hose" d="M440,590 C510,560 470,450 336,474 C382,420 384,320 322,286"/>
+  <ellipse cx="334" cy="474" rx="13" ry="10" fill="#e8dcc6" class="paw"/>
+  <ellipse cx="106" cy="530" rx="13" ry="10" fill="#e8dcc6" class="paw"/>
+  <!-- связка мундштуков -->
+  <path class="string" d="M148,258 Q210,326 272,258"/>
+  <rect x="157.9" y="268.2" width="5" height="13" rx="2" fill="#ffd259"/><rect x="170.3" y="277.8" width="5" height="13" rx="2" fill="#d49f3e"/><rect x="182.7" y="284.6" width="5" height="13" rx="2" fill="#ffd259"/><rect x="195.1" y="288.6" width="5" height="13" rx="2" fill="#d49f3e"/><rect x="207.5" y="290.0" width="5" height="13" rx="2" fill="#ffd259"/><rect x="219.9" y="288.6" width="5" height="13" rx="2" fill="#d49f3e"/><rect x="232.3" y="284.6" width="5" height="13" rx="2" fill="#ffd259"/><rect x="244.7" y="277.8" width="5" height="13" rx="2" fill="#d49f3e"/><rect x="257.1" y="268.2" width="5" height="13" rx="2" fill="#ffd259"/>
+  <!-- зеркало на груди -->
+  <circle class="mirror" cx="210" cy="470" r="66"/>
+  <circle class="mirror mirror-in" cx="210" cy="470" r="56"/>
+  <!-- голова по мотивам лого -->
+  <g class="head" transform="translate(60 0) scale(1.5)">
+      <polygon points="37,16 68,70 28,74" fill="#8d3b16"/>
+      <polygon points="43,29 64,68 47,68" fill="#3a1a10"/>
+      <polygon points="163,16 172,74 132,70" fill="#a8471a"/>
+      <polygon points="157,29 169,70 153,68" fill="#3a1a10"/>
+      <polygon points="100,52 62,73 100,112" fill="#c4551f"/>
+      <polygon points="100,52 138,73 100,112" fill="#a8471a"/>
+      <polygon points="62,73 71,115 100,112" fill="#e07a3a"/>
+      <polygon points="138,73 129,115 100,112" fill="#b64d1c"/>
+      <polygon points="28,74 68,70 71,115" fill="#8d3b16"/>
+      <polygon points="172,74 132,70 129,115" fill="#7d3413"/>
+      <polygon points="76,90 95,86 87,101" fill="#140f0b"/>
+      <polygon points="124,90 105,86 113,101" fill="#140f0b"/>
+      <polygon class="eye" points="79,89 88,88 85,93" fill="#6fc9bd"/>
+      <polygon class="eye" points="121,89 112,88 115,93" fill="#6fc9bd"/>
+      <polygon points="71,115 100,112 84,142" fill="#d9dbc6"/>
+      <polygon points="129,115 100,112 116,142" fill="#bcbfa9"/>
+      <polygon points="84,142 100,112 116,142" fill="#e8dcc6"/>
+      <polygon points="84,142 116,142 100,172" fill="#cfd1bb"/>
+      <polygon points="90,152 110,152 100,168" fill="#140f0b"/>
+      <polygon points="116,150 168,178 164,190 112,160" fill="#3d3226"/>
+      <polygon points="164,186 178,180 176,196" fill="#2a231b"/>
+      <polygon class="ember" points="172,183 182,180 180,192" fill="#e2662a"/>
+  </g>
+  <g class="wisps mouth"><path d="M330,262 c10,-16 -6,-28 8,-46 c8,-12 -4,-22 6,-36"/><path d="M340,268 c14,-14 0,-30 16,-44"/></g>
+</svg>
+      <a class="enter" href="#orbit"><small>восьмое</small><b>ВОЙТИ</b><small>зеркало</small></a>
+    </div>
+    <div class="callout left " id="co-days1" style="left:90px;top:96px"><p class="ctitle">пн — чт</p><a class="ilink" href="shelf.html" style="--rc:#ff5fa8"><img src="assets/heroes/tomik.png" alt="" width="16" height="16"><i>Пн</i><span>Листаем</span><b>7</b></a><a class="ilink" href="garden.html" style="--rc:#b6ff5a"><img src="assets/heroes/fomich.png" alt="" width="16" height="16"><i>Вт</i><span>Земля и тишина</span><b>58</b></a><a class="ilink" href="hookah.html" style="--rc:#ffb05a"><img src="assets/heroes/kalyanych.png" alt="" width="16" height="16"><i>Ср</i><span>Дым и покой</span><b>45</b></a><a class="ilink" href="ai.html" style="--rc:#6ff0ff"><img src="assets/heroes/gavrilych.png" alt="" width="16" height="16"><i>Чт</i><span>Архивы разума</span><b>134</b></a></div>
+    <div class="callout left " id="co-days2" style="left:90px;top:318px"><p class="ctitle">пт — вс · у огня</p><a class="ilink" href="games.html" style="--rc:#c89bff"><img src="assets/heroes/lisivy.png" alt="" width="16" height="16"><i>Пт</i><span>Конец недели</span><b>37</b></a><a class="ilink" href="minis.html" style="--rc:#ffe66a"><img src="assets/heroes/plumbiy.png" alt="" width="16" height="16"><i>Сб</i><span>Дела руками</span><b>34</b></a><a class="ilink" href="anime.html" style="--rc:#ff7ae0"><img src="assets/heroes/kalyanych.png" alt="" width="16" height="16"><i>Вс</i><span>Лис в экране</span><b>12</b></a><a class="ilink" href="thoughts.html" style="--rc:#ffd259"><img src="assets/heroes/ugolek.png" alt="" width="16" height="16"><i>✦</i><span>Мысли у очага</span><b>49</b></a></div>
+    <div class="callout left " id="co-tavern" style="left:120px;top:540px"><p class="ctitle">таверна</p><a class="ilink" href="guests.html"><img src="assets/heroes/lisivy.png" alt="" width="16" height="16"><i>♣</i><span>Кто в таверне</span></a><a class="ilink" href="#hall-window"><img src="assets/heroes/tomik.png" alt="" width="16" height="16"><i>▣</i><span>Окно в зал</span></a></div>
+    <a class="bubble" id="co-channel" style="left:790px;top:92px" href="https://t.me/SMailsPub" rel="noopener"><span class="bubble-ico" aria-hidden="true">✉</span><span>t.me/SMailsPub</span><small>канал «Лисья таверна»</small></a>
+    <div class="callout right " id="co-search" style="left:806px;top:250px"><p class="ctitle">картотека осевого</p><form class="iform" action="search.html" method="get" role="search"><label class="visually-hidden" for="hall-q">Найти свиток</label><input id="hall-q" name="q" type="search" placeholder="что ищешь?"><button type="submit">→</button></form><a class="ilink" href="search.html" style="--rc:#e6ff3a"><img src="assets/heroes/osevoy.png" alt="" width="16" height="16"><i>#</i><span>Все 475 свитков</span></a></div>
+    <div class="callout right " id="co-friends" style="left:826px;top:430px"><p class="ctitle">соседи</p><a class="ilink" href="https://smailkiller.github.io/"><i>↗</i><span>Мастерская хозяина (AI и BIM)</span></a><a class="ilink" href="https://xml-agr.ru/"><i>↗</i><span>XML-AGR: инструменты для АГР</span></a></div>
+    <div class="warn" id="co-warn">
+      <p class="warn-ico" aria-hidden="true">⚠</p>
+      <p><b>Доска у входа.</b> В зале не кокать. Кокалку — на крюк. Осам не наливать.<span class="long"> Плата — одна забытая вещь. Сдача не даётся. Гаврилычу не верить. Смеяться тихо. Осы.</span></p>
+      <a href="guests.html#rules">читать всю доску →</a>
+    </div>
+    <div class="newsbox" id="co-news">
+      <p class="newsbox-title">вести с тракта</p>
+      <ol class="newsbox-list"><li><time datetime="2026-09-24T10:30:37">2026.09.24</time><a href="scroll/1074.html">Манифест-рекомендация для тех, кто только начинает работать с ИИ-агентами</a></li><li><time datetime="2026-09-23T18:01:06">2026.09.23</time><a href="scroll/1072.html">⭐️ Я ненавижу земляных мушек.</a></li><li><time datetime="2026-09-22T18:04:33">2026.09.22</time><a href="scroll/1070.html">Осень потихоньку начинает вступать в свои права, а я тем временем обустраиваю новый зелёный угол.</a></li><li><time datetime="2026-09-21T18:01:25">2026.09.21</time><a href="scroll/1069.html">Я попросил ИИ сделать GTA на районе и он почему-то её даже сделал</a></li><li><time datetime="2026-09-20T19:14:06">2026.09.20</time><a href="scroll/1068.html">Вы думали, мои эксперименты прекратились?</a></li><li><time datetime="2026-09-15T18:01:51">2026.09.15</time><a href="scroll/1066.html">Думал сегодня рассказать вам про 1-метилциклопропен — газообразное химическое вещество…</a></li><li><time datetime="2026-09-14T20:23:42">2026.09.14</time><a href="scroll/1065.html">В эту пятницу, в СПб будет большая конференция BIM на практике 2026, планирую заскочить и вас зову👍</a></li><li><time datetime="2026-09-13T22:55:21">2026.09.13</time><a href="scroll/1064.html">🔥Продолжаем разбирать термины ИИ!😡 Ч2</a></li></ol>
     </div>
   </div>
-  <p class="scene-hint">Наведи свечу на предмет и войди. Или выбери дверь в указателе ниже.</p>
-  <div class="ticker" aria-label="Свежие свитки"><div class="ticker-track"><span>Вести с тракта ✠ Манифест-рекомендация для тех, кто только начинает работать с ИИ-агентами ✠ ⭐️ Я ненавижу земляных мушек. ✠ Осень потихоньку начинает вступать в свои права, а я тем временем обустраиваю новый зелёный угол. ✠ Я попросил ИИ сделать GTA на районе и он почему-то её даже сделал ✠ Вы думали, мои эксперименты прекратились? ✠ Думал сегодня рассказать вам про 1-метилциклопропен — газообразное химическое вещество… ✠ В эту пятницу, в СПб будет большая конференция BIM на практике 2026, планирую заскочить и вас зову👍 ✠ 🔥Продолжаем разбирать термины ИИ!😡 Ч2 ✠ </span><span aria-hidden="true">Вести с тракта ✠ Манифест-рекомендация для тех, кто только начинает работать с ИИ-агентами ✠ ⭐️ Я ненавижу земляных мушек. ✠ Осень потихоньку начинает вступать в свои права, а я тем временем обустраиваю новый зелёный угол. ✠ Я попросил ИИ сделать GTA на районе и он почему-то её даже сделал ✠ Вы думали, мои эксперименты прекратились? ✠ Думал сегодня рассказать вам про 1-метилциклопропен — газообразное химическое вещество… ✠ В эту пятницу, в СПб будет большая конференция BIM на практике 2026, планирую заскочить и вас зову👍 ✠ 🔥Продолжаем разбирать термины ИИ!😡 Ч2 ✠ </span></div></div>
+</section><section class="orbit-wrap" id="orbit" aria-labelledby="orbit-title">
+  <h2 class="visually-hidden" id="orbit-title">Комнаты таверны</h2>
+  <div class="orbit">
+    <svg class="orbit-rings" viewBox="0 0 1100 720" preserveAspectRatio="none" aria-hidden="true">
+      <ellipse cx="550" cy="370" rx="520" ry="330"/><ellipse cx="550" cy="370" rx="420" ry="260"/>
+      <ellipse cx="550" cy="370" rx="310" ry="190"/><ellipse cx="550" cy="370" rx="200" ry="120"/>
+      <path d="M550,40 L1070,370 L550,700 L30,370 Z"/><path d="M200,120 L900,120 L900,620 L200,620 Z"/>
+    </svg>
+    <a class="planet planet-hall" href="#hall-window" style="left:50%;top:56%;--d:24%;--rc:#ff6a1f">
+      <span class="p-body"><span class="p-scene"></span></span>
+      <span class="p-label">Общий зал <small>окно · live</small></span></a>
+    <a class="planet" href="hookah.html" style="left:41%;top:16%;--d:16.04%;--rc:#ffb05a"><span class="p-body"><img class="p-orb" src="assets/heroes/orb-hookah.png" alt=""><img class="p-keeper" src="assets/heroes/kalyanych.png" alt=""></span><span class="p-label">Горница <small>Ср · 45</small></span></a><a class="planet" href="games.html" style="left:69%;top:18%;--d:15.39%;--rc:#c89bff"><span class="p-body"><img class="p-orb" src="assets/heroes/orb-games.png" alt=""><img class="p-keeper" src="assets/heroes/lisivy.png" alt=""></span><span class="p-label">Игры <small>Пт · 37</small></span></a><a class="planet" href="minis.html" style="left:88%;top:45%;--d:15.12%;--rc:#ffe66a"><span class="p-body"><img class="p-orb" src="assets/heroes/orb-minis.png" alt=""><img class="p-keeper" src="assets/heroes/plumbiy.png" alt=""></span><span class="p-label">Мастерская <small>Сб · 34</small></span></a><a class="planet" href="ai.html" style="left:73%;top:75%;--d:21.15%;--rc:#6ff0ff"><span class="p-body"><img class="p-orb" src="assets/heroes/orb-ai.png" alt=""><img class="p-keeper" src="assets/heroes/gavrilych.png" alt=""></span><span class="p-label">Архивы <small>Чт · 134</small></span></a><a class="planet" href="search.html" style="left:92%;top:86%;--d:13.00%;--rc:#e6ff3a"><span class="p-body"><img class="p-orb" src="assets/heroes/orb-search.png" alt=""><img class="p-keeper" src="assets/heroes/osevoy.png" alt=""></span><span class="p-label">Картотека <small>поиск · 475</small></span></a><a class="planet" href="thoughts.html" style="left:26%;top:80%;--d:16.35%;--rc:#ffd259"><span class="p-body"><img class="p-orb" src="assets/heroes/orb-thoughts.png" alt=""><img class="p-keeper" src="assets/heroes/ugolek.png" alt=""></span><span class="p-label">Очаг <small>✦ · 49</small></span></a><a class="planet" href="anime.html" style="left:12%;top:60%;--d:12.64%;--rc:#ff7ae0"><span class="p-body"><img class="p-orb" src="assets/heroes/orb-anime.png" alt=""><img class="p-keeper" src="assets/heroes/kalyanych.png" alt=""></span><span class="p-label">Экран <small>Вс · 12</small></span></a><a class="planet" href="garden.html" style="left:26%;top:36%;--d:17.00%;--rc:#b6ff5a"><span class="p-body"><img class="p-orb" src="assets/heroes/orb-garden.png" alt=""><img class="p-keeper" src="assets/heroes/fomich.png" alt=""></span><span class="p-label">Огород <small>Вт · 58</small></span></a><a class="planet" href="shelf.html" style="left:9%;top:22%;--d:11.78%;--rc:#ff5fa8"><span class="p-body"><img class="p-orb" src="assets/heroes/orb-shelf.png" alt=""><img class="p-keeper" src="assets/heroes/tomik.png" alt=""></span><span class="p-label">Полка <small>Пн · 7</small></span></a>
+    <p class="orbit-hint">Каждая комната — зеркало. Чем больше свитков, тем крупнее.</p>
+  </div>
+</section><section class="panel window" id="hall-window">
+  <h2 class="bar">Окно в общий зал <small>наведи на предмет — и войди</small></h2>
+  <div class="scene-frame">
+    <div class="pix-scene" role="group" aria-label="Общий зал Лисьей таверны: окно с огородом, книжная полка, очаг, доска Деда Осевого, стол с гаданием и грибом Гаврилычем, зеркало с лисом, шкаф с оловянным полком Плюмбия, бочка с костями, Герой Шутливый Лисивый с бидоном, бобыль и Лис Кальяныч с кальяном">
+      <div class="pix-film" aria-hidden="true"><img src="assets/scene/frames.png" alt="" width="1920" height="280"></div>
+      <img class="pix-hl" data-hl="search" src="assets/scene/hl-search.png" alt=""><img class="pix-hl" data-hl="garden" src="assets/scene/hl-garden.png" alt=""><img class="pix-hl" data-hl="shelf" src="assets/scene/hl-shelf.png" alt=""><img class="pix-hl" data-hl="thoughts" src="assets/scene/hl-thoughts.png" alt=""><img class="pix-hl" data-hl="ai" src="assets/scene/hl-ai.png" alt=""><img class="pix-hl" data-hl="anime" src="assets/scene/hl-anime.png" alt=""><img class="pix-hl" data-hl="minis" src="assets/scene/hl-minis.png" alt=""><img class="pix-hl" data-hl="games" src="assets/scene/hl-games.png" alt=""><img class="pix-hl" data-hl="hookah" src="assets/scene/hl-hookah.png" alt="">
+      <a class="pix-hot" data-room="search" href="search.html" style="left:62.917%;top:10.714%;width:12.500%;height:14.286%" aria-label="Доска Деда Осевого: поиск по 475 свиткам"><span class="pix-label">Картотека <b>475</b></span></a><a class="pix-hot" data-room="garden" href="garden.html" style="left:2.500%;top:10.714%;width:17.917%;height:44.286%" aria-label="Земля и тишина: 58 свитков"><span class="pix-label">Огород <b>58</b></span></a><a class="pix-hot" data-room="shelf" href="shelf.html" style="left:20.833%;top:8.571%;width:16.250%;height:67.143%" aria-label="Листаем: 7 свитков"><span class="pix-label">Полка <b>7</b></span></a><a class="pix-hot" data-room="thoughts" href="thoughts.html" style="left:37.083%;top:17.857%;width:25.833%;height:57.857%" aria-label="Мысли у очага: 49 свитков"><span class="pix-label">Очаг <b>49</b></span></a><a class="pix-hot" data-room="ai" href="ai.html" style="left:61.458%;top:28.214%;width:17.708%;height:47.500%" aria-label="Архивы разума: 134 свитка"><span class="pix-label">Архивы <b>134</b></span></a><a class="pix-hot" data-room="anime" href="anime.html" style="left:70.000%;top:32.857%;width:7.500%;height:22.857%" aria-label="Лис в экране: 12 свитков"><span class="pix-label">Экран <b>12</b></span></a><a class="pix-hot" data-room="minis" href="minis.html" style="left:77.917%;top:9.286%;width:19.583%;height:66.429%" aria-label="Дела руками: 34 свитка"><span class="pix-label">Мастерская <b>34</b></span></a><a class="pix-hot" data-room="games" href="games.html" style="left:71.667%;top:67.143%;width:24.167%;height:32.500%" aria-label="Конец недели: 37 свитков"><span class="pix-label">Игры <b>37</b></span></a><a class="pix-hot" data-room="hookah" href="hookah.html" style="left:11.667%;top:54.643%;width:28.750%;height:42.500%" aria-label="Дым и покой: 45 свитков"><span class="pix-label">Горница <b>45</b></span></a>
+      <button type="button" class="pix-snail" style="left:62.500%;top:91.429%;width:11.667%;height:7.857%" aria-label="Бобыль из-под пола"></button>
+    </div>
+  </div>
+  <div class="ticker" aria-label="Свежие свитки"><div class="ticker-track"><span>вести с тракта ✦ Манифест-рекомендация для тех, кто только начинает работать с ИИ-агентами ✦ ⭐️ Я ненавижу земляных мушек. ✦ Осень потихоньку начинает вступать в свои права, а я тем временем обустраиваю новый зелёный угол. ✦ Я попросил ИИ сделать GTA на районе и он почему-то её даже сделал ✦ Вы думали, мои эксперименты прекратились? ✦ Думал сегодня рассказать вам про 1-метилциклопропен — газообразное химическое вещество… ✦ В эту пятницу, в СПб будет большая конференция BIM на практике 2026, планирую заскочить и вас зову👍 ✦ 🔥Продолжаем разбирать термины ИИ!😡 Ч2 ✦ </span><span aria-hidden="true">вести с тракта ✦ Манифест-рекомендация для тех, кто только начинает работать с ИИ-агентами ✦ ⭐️ Я ненавижу земляных мушек. ✦ Осень потихоньку начинает вступать в свои права, а я тем временем обустраиваю новый зелёный угол. ✦ Я попросил ИИ сделать GTA на районе и он почему-то её даже сделал ✦ Вы думали, мои эксперименты прекратились? ✦ Думал сегодня рассказать вам про 1-метилциклопропен — газообразное химическое вещество… ✦ В эту пятницу, в СПб будет большая конференция BIM на практике 2026, планирую заскочить и вас зову👍 ✦ 🔥Продолжаем разбирать термины ИИ!😡 Ч2 ✦ </span></div></div>
 </section>
-<div class="hall-grid">
-  <section class="parchment welcome">
-    <h2>Здорово, солнышко</h2>
-    <p class="lead"><span class="dropcap">З</span>десь лежит всё, что утонуло в ленте Лисьей таверны. Telegram течёт, как река: старое уносит, искать неудобно, поисковики туда не заглядывают. А в трактирной книге свитки разложены по комнатам — как по дням недели в закрепе.</p>
-    <ul class="why">
-      <li><b>Писарь.</b> Найдёт любой пост по слову или хэштегу — хоть про АГР, хоть про земляных мушек.</li>
-      <li><b>Каталоги.</b> Книга забивок с фильтром «фруктовое, но не приторное», дневники роста каждого зелёного подопытного, воинства по фракциям, полка и экран с вердиктами.</li>
-      <li><b>Ярлыки.</b> Гайды по ИИ-агентам и инструменты для АГР — в один клик.</li>
-    </ul>
-    <form class="ask" action="search.html" method="get" role="search">
-      <label for="ask-q">Спросить писаря</label>
-      <div class="ask-row"><input id="ask-q" name="q" type="search" placeholder="что ищешь?"><button class="btn">Искать</button></div>
-    </form>
-    <h3>Устав таверны</h3>
-    <ol class="rules">
-      <li>Дым пускать в горнице по средам. В остальные дни — тоже, но тихо.</li>
-      <li>Зелёных подопытных не жалеть: кто сдох — тот лох.</li>
-      <li>Миниатюры без магнитов не принимаются.</li>
-      <li>Отчёту агента не верить — проверять самому.</li>
-      <li>Грейпфрут в чашу не класть. Трактирщик предупреждал.</li>
-      <li>Улитку не обижать. Она сильнее, чем кажется.</li>
-    </ol>
-  </section>
-  <section class="parchment directory">
-    <h2>Указатель</h2>
-    <ul class="dir"><li><a href="shelf.html">Листаем</a><span class="dots"></span><span class="n">7 свитков</span><span class="d">Пн — книги, манга, манхва · #чтение</span></li><li><a href="garden.html">Земля и тишина</a><span class="dots"></span><span class="n">58 свитков</span><span class="d">Вт — сад и зелёные пиздюки · #сад</span></li><li><a href="hookah.html">Дым и покой</a><span class="dots"></span><span class="n">45 свитков</span><span class="d">Ср — кальян и chill · #кальян</span></li><li><a href="ai.html">Архивы разума</a><span class="dots"></span><span class="n">134 свитка</span><span class="d">Чт — AI, агенты, АГР и пыльные записи · #ai</span></li><li><a href="games.html">Конец недели</a><span class="dots"></span><span class="n">37 свитков</span><span class="d">Пт — игры и подкаст «Выдыхай» · #игры</span></li><li><a href="minis.html">Дела руками</a><span class="dots"></span><span class="n">34 свитка</span><span class="d">Сб — хобби и Warhammer · #хобби</span></li><li><a href="anime.html">Лис в экране</a><span class="dots"></span><span class="n">12 свитков</span><span class="d">Вс — аниме · #аниме</span></li><li><a href="thoughts.html">Мысли у очага</a><span class="dots"></span><span class="n">49 свитков</span><span class="d">мысли · #мысль</span></li><li><a href="search.html">Картотека писаря</a><span class="dots"></span><span class="n">475 всего</span><span class="d">поиск по всему каналу</span></li><li><a href="https://t.me/SMailsPub">Сама таверна</a><span class="dots"></span><span class="n">↗</span><span class="d">канал Лисья таверна в Telegram</span></li></ul>
-    <h3>Свежие свитки</h3>
-    <ul class="latest"><li><time datetime="2026-09-24T10:30:37">24 сентября 2026</time> <a href="scroll/1074.html">Манифест-рекомендация для тех, кто только начинает работать с ИИ-агентами</a></li><li><time datetime="2026-09-23T18:01:06">23 сентября 2026</time> <a href="scroll/1072.html">⭐️ Я ненавижу земляных мушек.</a></li><li><time datetime="2026-09-22T18:04:33">22 сентября 2026</time> <a href="scroll/1070.html">Осень потихоньку начинает вступать в свои права, а я тем временем обустраиваю новый зелёный угол.</a></li><li><time datetime="2026-09-21T18:01:25">21 сентября 2026</time> <a href="scroll/1069.html">Я попросил ИИ сделать GTA на районе и он почему-то её даже сделал</a></li><li><time datetime="2026-09-20T19:14:06">20 сентября 2026</time> <a href="scroll/1068.html">Вы думали, мои эксперименты прекратились?</a></li><li><time datetime="2026-09-15T18:01:51">15 сентября 2026</time> <a href="scroll/1066.html">Думал сегодня рассказать вам про 1-метилциклопропен — газообразное химическое вещество…</a></li></ul>
-    <div class="construction"><span class="snail" aria-hidden="true">🐌</span> Трактир ещё строится. Каменщики пьют, улитка наступает.</div>
-  </section>
+<div class="dash">
+  <div class="dash-col">
+    <section class="panel">
+      <h2 class="bar">Свежий свиток <span class="bar-ico" aria-hidden="true">≋</span></h2>
+      <div class="panel-in fresh"><p class="meta"><time datetime="2026-09-24T10:30:37">24 сентября 2026</time></p><h3><a href="scroll/1074.html">Манифест-рекомендация для тех, кто только начинает работать с ИИ-агентами</a></h3><p class="excerpt">Здорово, солнышки!😎 За время своих экспериментов с агентами я для себя вывел несколько правил. Возможно, кому-то, кто только начинает собирать свою первую шайтан-коробку, они сэкономят немного времени, нервов и токенов. 🟠 Сначала…</p><p class="tags"><a class="chip chip-sm" href="search.html?tag=ai">#ai</a></p></div>
+      <a class="panel-foot" href="search.html">все свитки</a>
+    </section>
+    <section class="panel">
+      <h2 class="bar">Летопись <span class="bar-ico" aria-hidden="true">☰</span></h2>
+      <ol class="panel-in log"><li><time datetime="2026-09-23T18:01:06">2026.09.23</time> <a href="scroll/1072.html">⭐️ Я ненавижу земляных мушек.</a></li><li><time datetime="2026-09-22T18:04:33">2026.09.22</time> <a href="scroll/1070.html">Осень потихоньку начинает вступать в свои права, а я тем временем обустраиваю новый зелёный угол.</a></li><li><time datetime="2026-09-21T18:01:25">2026.09.21</time> <a href="scroll/1069.html">Я попросил ИИ сделать GTA на районе и он почему-то её даже сделал</a></li><li><time datetime="2026-09-20T19:14:06">2026.09.20</time> <a href="scroll/1068.html">Вы думали, мои эксперименты прекратились?</a></li><li><time datetime="2026-09-15T18:01:51">2026.09.15</time> <a href="scroll/1066.html">Думал сегодня рассказать вам про 1-метилциклопропен — газообразное химическое вещество…</a></li><li><time datetime="2026-09-14T20:23:42">2026.09.14</time> <a href="scroll/1065.html">В эту пятницу, в СПб будет большая конференция BIM на практике 2026, планирую заскочить и вас зову👍</a></li><li><time datetime="2026-09-13T22:55:21">2026.09.13</time> <a href="scroll/1064.html">🔥Продолжаем разбирать термины ИИ!😡 Ч2</a></li><li><time datetime="2026-09-12T22:19:05">2026.09.12</time> <a href="scroll/1063.html">🔥Хватит уже путать термины в AI!😡 Ч1</a></li><li><time datetime="2026-09-11T18:01:36">2026.09.11</time> <a href="scroll/1062.html">ГЕРОЙ ШУТЛИВЫЙ ЛИСИВЫЙ!</a></li><li><time datetime="2026-09-10T19:18:10">2026.09.10</time> <a href="scroll/1061.html">Доска у входа</a></li><li><time datetime="2026-09-10T12:04:03">2026.09.10</time> <a href="scroll/1060.html">А теперь — тема «ИИ головного мозга» 🤡</a></li><li><time datetime="2026-09-10T10:10:15">2026.09.10</time> <a href="scroll/1058.html">А вот и сам отчёт🤡</a></li></ol>
+      <a class="panel-foot" href="search.html">вся картотека</a>
+    </section>
+  </div>
+  <div class="dash-col">
+    <section class="panel">
+      <h2 class="bar">Статус <span class="bar-ico" aria-hidden="true">∿</span></h2>
+      <ul class="panel-in status-list"><li class="st-on"><span>чаша</span><b>дымит</b></li><li class="st-on"><span>хвост</span><b>тлеет</b></li><li class="st-on"><span>Уголёк</span><b>раскалён, молчит</b></li><li class="st-warn"><span>Фомичей</span><b>11 · полив не решён</b></li><li class="st-warn"><span>Гаврилыч</span><b>уверен</b></li><li class="st-off"><span>осы</span><b>не слышно</b></li></ul>
+    </section>
+    <section class="panel">
+      <h2 class="bar">Передача <span class="bar-ico" aria-hidden="true">⌁</span></h2>
+      <div class="panel-in transmission"><p class="quote" data-quotes='[&quot;«Был. Грелся. Кокалку забрал.» — С. А.&quot;, &quot;«Одиннадцать. Всё ещё одиннадцать. По поливу решения нет.» — Ф.&quot;, &quot;«Спросил у гриба, откуда взялись бобыли. Он ответил. Я записал. Простите.» — Летописный А.&quot;, &quot;«Об.1 (лис, 1 шт.), привязан к оси Б.» — подпись стёрта&quot;, &quot;«Смеялись громко. Больше не будем.» — двое, имена не указаны&quot;, &quot;«Вошли вдвоём. Вышли вдвоём. Спасибо за дверь.» — П. и П.&quot;, &quot;«Заходит, значит, бобыль в Медный горо…»&quot;]'>«Был. Грелся. Кокалку забрал.» — С. А.</p></div>
+    </section>
+    <section class="panel">
+      <h2 class="bar">Хозяин <span class="bar-ico" aria-hidden="true">✦</span></h2>
+      <div class="panel-in host">
+        <img class="host-pic" src="assets/heroes/kalyanych.png" alt="Лис Кальяныч" width="96" height="96">
+        <div><h3>Лис Кальяныч</h3><p class="says">«Проходите, чаша дышит. Плата — одна забытая вещь.»</p>
+        <p>Трактирщик. Ростом взрослому по грудь. Прожжённая стёганка цвета старой хвои, поверх — фартук из клеёнки, на шее связка мундштуков. Говорит тихо и на «вы», голоса не повышает никогда, даже когда бьют посуду.</p></div>
+      </div>
+      <a class="panel-foot" href="guests.html">кто ещё в таверне</a>
+    </section>
+    <section class="panel">
+      <h2 class="bar">Указатель <span class="bar-ico" aria-hidden="true">⌖</span></h2>
+      <ul class="panel-in dir"><li style="--rc:#ff5fa8"><a href="shelf.html">Листаем</a><span class="dots"></span><span class="n">7</span><span class="d">Пн — книги, манга, манхва · #чтение</span></li><li style="--rc:#b6ff5a"><a href="garden.html">Земля и тишина</a><span class="dots"></span><span class="n">58</span><span class="d">Вт — сад и зелёные пиздюки · #сад</span></li><li style="--rc:#ffb05a"><a href="hookah.html">Дым и покой</a><span class="dots"></span><span class="n">45</span><span class="d">Ср — кальян и chill · #кальян</span></li><li style="--rc:#6ff0ff"><a href="ai.html">Архивы разума</a><span class="dots"></span><span class="n">134</span><span class="d">Чт — AI, агенты, АГР и пыльные записи · #ai</span></li><li style="--rc:#c89bff"><a href="games.html">Конец недели</a><span class="dots"></span><span class="n">37</span><span class="d">Пт — игры и подкаст «Выдыхай» · #игры</span></li><li style="--rc:#ffe66a"><a href="minis.html">Дела руками</a><span class="dots"></span><span class="n">34</span><span class="d">Сб — хобби и Warhammer · #хобби</span></li><li style="--rc:#ff7ae0"><a href="anime.html">Лис в экране</a><span class="dots"></span><span class="n">12</span><span class="d">Вс — аниме · #аниме</span></li><li style="--rc:#ffd259"><a href="thoughts.html">Мысли у очага</a><span class="dots"></span><span class="n">49</span><span class="d">мысли · #мысль</span></li><li><a href="search.html">Картотека Осевого</a><span class="dots"></span><span class="n">475</span><span class="d">поиск по всему каналу</span></li></ul>
+    </section>
+  </div>
 </div>
 </main>
 <footer class="bottom">
+  <p class="statbar"><span>свитков: <b>475</b></span><span>комнат: <b>8</b></span><span>первый свиток: <b>26 августа 2024</b></span><span>последний: <b>24 сентября 2026</b></span><span>плата: <b>одна забытая вещь</b></span></p>
   <div class="foot-grid">
-    <section class="box">
-      <h3>Грамота</h3>
-      <p>Сие есть архив канала <a href="https://t.me/SMailsPub">Лисья таверна</a>. Лента в Telegram течёт и тонет, а здесь всё лежит по полкам.</p>
-      <p>Стучаться к трактирщику: <a href="https://t.me/Smailkiller">@Smailkiller</a></p>
-      <p class="quote" data-quotes='[&quot;Всяк сюда входящий — вытри ноги и надежду.&quot;, &quot;Трактирщик не виноват. Виноваты звёзды и понедельник.&quot;, &quot;Улитка снова победила рыцаря. Летописец плачет.&quot;, &quot;Эль тёплый, свечи коптят, Wi-Fi через раз. Средневековье.&quot;, &quot;Здесь могла быть ваша чума.&quot;, &quot;Писано при лучине, дрожащей от сквозняка.&quot;]'>Всяк сюда входящий — вытри ноги и надежду.</p>
+    <section class="panel box">
+      <h3 class="bar">Грамота</h3>
+      <div class="box-in">
+        <p>Архив канала <a href="https://t.me/SMailsPub">Лисья таверна</a>. Лента в Telegram течёт и тонет, а здесь всё лежит по полкам, подписанное Дедом Осевым.</p>
+        <p>Стучаться к хозяину: <a href="https://t.me/Smailkiller">@Smailkiller</a></p>
+        <p class="quote" data-quotes='[&quot;«Был. Грелся. Кокалку забрал.» — С. А.&quot;, &quot;«Одиннадцать. Всё ещё одиннадцать. По поливу решения нет.» — Ф.&quot;, &quot;«Спросил у гриба, откуда взялись бобыли. Он ответил. Я записал. Простите.» — Летописный А.&quot;, &quot;«Об.1 (лис, 1 шт.), привязан к оси Б.» — подпись стёрта&quot;, &quot;«Смеялись громко. Больше не будем.» — двое, имена не указаны&quot;, &quot;«Вошли вдвоём. Вышли вдвоём. Спасибо за дверь.» — П. и П.&quot;, &quot;«Заходит, значит, бобыль в Медный горо…»&quot;]'>«Был. Грелся. Кокалку забрал.» — С. А.</p>
+      </div>
     </section>
-    <section class="box">
-      <h3>Свечной счётчик</h3>
-      <p class="candles" aria-live="polite"><span class="candle-row" aria-hidden="true"></span><span class="candle-text">Ты здесь впервые, путник.</span></p>
-      <p class="tiny">Свечи считаются только в твоём браузере. Мы не шпионим, мы страдаем.</p>
+    <section class="panel box">
+      <h3 class="bar">Банки в подвале</h3>
+      <div class="box-in">
+        <p class="candles" aria-live="polite"><span class="candle-row" aria-hidden="true"></span><span class="candle-text">Ты здесь впервые. Плата — одна забытая вещь.</span></p>
+        <p class="tiny">Банки считаются только в твоём браузере. Хозяин ищет в них своё имя, а не твоё.</p>
+      </div>
     </section>
-    <section class="box">
-      <h3>Трактовое кольцо</h3>
-      <p class="ring"><a href="https://smailkiller.github.io/">Мастерская хозяина (AI и BIM)</a><a href="https://xml-agr.ru/">XML-AGR: инструменты для АГР</a><a href="https://t.me/SMailsPub">Канал в Telegram</a><a href="sitemap.xml">Карта трактира</a></p>
-      <div class="buttons88" aria-hidden="true">
-        <span class="b88 b-a">лучше смотреть<br>при лучине</span>
-        <span class="b88 b-b">сделано<br>гусиным пером</span>
-        <span class="b88 b-c">без чумы<br>и NFT</span>
-        <span class="b88 b-d">HTML 1.0<br>ANNO 2026</span>
+    <section class="panel box">
+      <h3 class="bar">Трактовое кольцо</h3>
+      <div class="box-in">
+        <p class="ring"><a href="https://smailkiller.github.io/">Мастерская хозяина (AI и BIM)</a><a href="https://xml-agr.ru/">XML-AGR: инструменты для АГР</a><a href="https://t.me/SMailsPub">Канал в Telegram</a><a href="guests.html">Кто в таверне</a><a href="sitemap.xml">Карта таверны</a></p>
+        <div class="buttons88" aria-hidden="true">
+          <span class="b88 b-a">смотреть<br>при жаровне</span>
+          <span class="b88 b-b">восьмое<br>зеркало</span>
+          <span class="b88 b-c">бобылей<br>не выдаём</span>
+          <span class="b88 b-d">осам<br>не наливаем</span>
+        </div>
       </div>
     </section>
   </div>
-  <p class="colophon">Переписано писарем 2026 года от Р. Х. · <a href="index.html">общий зал</a> · <a href="#main">наверх ↑</a></p>
+  <p class="colophon">Подписано Дедом Осевым, 2026 · <a href="index.html">общий зал</a> · <a href="#main">наверх ↑</a></p>
 </footer>
 <script src="assets/tavern.js"></script>
 </body>
