@@ -1,0 +1,17 @@
+{
+  "_help": "Миниатюры. factions — список фракций (id, name, system, color, motto). items — модели. status: покрашено | в процессе | грунт | куча позора. photo — путь от папки tavern/ или пусто (тогда рисуется заглушка).",
+  "factions": [
+    {"id": "empire", "name": "Имперская гвардия", "system": "Warhammer 40k", "color": "#6b7a3a", "motto": "Умирай стоя"},
+    {"id": "chaos", "name": "Хаос", "system": "Warhammer 40k", "color": "#8b1e1e", "motto": "Кровь богу крови"},
+    {"id": "undead", "name": "Нежить", "system": "Age of Sigmar", "color": "#3e5c6b", "motto": "Смерть лишь начало"},
+    {"id": "orcs", "name": "Орки", "system": "Warhammer 40k", "color": "#3f6b2a", "motto": "WAAAGH"}
+  ],
+  "items": [
+    {"name": "Сержант с цепным мечом", "faction": "empire", "status": "покрашено", "date": "2026-08-10", "note": "Первый, кому нарисовал глаза. Косит.", "example": true},
+    {"name": "Отряд пехоты, 10 шт.", "faction": "empire", "status": "в процессе", "date": "2026-09-01", "note": "Покрашены шинели. Остались лица, ремни и воля к жизни.", "example": true},
+    {"name": "Чемпион Хаоса", "faction": "chaos", "status": "покрашено", "date": "2026-04-22", "note": "Эффект ржавчины пигментами.", "example": true},
+    {"name": "Культисты", "faction": "chaos", "status": "куча позора", "date": "2025-11-11", "note": "Лежат в коробке, смотрят с укором.", "example": true},
+    {"name": "Скелеты-копейщики", "faction": "undead", "status": "грунт", "date": "2026-07-07", "note": "Контрастная краска, жду вдохновения.", "example": true},
+    {"name": "Орочий босс", "faction": "orcs", "status": "покрашено", "date": "2026-01-15", "note": "Зелёный — цвет надежды и мышц.", "example": true}
+  ]
+}
