@@ -37,7 +37,6 @@ MEDIA_DIR = SITE / "media" / "tg"
 
 MONTHS = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля",
           "августа", "сентября", "октября", "ноября", "декабря"]
-RATING_WORDS = {1: "чума", 2: "ересь", 3: "сносно", 4: "добро", 5: "благодать"}
 HASHTAG_RE = re.compile(r"#([0-9A-Za-zА-Яа-яЁё_]+)")
 URL_RE = re.compile(r"https?://[^\s<>\"')\]]+")
 QUOTES = [
@@ -317,9 +316,11 @@ def run_import(export_dir, skip_media):
             p["photos"] = []
     else:
         copy_media(export_dir, posts)
+    posts = [p for p in posts if p["_has_text"] or p["photos"]]
     for p in posts:
         p.pop("_has_text", None)
         p.pop("ts", None)
+    print(f"  в архив попало постов: {len(posts)}")
     with open(SRC / "posts.json", "w", encoding="utf-8") as f:
         json.dump({"channel": name, "imported": dt.date.today().isoformat(), "posts": posts},
                   f, ensure_ascii=False, indent=1)
@@ -341,6 +342,60 @@ def strip_tags_line(line):
     return HASHTAG_RE.sub("", line).strip(" \t—-–:|•·")
 
 
+GREETING_RE = re.compile(
+    r"^\W*(ну\s+)?(здоро'?в|здорво|всем|всех|привет|хай|hola|добр|проснулись|вечер|утро|пятниц|щитверг|"
+    r"сегодня\s+среда|это\s+среда|часик|коллеги|кто\s+прочитал|всм|гудморнинг|поднять\s+мечи|"
+    r"ну\s+что|ловите|солнышки|дружочки|it's)", re.I)
+SENTENCE_RE = re.compile(r"(?<=[.!?…])\s+")
+
+
+TAG_WORD_RE = re.compile(r"#([0-9A-Za-zА-Яа-яЁё_]+)(@\w+)?")
+SHORT_WORDS = {"под", "про", "по", "в", "во", "о", "об", "для", "с", "со", "к", "на", "и", "тег", "тегу"}
+
+
+def title_clean(line):
+    """Строка для заголовка: хвост из хэштегов убираем (если он не часть фразы), остальные — словом."""
+    head = re.sub(r"(\s*#[^\s#]+)+\s*$", "", line)
+    tail = line[len(head):].split()
+    if tail and head.split() and head.split()[-1].lower() in SHORT_WORDS:
+        head = head + " " + tail[0]
+    head = TAG_WORD_RE.sub(r"\1", head)
+    return re.sub(r"\s+", " ", head).strip(" \t—-–:|•·")
+
+
+def text_clean(line):
+    """Строка для анонса: строки из одних хэштегов выкидываем, в остальных хэштеги становятся словами."""
+    if not strip_tags_line(line):
+        return ""
+    return re.sub(r"\s+", " ", TAG_WORD_RE.sub(r"\1", line)).strip()
+
+
+def pick_title(text):
+    """Заголовок свитка: первая содержательная строка, не приветствие.
+    Возвращает (заголовок, сколько символов срезать с начала текста)."""
+    offset, first_line, fallback = 0, True, ""
+    for line in text.split("\n"):
+        start = offset
+        offset += len(line) + 1
+        clean = title_clean(line)
+        if not clean or not re.search(r"[A-Za-zА-Яа-яЁё]{3}", clean):
+            if clean:
+                first_line = False
+            continue
+        if GREETING_RE.match(clean) and len(clean) < 70:
+            fallback = fallback or clean
+            first_line = False
+            continue
+        title = SENTENCE_RE.split(clean, 1)[0]
+        if len(title) < 12:
+            title = clean
+        whole = title == clean
+        if len(title) > 100:
+            title, whole = title[:92].rsplit(" ", 1)[0].rstrip(",;:—- ") + "…", False
+        return title, (offset if whole and first_line and start == 0 else 0)
+    return fallback, 0
+
+
 def enrich(posts, rooms):
     tag_to_rooms = {}
     for r in rooms:
@@ -349,28 +404,27 @@ def enrich(posts, rooms):
     for p in posts:
         text = "".join(e["text"] for e in p["entities"])
         p["text"] = text
-        p["hashtags"] = list(dict.fromkeys(t.lower() for t in HASHTAG_RE.findall(text)))
+        p["hashtags"] = list(dict.fromkeys(t.lower() for t in HASHTAG_RE.findall(text)
+                                           if not re.fullmatch(r"[0-9a-fA-F]{6}", t)))  # #24f000 — это цвет
         p["rooms"] = list(dict.fromkeys(rid for t in p["hashtags"] for rid in tag_to_rooms.get(t, [])))
-        # заголовок — первая строка, в которой есть что-то кроме хэштегов
-        title, cut, offset = "", 0, 0
-        for line in text.split("\n"):
-            offset += len(line) + 1
-            if strip_tags_line(line):
-                title, cut = strip_tags_line(line), offset
-                break
+        title, cut = pick_title(text)
         if not title:
             title = "Свиток без слов" if p["photos"] else "Пустой свиток"
-        if len(title) > 110:  # длинная первая строка: заголовок обрезаем, а текст показываем целиком
-            title, cut = title[:105].rsplit(" ", 1)[0] + "…", 0
         p["title"] = title
         p["_cut"] = cut
         body = text.rstrip()
         while body and "#" in body.rsplit("\n", 1)[-1] and not strip_tags_line(body.rsplit("\n", 1)[-1]):
             body = body.rsplit("\n", 1)[0].rstrip() if "\n" in body else ""
         p["_end"] = max(len(body), cut)
-        rest = HASHTAG_RE.sub("", text[cut:])
-        rest = re.sub(r"\s+", " ", rest).strip()
+        plain = re.sub(r"\s+", " ", " ".join(text_clean(l) for l in text.split("\n"))).strip()
+        at = plain.find(title.rstrip("…"))
+        rest = plain[at + len(title.rstrip("…")):] if at >= 0 else plain
+        rest = rest.lstrip(" .!?…—-–:")
         p["excerpt"] = rest if len(rest) <= 240 else rest[:230].rsplit(" ", 1)[0] + "…"
+        if re.fullmatch(r"Выпуск №\s?\d+", title) and "выдыхай" in p["hashtags"]:
+            p["title"] = title = "«Выдыхай», " + title.lower()
+            if len(p["excerpt"]) < 25:
+                p["excerpt"] = "Аудиовыпуск пятничного подкаста — слушать в канале. " + p["excerpt"].replace("Выдыхай", "").strip(" -—")
         p["search"] = (title + " " + rest + " " + " ".join(p["hashtags"])).lower()
     posts.sort(key=lambda p: p["date"], reverse=True)
     return posts
@@ -417,7 +471,7 @@ def render_entities(entities, root, skip=0, end=None):
         elif t == "spoiler":
             out.append(f'<span class="spoiler" tabindex="0">{x}</span>')
         elif t == "hashtag":
-            tag = s.lstrip("#").lower()
+            tag = s.lstrip("#").split("@")[0].lower()
             out.append(f'<a class="htag" href="{root}search.html?tag={esc(tag)}">{x}</a>')
         elif t in ("link", "url"):
             href = s if re.match(r"^(https?|tg)://", s) else "https://" + s
@@ -459,7 +513,7 @@ class Site:
         full_title = f"{title} — {s['title']}" if title != s["title"] else s["title"]
         nav = "".join(
             f'<a class="plank{" is-here" if room == r["id"] else ""}" href="{root}{r["page"]}">'
-            f'<span>{esc(r["sign"])}</span><small>#{esc(r["hashtags"][0])}</small></a>'
+            f'<span>{esc(r["sign"])}</span><small>{esc((r.get("day") + " · ") if r.get("day") else "")}#{esc(r["hashtags"][0])}</small></a>'
             for r in self.rooms)
         metrika = ""
         if s.get("yandex_metrika"):
@@ -509,6 +563,7 @@ class Site:
     <section class="box">
       <h3>Грамота</h3>
       <p>Сие есть архив канала <a href="{chan}">{esc(s['channel_title'])}</a>. Лента в Telegram течёт и тонет, а здесь всё лежит по полкам.</p>
+      <p>Стучаться к трактирщику: <a href="{esc(s.get('owner_url', chan))}">{esc(s.get('owner', ''))}</a></p>
       <p class="quote" data-quotes='{esc(json.dumps(QUOTES, ensure_ascii=False))}'>{esc(QUOTES[0])}</p>
     </section>
     <section class="box">
@@ -599,9 +654,13 @@ class Site:
     <h1>{esc(r['name'])}</h1>
     <p class="epigraph">{esc(r['epigraph'])}</p>
     <p class="about">{esc(r['about'])}</p>
-    <p class="meta">{n} {plural(n, 'свиток', 'свитка', 'свитков')} в канале · <span class="mono">{esc(tags)}</span></p>
+    <p class="meta">{esc(DAYS.get(r.get('day', ''), 'в любой день'))} · {n} {plural(n, 'свиток', 'свитка', 'свитков')} в канале · <span class="mono">{esc(tags)}</span></p>
   </div>
 </section>"""
+
+
+DAYS = {"Пн": "по понедельникам", "Вт": "по вторникам", "Ср": "по средам", "Чт": "по четвергам",
+        "Пт": "по пятницам", "Сб": "по субботам", "Вс": "по воскресеньям"}
 
 
 def plural(n, one, few, many):
@@ -610,17 +669,6 @@ def plural(n, one, few, many):
         return many
     n %= 10
     return one if n == 1 else few if 2 <= n <= 4 else many
-
-
-def pips(v, kind, label):
-    v = int(v or 0)
-    dots = "".join(f'<i class="{"on" if i < v else ""}"></i>' for i in range(5))
-    return f'<span class="pips pips-{kind}" title="{esc(label)}: {v} из 5" aria-label="{esc(label)}: {v} из 5">{dots}</span>'
-
-
-def rating_badge(v):
-    v = int(v or 0)
-    return f'<span class="rating r{v}" title="{v} из 5">{"✦" * v}{"✧" * (5 - v)} <b>{RATING_WORDS.get(v, "")}</b></span>'
 
 
 def stamp(item):
@@ -644,27 +692,21 @@ def pixel_scene_html(site):
     spots = load_json(SRC / "hotspots.json")
     sw, sh = spots["size"]
     rooms = {r["id"]: r for r in site.rooms}
-    targets = {
-        "garden": "garden", "shelf": "shelf", "search": None, "channel": None,
-        "ai": "ai", "minis": "minis", "hookah": "hookah",
-    }
-    order = ["channel", "garden", "shelf", "search", "ai", "minis", "hookah"]  # кальян поверх низа полки
+    order = ["search", "garden", "shelf", "thoughts", "ai", "anime", "minis", "games", "hookah"]  # поздние — поверх
     hls, links = [], []
     for key in order:
         if key not in spots["hot"]:
             continue
         x0, y0, x1, y1 = spots["hot"][key]
-        rid = targets.get(key)
-        if rid in rooms:
-            r = rooms[rid]
-            href, name, n = r["page"], r["sign"], len(site.room_posts[rid])
+        if key in rooms:
+            r = rooms[key]
+            href, name, n = r["page"], r["sign"], len(site.room_posts[key])
             aria = f'{r["name"]}: {n} {plural(n, "свиток", "свитка", "свитков")}'
         elif key == "search":
-            href, name, n = "search.html", "Картотека", len(site.posts)
-            aria = f"Картотека писаря: поиск по {n} свиткам"
+            href, name, n = "search.html", "Писарь", len(site.posts)
+            aria = f"Доска писаря: поиск по {n} свиткам"
         else:
-            href, name, n = site.s["channel_url"], "Канал", None
-            aria = f"Канал {site.s['channel_title']} в Telegram"
+            continue
         style = (f"left:{x0 / sw * 100:.3f}%;top:{y0 / sh * 100:.3f}%;"
                  f"width:{(x1 - x0) / sw * 100:.3f}%;height:{(y1 - y0) / sh * 100:.3f}%")
         count = f" <b>{n}</b>" if n is not None else " <b>↗</b>"
@@ -673,7 +715,7 @@ def pixel_scene_html(site):
                      f'<span class="pix-label">{esc(name)}{count}</span></a>')
     snail = (f"left:{300 / sw * 100:.3f}%;top:{256 / sh * 100:.3f}%;"
              f"width:{56 / sw * 100:.3f}%;height:{22 / sh * 100:.3f}%")
-    return f"""<div class="pix-scene" role="group" aria-label="Общий зал Лисьей таверны: окно с огородом, книжная полка, очаг, доска объявлений, стол алхимика с магическим шаром, шкаф с оловянными воинами и лис с кальяном">
+    return f"""<div class="pix-scene" role="group" aria-label="Общий зал Лисьей таверны: окно с огородом, книжная полка, очаг, доска писаря, стол алхимика с магическим шаром, зеркало с лисом, шкаф с оловянными воинами, бочка с костями и лис с кальяном">
       <div class="pix-film" aria-hidden="true"><img src="assets/scene/frames.png" alt="" width="{sw * 4}" height="{sh}"></div>
       {''.join(hls)}
       {''.join(links)}
@@ -686,13 +728,14 @@ def build_hall(site):
     lines = []
     for r in site.rooms:
         n = len(site.room_posts[r["id"]])
+        day = f'{r["day"]} — ' if r.get("day") else ""
         lines.append(f'<li><a href="{r["page"]}">{esc(r["name"])}</a><span class="dots"></span>'
                      f'<span class="n">{n} {plural(n, "свиток", "свитка", "свитков")}</span>'
-                     f'<span class="d">{esc(r["short"])} · #{esc(r["hashtags"][0])}</span></li>')
+                     f'<span class="d">{esc(day)}{esc(r["short"])} · #{esc(r["hashtags"][0])}</span></li>')
     lines.append(f'<li><a href="search.html">Картотека писаря</a><span class="dots"></span>'
                  f'<span class="n">{len(site.posts)} всего</span><span class="d">поиск по всему каналу</span></li>')
-    lines.append(f'<li><a href="{esc(site.s["channel_url"])}">Доска у входа</a><span class="dots"></span>'
-                 f'<span class="n">↗</span><span class="d">сам канал в Telegram</span></li>')
+    lines.append(f'<li><a href="{esc(site.s["channel_url"])}">Сама таверна</a><span class="dots"></span>'
+                 f'<span class="n">↗</span><span class="d">канал {esc(site.s["channel_title"])} в Telegram</span></li>')
     latest = site.posts[:6]
     ticker = " ✠ ".join(esc(p["title"]) for p in site.posts[:8])
     latest_html = "".join(f'<li><time datetime="{esc(p["date"])}">{ru_date(p["date"])}</time> '
@@ -707,24 +750,24 @@ def build_hall(site):
 </section>
 <div class="hall-grid">
   <section class="parchment welcome">
-    <h2>Здравствуй, путник</h2>
-    <p class="lead"><span class="dropcap">З</span>десь хранится всё, что утонуло в ленте канала. Telegram течёт, как река: старое уносит, искать неудобно, поисковики туда не заглядывают. А в трактирной книге свитки лежат по полкам.</p>
+    <h2>Здорово, солнышко</h2>
+    <p class="lead"><span class="dropcap">З</span>десь лежит всё, что утонуло в ленте Лисьей таверны. Telegram течёт, как река: старое уносит, искать неудобно, поисковики туда не заглядывают. А в трактирной книге свитки разложены по комнатам — как по дням недели в закрепе.</p>
     <ul class="why">
-      <li><b>Поиск.</b> Писарь найдёт любой пост по слову или хэштегу.</li>
-      <li><b>Каталоги.</b> Забивки с фильтром «фруктовое, но не приторное», растения с дневником роста, воинства по фракциям, полка с оценками.</li>
-      <li><b>Инструменты.</b> Быстрые ярлыки по гайдам про ИИ-агентов.</li>
+      <li><b>Писарь.</b> Найдёт любой пост по слову или хэштегу — хоть про АГР, хоть про земляных мушек.</li>
+      <li><b>Каталоги.</b> Книга забивок с фильтром «фруктовое, но не приторное», дневники роста каждого зелёного подопытного, воинства по фракциям, полка и экран с вердиктами.</li>
+      <li><b>Ярлыки.</b> Гайды по ИИ-агентам и инструменты для АГР — в один клик.</li>
     </ul>
     <form class="ask" action="search.html" method="get" role="search">
       <label for="ask-q">Спросить писаря</label>
       <div class="ask-row"><input id="ask-q" name="q" type="search" placeholder="что ищешь?"><button class="btn">Искать</button></div>
     </form>
-    <h3>Устав трактира</h3>
+    <h3>Устав таверны</h3>
     <ol class="rules">
-      <li>Дым пускать только в дымной горнице.</li>
-      <li>Растения не поливать элем, даже если очень просят.</li>
-      <li>Оловянных воинов не трогать грязными руками. И чистыми тоже.</li>
-      <li>С механическими духами говорить вежливо: они всё запоминают.</li>
-      <li>Книги с полки брать можно, возвращать обязательно.</li>
+      <li>Дым пускать в горнице по средам. В остальные дни — тоже, но тихо.</li>
+      <li>Зелёных подопытных не жалеть: кто сдох — тот лох.</li>
+      <li>Миниатюры без магнитов не принимаются.</li>
+      <li>Отчёту агента не верить — проверять самому.</li>
+      <li>Грейпфрут в чашу не класть. Трактирщик предупреждал.</li>
       <li>Улитку не обижать. Она сильнее, чем кажется.</li>
     </ol>
   </section>
@@ -739,30 +782,57 @@ def build_hall(site):
     site.page("index.html", site.s["title"], body, root="", desc=site.s["tagline"], scene=True)
 
 
-def build_ai(site, r):
-    posts = site.room_posts[r["id"]]
-    pinned = site.cat.get("ai", {}).get("pinned", [])
-    pins = ""
-    for it in pinned:
-        url = it.get("url") or "#feed"
-        pins += (f'<li class="pin">{stamp(it)}<a href="{esc(url)}">{esc(it["title"])}</a>'
-                 f'<span>{esc(it.get("note", ""))}</span></li>')
+VERDICTS = {"любимое": (5, "❤"), "советую": (4, "✦"), "приятно": (3, "☙"), "спорно": (2, "⚖"),
+            "мимо": (1, "✗"), "без вердикта": (0, "…")}
+STATUS_CLASS = {"растёт": "ok", "цветёт": "bloom", "плодоносит": "fruit", "урожай собран": "fruit", "спит": "sleep",
+                "почило": "dead", "покрашено": "ok", "в процессе": "wip", "собрано": "bloom", "грунт": "sleep",
+                "куча позора": "dead", "прочитано": "ok", "просмотрено": "ok", "смотрю": "wip", "брошено": "dead",
+                "в планах": "sleep"}
+
+
+def verdict_badge(v):
+    rank, icon = VERDICTS.get(v, (0, "…"))
+    return f'<span class="verdict v{rank}" title="Вердикт трактирщика">{icon} {esc(v)}</span>'
+
+
+def post_more(site, pid, label="читать свиток →"):
+    link = site.post_link(pid)
+    return f' <a href="{esc(link)}">{label}</a>' if link else ""
+
+
+def quick_tags(posts, limit=16):
     counts = {}
     for p in posts:
         for t in p["hashtags"]:
             counts[t] = counts.get(t, 0) + 1
-    quick = "".join(f'<a class="chip" href="#feed" data-quicktag="{esc(t)}">#{esc(t)} <sup>{n}</sup></a>'
-                    for t, n in sorted(counts.items(), key=lambda kv: -kv[1])[:16])
+    return "".join(f'<a class="chip" href="#feed" data-quicktag="{esc(t)}">#{esc(t)} <sup>{n}</sup></a>'
+                   for t, n in sorted(counts.items(), key=lambda kv: -kv[1])[:limit])
+
+
+def build_ai(site, r):
+    posts = site.room_posts[r["id"]]
+    pins = ""
+    for it in site.cat.get("ai", {}).get("pinned", []):
+        url = it.get("url") or "#feed"
+        ext = url.startswith("http")
+        pins += (f'<li class="pin">{stamp(it)}<a href="{esc(url)}"{" rel=noopener target=_blank" if ext else ""}>'
+                 f'{esc(it["title"])}{" ↗" if ext else ""}</a><span>{esc(it.get("note", ""))}</span></li>')
     body = site.room_head(r) + f"""
 <section class="parchment quick">
   <h2>Быстрые ярлыки</h2>
   <div class="quick-grid">
     <div><h3>Закреплённые свитки</h3><ul class="pins">{pins or '<li class="empty">Пока ничего не закреплено.</li>'}</ul></div>
-    <div><h3>Темы</h3><p class="chips">{quick or '<span class="empty">Тем пока нет.</span>'}</p>
+    <div><h3>Темы</h3><p class="chips">{quick_tags(posts) or '<span class="empty">Тем пока нет.</span>'}</p>
     <p class="tiny">Жми на тему — ниже останутся только нужные свитки.</p></div>
   </div>
 </section>
-""" + site.feed(posts, "", "Свитки о механических духах", big=True)
+""" + site.feed(posts, "", "Свитки из архивов", big=True)
+    site.page(r["page"], r["name"], body, room=r["id"], desc=r["about"])
+
+
+def build_feed_room(site, r):
+    posts = site.room_posts[r["id"]]
+    body = site.room_head(r) + site.feed(posts, "", f"Свитки: {r['name'].lower()}", big=True)
     site.page(r["page"], r["name"], body, room=r["id"], desc=r["about"])
 
 
@@ -771,55 +841,49 @@ def build_hookah(site, r):
     cards = []
     for it in items:
         mix = "".join(f"<li>{esc(m)}</li>" for m in it.get("mix", []))
-        fl = "|".join(it.get("flavors", []))
-        link = site.post_link(it.get("post"))
-        more = f'<a href="{esc(link)}">читать свиток →</a>' if link else ""
-        search = " ".join([it["name"], fl, " ".join(it.get("mix", [])), it.get("note", "")]).lower()
-        cards.append(f"""<article class="card recipe entry" data-search="{esc(search)}" data-flavors="{esc(fl)}" data-sweet="{int(it.get('sweetness', 0))}" data-strength="{int(it.get('strength', 0))}" data-rating="{int(it.get('rating', 0))}" data-date="{esc(it.get('date', ''))}" data-name="{esc(it['name'].lower())}">
+        rank = VERDICTS.get(it.get("verdict", ""), (0,))[0]
+        notes = it.get("notes", [])
+        extra = [it["strength"]] if it.get("strength") else []
+        search = " ".join([it["name"], it.get("kind", ""), " ".join(it.get("flavors", [])), " ".join(it.get("mix", [])),
+                           " ".join(notes), it.get("note", ""), it.get("verdict", "")]).lower()
+        cards.append(f"""<article class="card recipe entry" data-search="{esc(search)}" data-flavors="{esc('|'.join(it.get('flavors', [])))}" data-notes="{esc('|'.join(notes))}" data-verdict="{esc(it.get('verdict', ''))}" data-kind="{esc(it.get('kind', ''))}" data-rank="{rank}" data-date="{esc(it.get('date', ''))}" data-name="{esc(it['name'].lower())}">
   {stamp(it)}
+  <p class="type">{esc(it.get('kind', ''))}{' · ' + esc(it['strength']) if it.get('strength') else ''}</p>
   <h3>{esc(it['name'])}</h3>
-  <p class="tags">{''.join(f'<span class="chip chip-sm">{esc(f)}</span>' for f in it.get('flavors', []))}</p>
-  <ul class="mix">{mix}</ul>
-  <dl class="meters">
-    <div><dt>Сладость</dt><dd>{pips(it.get('sweetness'), 'sweet', 'Сладость')}</dd></div>
-    <div><dt>Крепость</dt><dd>{pips(it.get('strength'), 'strong', 'Крепость')}</dd></div>
-    <div><dt>Вердикт</dt><dd>{rating_badge(it.get('rating'))}</dd></div>
-  </dl>
+  <p>{verdict_badge(it.get('verdict', 'без вердикта'))}</p>
+  {f'<ul class="mix">{mix}</ul>' if mix else ''}
   <p class="note">{esc(it.get('note', ''))}</p>
-  <p class="meta">{esc(it.get('bowl', ''))}{' · ' if it.get('bowl') else ''}{ru_date(it.get('date', ''))} {more}</p>
+  <p class="tags">{''.join(f'<span class="chip chip-sm">{esc(f)}</span>' for f in it.get('flavors', []) + notes)}</p>
+  <p class="meta">{ru_date(it.get('date', ''))}{post_more(site, it.get('post'))}</p>
 </article>""")
     flavors = [f for it in items for f in it.get("flavors", [])]
+    notes = [n for it in items for n in it.get("notes", [])]
     body = site.room_head(r) + f"""
 <section class="parchment catalog">
   <h2>Книга забивок <small class="count" data-count-for="hookah-list">{len(items)}</small></h2>
+  <p class="lead-in">Всё, что трактирщик забивал и о чём писал в канале. Вердикты — его словами, у каждой записи ссылка на свиток.</p>
   <div class="filterbox" data-target="#hookah-list">
-    <label class="search-field"><span>Вкус, табак, слово</span><input type="search" data-search placeholder="малина, мята, чай…"></label>
+    <label class="search-field"><span>Вкус, бренд, слово</span><input type="search" data-search placeholder="вишня, Trofimoff, кола…"></label>
     {facet_chips(flavors, 'flavors', 'all', 'Вкус:')}
+    {facet_chips(notes, 'notes', 'all', 'Особое:')}
+    {facet_chips([it.get('verdict', '') for it in items], 'verdict', 'any', 'Вердикт:')}
     <div class="row-controls">
-      <label class="toggle"><input type="checkbox" data-max="sweet" value="2"> <span>не приторное</span></label>
-      <label>Крепость до <select data-max="strength"><option value="">любая</option><option value="2">лёгкая</option><option value="3">средняя</option><option value="4">крепкая</option></select></label>
-      <label>Вердикт от <select data-min="rating"><option value="">любой</option><option value="3">сносно</option><option value="4">добро</option><option value="5">благодать</option></select></label>
-      <label>Порядок <select data-sort><option value="rating-desc">лучшие</option><option value="date-desc">новые</option><option value="sweet-asc">несладкие</option><option value="name-asc">по имени</option></select></label>
+      <label>Что <select data-eq="kind"><option value="">всё</option><option value="табак">табаки</option><option value="микс">миксы</option></select></label>
+      <label>Порядок <select data-sort><option value="rank-desc">лучшие</option><option value="date-desc">новые</option><option value="name-asc">по имени</option></select></label>
       <button type="button" class="btn-link" data-reset>сбросить</button>
     </div>
   </div>
   <div class="cards cards-3" id="hookah-list">{''.join(cards)}</div>
   <p class="nothing" hidden>Такой забивки в книге нет. Может, изобретёшь?</p>
 </section>
-""" + site.feed(site.room_posts[r["id"]], "", "Свитки из дымной горницы")
+""" + site.feed(site.room_posts[r["id"]], "", "Свитки из горницы")
     site.page(r["page"], r["name"], body, room=r["id"], desc=r["about"])
-
-
-STATUS_CLASS = {"растёт": "ok", "цветёт": "bloom", "плодоносит": "fruit", "спит": "sleep", "почило": "dead",
-                "покрашено": "ok", "в процессе": "wip", "грунт": "sleep", "куча позора": "dead",
-                "прочитано": "ok", "брошено": "dead", "в планах": "sleep"}
 
 
 def diary_entry(site, d):
     pic = f'<img src="{esc(d["photo"])}" alt="" loading="lazy">' if d.get("photo") else ""
-    link = site.post_link(d.get("post"))
-    more = f' <a href="{esc(link)}">свиток →</a>' if link else ""
-    return f'<li><time datetime="{esc(d["date"])}">{ru_date(d["date"])}</time>{pic}<p>{esc(d["text"])}{more}</p></li>'
+    return (f'<li><time datetime="{esc(d["date"])}">{ru_date(d["date"])}</time>{pic}'
+            f'<p>{esc(d["text"])}{post_more(site, d.get("post"), "свиток →")}</p></li>')
 
 
 def build_garden(site, r):
@@ -827,12 +891,16 @@ def build_garden(site, r):
     cards = []
     for it in items:
         days = (site.today - dt.date.fromisoformat(it["since"])).days if it.get("since") else None
+        since = ("в таверне с " + ru_date(it["since"])) if it.get("since") else esc(it.get("since_text", ""))
+        age = f' · {days} {plural(days, "день", "дня", "дней")}' if days is not None else ""
         diary = "".join(diary_entry(site, d) for d in it.get("diary", []))
         care = "".join(f"<div><dt>{esc(k)}</dt><dd>{esc(v)}</dd></div>" for k, v in it.get("care", {}).items())
-        pic = f'<img src="{esc(it["photo"])}" alt="{esc(it["name"])}" loading="lazy">' if it.get("photo") else '<img class="pix" src="assets/scene/icon-garden.png" alt="">'
+        pic = (f'<img src="{esc(it["photo"])}" alt="{esc(it["name"])}" loading="lazy">' if it.get("photo")
+               else '<img class="pix" src="assets/scene/icon-garden.png" alt="">')
         st = it.get("status", "")
+        last = max((d["date"] for d in it.get("diary", [])), default=it.get("since", ""))
         search = " ".join([it["name"], it.get("latin", ""), st, it.get("place", "")] + [d["text"] for d in it.get("diary", [])]).lower()
-        cards.append(f"""<article class="card plant entry" data-search="{esc(search)}" data-status="{esc(st)}" data-date="{esc(it.get('since', ''))}" data-name="{esc(it['name'].lower())}">
+        cards.append(f"""<article class="card plant entry" data-search="{esc(search)}" data-status="{esc(st)}" data-date="{esc(last)}" data-name="{esc(it['name'].lower())}">
   {stamp(it)}
   <div class="plant-top">
     <div class="plant-pic">{pic}</div>
@@ -840,19 +908,21 @@ def build_garden(site, r):
       <h3>{esc(it['name'])}</h3>
       <p class="latin">{esc(it.get('latin', ''))}</p>
       <p><span class="status s-{STATUS_CLASS.get(st, 'ok')}">{esc(st)}</span></p>
-      <p class="meta">{'в трактире с ' + ru_date(it['since']) if it.get('since') else ''}{f' · {days} {plural(days, "день", "дня", "дней")}' if days is not None else ''}{' · ' + esc(it['place']) if it.get('place') else ''}</p>
+      <p class="meta">{since}{age}{' · ' + esc(it['place']) if it.get('place') else ''}</p>
     </div>
   </div>
   <dl class="care">{care}</dl>
-  <details class="diary" open><summary>Дневник роста ({len(it.get('diary', []))})</summary><ol class="timeline">{diary}</ol></details>
+  <details class="diary"><summary>Дневник роста ({len(it.get('diary', []))})</summary><ol class="timeline">{diary}</ol></details>
 </article>""")
+    alive = sum(1 for it in items if it.get("status") != "почило")
     body = site.room_head(r) + f"""
 <section class="parchment catalog">
-  <h2>Грядки и горшки <small class="count" data-count-for="garden-list">{len(items)}</small></h2>
+  <h2>Зелёные подопытные <small class="count" data-count-for="garden-list">{len(items)}</small></h2>
+  <p class="lead-in">Живы {alive} из {len(items)}. Остальные — в кладбищенской книге: кто сдох, тот лох.</p>
   <div class="filterbox" data-target="#garden-list">
-    <label class="search-field"><span>Растение или запись</span><input type="search" data-search placeholder="перец, пересадка, тля…"></label>
+    <label class="search-field"><span>Растение или запись дневника</span><input type="search" data-search placeholder="лимон, клещ, стратификация…"></label>
     {facet_chips([it.get('status', '') for it in items], 'status', 'any', 'Состояние:')}
-    <div class="row-controls"><label>Порядок <select data-sort><option value="date-desc">новые</option><option value="date-asc">старожилы</option><option value="name-asc">по имени</option></select></label><button type="button" class="btn-link" data-reset>сбросить</button></div>
+    <div class="row-controls"><label>Порядок <select data-sort><option value="date-desc">свежие записи</option><option value="name-asc">по имени</option></select></label><button type="button" class="btn-link" data-reset>сбросить</button></div>
   </div>
   <div class="cards cards-2" id="garden-list">{''.join(cards)}</div>
   <p class="nothing" hidden>Такое здесь не растёт.</p>
@@ -874,7 +944,6 @@ def build_minis(site, r):
         f = factions.get(it.get("faction"), {"name": it.get("faction", "?"), "color": "#777"})
         pic = (f'<a class="zoom" href="{esc(it["photo"])}"><img src="{esc(it["photo"])}" alt="{esc(it["name"])}" loading="lazy"></a>'
                if it.get("photo") else mini_placeholder(f["color"]))
-        link = site.post_link(it.get("post"))
         st = it.get("status", "")
         search = " ".join([it["name"], f["name"], st, it.get("note", "")]).lower()
         cards.append(f"""<figure class="card mini entry" style="--fc:{esc(f['color'])}" data-search="{esc(search)}" data-faction="{esc(f['name'])}" data-status="{esc(st)}" data-date="{esc(it.get('date', ''))}" data-name="{esc(it['name'].lower())}">
@@ -883,7 +952,7 @@ def build_minis(site, r):
   <figcaption><b>{esc(it['name'])}</b><span class="banner">{esc(f['name'])}</span>
   <span class="status s-{STATUS_CLASS.get(st, 'ok')}">{esc(st)}</span>
   <small>{esc(it.get('note', ''))}</small>
-  <small class="meta">{ru_date(it.get('date', ''))}{f' · <a href="{esc(link)}">свиток →</a>' if link else ''}</small></figcaption>
+  <small class="meta">{ru_date(it.get('date', ''))}{post_more(site, it.get('post'), 'свиток →')}</small></figcaption>
 </figure>""")
     legend = ""
     for f in factions.values():
@@ -895,54 +964,57 @@ def build_minis(site, r):
     shame = sum(1 for it in items if it.get("status") != "покрашено")
     body = site.room_head(r) + f"""
 <section class="parchment catalog">
-  <h2>Воинства <small class="count" data-count-for="minis-list">{len(items)}</small></h2>
+  <h2>Воинства на полках <small class="count" data-count-for="minis-list">{len(items)}</small></h2>
   <ul class="factions">{legend}</ul>
-  <p class="shame">Некрашеного в куче позора: <b>{shame}</b>. Летописец скорбит.</p>
+  <p class="shame">Непокрашенного в куче позора: <b>{shame}</b>. Летописец скорбит, трактирщик вставляет магниты.</p>
   <div class="filterbox" data-target="#minis-list">
     {facet_chips([factions.get(it.get('faction'), {}).get('name', it.get('faction', '')) for it in items], 'faction', 'any', 'Фракция:')}
     {facet_chips([it.get('status', '') for it in items], 'status', 'any', 'Готовность:')}
-    <div class="row-controls"><label class="search-field inline"><span>Поиск</span><input type="search" data-search placeholder="сержант, ржавчина…"></label><label>Порядок <select data-sort><option value="date-desc">новые</option><option value="date-asc">старые</option><option value="name-asc">по имени</option></select></label><button type="button" class="btn-link" data-reset>сбросить</button></div>
+    <div class="row-controls"><label class="search-field inline"><span>Поиск</span><input type="search" data-search placeholder="дредноут, магниты, грунт…"></label><label>Порядок <select data-sort><option value="date-desc">новые</option><option value="date-asc">старые</option><option value="name-asc">по имени</option></select></label><button type="button" class="btn-link" data-reset>сбросить</button></div>
   </div>
   <div class="cards gallery" id="minis-list">{''.join(cards)}</div>
   <p class="nothing" hidden>Таких воинов не нашлось. Может, они ещё в коробке.</p>
 </section>
-""" + site.feed(site.room_posts[r["id"]], "", "Свитки из оружейной")
+""" + site.feed(site.room_posts[r["id"]], "", "Свитки из мастерской")
     site.page(r["page"], r["name"], body, room=r["id"], desc=r["about"])
 
 
 def build_shelf(site, r):
-    items = site.cat.get("shelf", {}).get("items", [])
+    types = r.get("types")
+    items = [it for it in site.cat.get("shelf", {}).get("items", []) if not types or it.get("type") in types]
     cards = []
     for it in items:
-        link = site.post_link(it.get("post"))
         t = it.get("type", "книга")
         hue = sum(map(ord, it["title"])) % 360
-        search = " ".join([it["title"], it.get("author", ""), t, " ".join(it.get("genres", [])), it.get("verdict", "")]).lower()
-        cards.append(f"""<article class="card book entry" style="--h:{hue}" data-search="{esc(search)}" data-type="{esc(t)}" data-status="{esc(it.get('status', ''))}" data-rating="{int(it.get('rating', 0))}" data-name="{esc(it['title'].lower())}" data-date="{esc(it.get('date', ''))}">
+        rank = VERDICTS.get(it.get("verdict", ""), (0,))[0]
+        search = " ".join([it["title"], it.get("author", ""), t, " ".join(it.get("genres", [])), it.get("note", ""), it.get("verdict", "")]).lower()
+        cards.append(f"""<article class="card book entry" style="--h:{hue}" data-search="{esc(search)}" data-type="{esc(t)}" data-status="{esc(it.get('status', ''))}" data-verdict="{esc(it.get('verdict', ''))}" data-rank="{rank}" data-name="{esc(it['title'].lower())}" data-date="{esc(it.get('date', ''))}">
   {stamp(it)}
   <div class="spine" aria-hidden="true"><span>{esc(it['title'])}</span></div>
   <div class="book-body">
     <p class="type">{esc(t)}</p>
     <h3>{esc(it['title'])}</h3>
-    <p class="author">{esc(it.get('author', ''))}</p>
-    <p>{rating_badge(it.get('rating'))}</p>
-    <p class="verdict">«{esc(it.get('verdict', ''))}»</p>
-    <p class="meta"><span class="status s-{STATUS_CLASS.get(it.get('status', ''), 'ok')}">{esc(it.get('status', ''))}</span> {' · '.join(esc(g) for g in it.get('genres', []))}{f' · <a href="{esc(link)}">свиток →</a>' if link else ''}</p>
+    {f'<p class="author">{esc(it["author"])}</p>' if it.get('author') else ''}
+    <p>{verdict_badge(it.get('verdict', 'без вердикта'))}</p>
+    <p class="verdict-text">{esc(it.get('note', ''))}</p>
+    <p class="meta"><span class="status s-{STATUS_CLASS.get(it.get('status', ''), 'ok')}">{esc(it.get('status', ''))}</span> {' · '.join(esc(g) for g in it.get('genres', []))}{post_more(site, it.get('post'), 'свиток →')}</p>
   </div>
 </article>""")
+    title = "На экране" if r["id"] == "anime" else "На полке"
     body = site.room_head(r) + f"""
 <section class="parchment catalog">
-  <h2>На полке <small class="count" data-count-for="shelf-list">{len(items)}</small></h2>
-  <div class="filterbox" data-target="#shelf-list">
-    <label class="search-field"><span>Название, автор, жанр</span><input type="search" data-search placeholder="Берсерк, Эко, фэнтези…"></label>
-    {facet_chips([it.get('type', '') for it in items], 'type', 'any', 'Что:')}
+  <h2>{title} <small class="count" data-count-for="{r['id']}-list">{len(items)}</small></h2>
+  <div class="filterbox" data-target="#{r['id']}-list">
+    <label class="search-field"><span>Название, автор, слово</span><input type="search" data-search placeholder="Берсерк, MAPPA, Warhammer…"></label>
+    {facet_chips([it.get('type', '') for it in items], 'type', 'any', 'Что:') if len(set(it.get('type') for it in items)) > 1 else ''}
+    {facet_chips([it.get('verdict', '') for it in items], 'verdict', 'any', 'Вердикт:')}
     {facet_chips([it.get('status', '') for it in items], 'status', 'any', 'Статус:')}
-    <div class="row-controls"><label>Оценка от <select data-min="rating"><option value="">любая</option><option value="3">сносно</option><option value="4">добро</option><option value="5">благодать</option></select></label><label>Порядок <select data-sort><option value="rating-desc">лучшие</option><option value="name-asc">по имени</option></select></label><button type="button" class="btn-link" data-reset>сбросить</button></div>
+    <div class="row-controls"><label>Порядок <select data-sort><option value="rank-desc">лучшие</option><option value="date-desc">новые</option><option value="name-asc">по имени</option></select></label><button type="button" class="btn-link" data-reset>сбросить</button></div>
   </div>
-  <div class="cards cards-2" id="shelf-list">{''.join(cards)}</div>
-  <p class="nothing" hidden>Такого на полке нет. Пока.</p>
+  <div class="cards cards-2" id="{r['id']}-list">{''.join(cards)}</div>
+  <p class="nothing" hidden>Такого здесь нет. Пока.</p>
 </section>
-""" + site.feed(site.room_posts[r["id"]], "", "Свитки с полки")
+""" + site.feed(site.room_posts[r["id"]], "", "Свитки с полки" if r["id"] != "anime" else "Свитки с экрана")
     site.page(r["page"], r["name"], body, room=r["id"], desc=r["about"])
 
 
@@ -1027,7 +1099,8 @@ def build_sitemap(site):
     (SITE / "sitemap.xml").write_text(xml, encoding="utf-8")
 
 
-BUILDERS = {"ai": build_ai, "hookah": build_hookah, "garden": build_garden, "minis": build_minis, "shelf": build_shelf}
+BUILDERS = {"ai": build_ai, "hookah": build_hookah, "garden": build_garden, "minis": build_minis,
+            "shelf": build_shelf, "feed": build_feed_room}
 
 
 def main():
@@ -1041,12 +1114,12 @@ def main():
 
     cfg = load_json(SRC / "config.json")
     catalogs = {p.stem: load_json(p) for p in (SRC / "catalog").glob("*.json")}
-    posts = enrich(load_posts(), cfg["rooms"])
+    posts = [p for p in enrich(load_posts(), cfg["rooms"]) if p["title"] != "Пустой свиток"]
     site = Site(cfg, posts, catalogs)
 
     build_hall(site)
     for r in site.rooms:
-        BUILDERS.get(r["id"], build_ai)(site, r)
+        BUILDERS.get(r.get("kind", "feed"), build_feed_room)(site, r)
     build_search(site)
     build_scrolls(site)
     build_sitemap(site)

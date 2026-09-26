@@ -4,7 +4,7 @@
 
   var norm = function (s) { return String(s || "").toLowerCase().replace(/ё/g, "е"); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
-  var MULTI = { tags: " ", flavors: "|" };
+  var MULTI = { tags: " ", flavors: "|", notes: "|" };
 
   function plural(n, one, few, many) {
     var m = Math.abs(n) % 100, d = m % 10;
@@ -51,7 +51,12 @@
         return active ? { attr: c.getAttribute(isMax ? "data-max" : "data-min"), max: isMax, v: parseFloat(c.value) } : null;
       }).filter(Boolean);
 
+      var equals = $$("[data-eq]", box).filter(function (c) { return c.value !== ""; }).map(function (c) {
+        return { attr: c.getAttribute("data-eq"), v: c.value };
+      });
+
       var matched = items.filter(function (el) {
+        for (var q = 0; q < equals.length; q++) if (el.getAttribute("data-" + equals[q].attr) !== equals[q].v) return false;
         var hay = norm(el.getAttribute("data-search"));
         for (var i = 0; i < words.length; i++) if (hay.indexOf(words[i]) < 0) return false;
         for (var g = 0; g < groups.length; g++) {
@@ -97,7 +102,7 @@
       if (e.target.closest("[data-reset]")) {
         $$(".chip.is-on", box).forEach(function (c) { c.classList.remove("is-on"); c.setAttribute("aria-pressed", "false"); });
         $$("input", box).forEach(function (i) { if (i.type === "checkbox") i.checked = false; else i.value = ""; });
-        $$("select[data-max],select[data-min]", box).forEach(function (s) { s.value = ""; });
+        $$("select[data-max],select[data-min],select[data-eq]", box).forEach(function (s) { s.value = ""; });
         if (sortSelect) sortSelect.selectedIndex = 0;
         apply(true);
       }

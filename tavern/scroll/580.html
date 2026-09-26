@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>В Питере вовсю стартовала «серая унылая дождливая пора»😵, батареи молчат, зато греет кулер… — Трактирная книга</title>
+<meta name="description" content="ноутбука — запускаешь разные AI -шки, и вот он уже как мини-обогреватель. Такими темпами можно будет и ужин разогревать🥔 Сегодня без workflow, чисто короткие заметки. Разбирался в n8n, искал замену Go">
+<link rel="canonical" href="https://smailkiller.github.io/tavern/scroll/580.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="В Питере вовсю стартовала «серая унылая дождливая пора»😵, батареи молчат, зато греет кулер… — Трактирная книга">
+<meta property="og:description" content="ноутбука — запускаешь разные AI -шки, и вот он уже как мини-обогреватель. Такими темпами можно будет и ужин разогревать🥔 Сегодня без workflow, чисто короткие заметки. Разбирался в n8n, искал замену Go">
+<meta property="og:url" content="https://smailkiller.github.io/tavern/scroll/580.html">
+<meta name="theme-color" content="#1b120c">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ruslan+Display&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Pixelify+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/tavern.css">
+<script>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id=106884291','ym');ym(106884291,'init',{ssr:true,clickmap:true,trackLinks:true,accurateTrackBounce:true});</script>
+</head>
+<body class="is-room room-ai">
+<a class="skip" href="#main">К содержимому</a>
+<div class="torchlight" aria-hidden="true"></div>
+<header class="top">
+  <a class="sign" href="../index.html" title="В общий зал">
+    <span class="sign-chain" aria-hidden="true"></span>
+    <span class="sign-board"><span class="sign-small">Лисья таверна</span>Трактирная книга</span>
+  </a>
+  <nav class="planks" aria-label="Комнаты трактира"><a class="plank" href="../shelf.html"><span>Полка</span><small>Пн · #чтение</small></a><a class="plank" href="../garden.html"><span>Огород</span><small>Вт · #сад</small></a><a class="plank" href="../hookah.html"><span>Горница</span><small>Ср · #кальян</small></a><a class="plank is-here" href="../ai.html"><span>Архивы</span><small>Чт · #ai</small></a><a class="plank" href="../games.html"><span>Игры</span><small>Пт · #игры</small></a><a class="plank" href="../minis.html"><span>Мастерская</span><small>Сб · #хобби</small></a><a class="plank" href="../anime.html"><span>Экран</span><small>Вс · #аниме</small></a><a class="plank" href="../thoughts.html"><span>Очаг</span><small>#мысль</small></a><a class="plank plank-search" href="../search.html"><span>Писарь</span><small>поиск</small></a></nav>
+</header>
+
+<main id="main">
+<article class="parchment scroll-page">
+  <p class="crumbs"><a href="../index.html">Общий зал</a> › <a href="../ai.html">Архивы разума</a></p>
+  
+  <h1>В Питере вовсю стартовала «серая унылая дождливая пора»😵, батареи молчат, зато греет кулер…</h1>
+  <p class="meta"><time datetime="2025-09-18T10:00:57">18 сентября 2025</time> · свиток №580</p>
+  
+  <div class="scroll-body">Всем QQ!<br>
+<br>
+В Питере вовсю стартовала «серая унылая дождливая пора»😵, батареи молчат, зато греет кулер ноутбука — запускаешь разные <a class="htag" href="../search.html?tag=ai">#AI</a> -шки, и вот он уже как мини-обогреватель. Такими темпами можно будет и ужин разогревать🥔<br>
+<br>
+Сегодня без workflow, чисто короткие заметки.<br>
+<br>
+Разбирался в n8n, искал замену Google Диску на Я.Диск. <br>
+<br>
+<i>Все же помнят, что теперь любые пользовательские данные из РФ и чувствительные вещи надо хранить внутри страны?</i><i>🔍</i><br>
+<br>
+Так вот: в самом n8n никаких готовых «нод» для Я-сервисов нет — только Google Drive и OneDrive. Пришлось копнуть глубже, и тут случилось маленькое просветление. Нашёл <a href="https://yandex.ru/dev/disk/" rel="nofollow noopener" target="_blank">API</a> документацию Я.Диска (и не только его) — и там целый вагон возможностей. Покрутил всё это в полигоне и понял простую истину: если в n8n нет готовой ноды, но у сервиса есть API, то можно связать всё через HTTP-запросы. И оно реально работает. Не надо ждать, пока разработчики «допилят» модуль, руки у тебя уже развязаны на любую автоматизацию🤯<br>
+<br>
+Плюс, в n8n сейчас тестируют блок с питоновским кодом. Пока без импорта библиотек, но если добавят и это — то всё, можно будет забыть про IDE, вайб-кодеры выйдут из тени и захватят интернет⚔<br>
+<br>
+Из новостей вокруг: начали просачиваться упоминания про Google Opal — фактически аналог n8n, только от самого гиганта. Увы, внутрь попасть не удалось, даже через туннели и VPN. Если кто-то уже пробовал — расскажите, как там, очень интересно.<br>
+<br>
+А ещё вышла Китайская модель seedream4 - которая круче Нано бананы - вы представьте, она на порядок реалистичнее чем фрукт от гугла🗣<br>
+<br>
+Ну и на затравку — <a href="https://app.resemble.ai/hub?voice-uuid=2dde4b4b" rel="nofollow noopener" target="_blank">очередной сервис синтеза речи</a>. Главная фишка: можно скопировать свой голос и озвучивать им любой текст. Обучение заняло секунд 15, результат — крепкая троечка. Но до идеала далеко: интонация скачет, окончания и числительные страдают. Хотя у сервиса есть API, и это уже плюс.<br>
+<br>
+Вот такие короткие наблюдения.<br>
+Всем SUP!</div>
+  <p class="tags"><a class="chip" href="../search.html?tag=ai">#ai</a></p>
+  <p class="actions"><a class="btn" href="https://t.me/SMailsPub/580" rel="noopener" target="_blank">Обсудить в канале ↗</a> <a class="btn btn-ghost" href="../ai.html">Назад в комнату</a></p>
+  <nav class="scroll-nav" aria-label="Соседние свитки"><a class="prev" href="572.html">← Ну и вторая смешная часть по AI 🤪</a><a class="next" href="584.html">И вот этот день настал — книга SMLT закрывается и отправляется на полку🤩❤️ →</a></nav>
+</article>
+</main>
+<footer class="bottom">
+  <div class="foot-grid">
+    <section class="box">
+      <h3>Грамота</h3>
+      <p>Сие есть архив канала <a href="https://t.me/SMailsPub">Лисья таверна</a>. Лента в Telegram течёт и тонет, а здесь всё лежит по полкам.</p>
+      <p>Стучаться к трактирщику: <a href="https://t.me/Smailkiller">@Smailkiller</a></p>
+      <p class="quote" data-quotes='[&quot;Всяк сюда входящий — вытри ноги и надежду.&quot;, &quot;Трактирщик не виноват. Виноваты звёзды и понедельник.&quot;, &quot;Улитка снова победила рыцаря. Летописец плачет.&quot;, &quot;Эль тёплый, свечи коптят, Wi-Fi через раз. Средневековье.&quot;, &quot;Здесь могла быть ваша чума.&quot;, &quot;Писано при лучине, дрожащей от сквозняка.&quot;]'>Всяк сюда входящий — вытри ноги и надежду.</p>
+    </section>
+    <section class="box">
+      <h3>Свечной счётчик</h3>
+      <p class="candles" aria-live="polite"><span class="candle-row" aria-hidden="true"></span><span class="candle-text">Ты здесь впервые, путник.</span></p>
+      <p class="tiny">Свечи считаются только в твоём браузере. Мы не шпионим, мы страдаем.</p>
+    </section>
+    <section class="box">
+      <h3>Трактовое кольцо</h3>
+      <p class="ring"><a href="https://smailkiller.github.io/">Мастерская хозяина (AI и BIM)</a><a href="https://xml-agr.ru/">XML-AGR: инструменты для АГР</a><a href="https://t.me/SMailsPub">Канал в Telegram</a><a href="../sitemap.xml">Карта трактира</a></p>
+      <div class="buttons88" aria-hidden="true">
+        <span class="b88 b-a">лучше смотреть<br>при лучине</span>
+        <span class="b88 b-b">сделано<br>гусиным пером</span>
+        <span class="b88 b-c">без чумы<br>и NFT</span>
+        <span class="b88 b-d">HTML 1.0<br>ANNO 2026</span>
+      </div>
+    </section>
+  </div>
+  <p class="colophon">Переписано писарем 2026 года от Р. Х. · <a href="../index.html">общий зал</a> · <a href="#main">наверх ↑</a></p>
+</footer>
+<script src="../assets/tavern.js"></script>
+</body>
+</html>

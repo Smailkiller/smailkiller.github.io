@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Книжная полка — Трактирная книга</title>
-<meta name="description" content="Прочитанное и просмотренное с оценками: книги, манга, аниме. Что брать, а что сжечь.">
+<title>Листаем — Трактирная книга</title>
+<meta name="description" content="Понедельничная полка: что читал, что советую и что бросил на третьей главе. Книги по Warhammer, манга и манхва.">
 <link rel="canonical" href="https://smailkiller.github.io/tavern/shelf.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Книжная полка — Трактирная книга">
-<meta property="og:description" content="Прочитанное и просмотренное с оценками: книги, манга, аниме. Что брать, а что сжечь.">
+<meta property="og:title" content="Листаем — Трактирная книга">
+<meta property="og:description" content="Понедельничная полка: что читал, что советую и что бросил на третьей главе. Книги по Warhammer, манга и манхва.">
 <meta property="og:url" content="https://smailkiller.github.io/tavern/shelf.html">
 <meta name="theme-color" content="#1b120c">
 <link rel="icon" href="assets/favicon.png" type="image/png">
@@ -26,124 +26,258 @@
     <span class="sign-chain" aria-hidden="true"></span>
     <span class="sign-board"><span class="sign-small">Лисья таверна</span>Трактирная книга</span>
   </a>
-  <nav class="planks" aria-label="Комнаты трактира"><a class="plank" href="ai.html"><span>Келья</span><small>#ии</small></a><a class="plank" href="hookah.html"><span>Горница</span><small>#кальян</small></a><a class="plank" href="garden.html"><span>Огород</span><small>#растения</small></a><a class="plank" href="minis.html"><span>Оружейная</span><small>#миниатюры</small></a><a class="plank is-here" href="shelf.html"><span>Полка</span><small>#книги</small></a><a class="plank plank-search" href="search.html"><span>Писарь</span><small>поиск</small></a></nav>
+  <nav class="planks" aria-label="Комнаты трактира"><a class="plank is-here" href="shelf.html"><span>Полка</span><small>Пн · #чтение</small></a><a class="plank" href="garden.html"><span>Огород</span><small>Вт · #сад</small></a><a class="plank" href="hookah.html"><span>Горница</span><small>Ср · #кальян</small></a><a class="plank" href="ai.html"><span>Архивы</span><small>Чт · #ai</small></a><a class="plank" href="games.html"><span>Игры</span><small>Пт · #игры</small></a><a class="plank" href="minis.html"><span>Мастерская</span><small>Сб · #хобби</small></a><a class="plank" href="anime.html"><span>Экран</span><small>Вс · #аниме</small></a><a class="plank" href="thoughts.html"><span>Очаг</span><small>#мысль</small></a><a class="plank plank-search" href="search.html"><span>Писарь</span><small>поиск</small></a></nav>
 </header>
-<div class="sample-bar">Трактир обставлен <b>образцами</b>: настоящие посты появятся после импорта экспорта канала.</div>
+
 <main id="main">
 <section class="room-head">
   <div class="marginalia marg-shelf" aria-hidden="true"><img class="pix" src="assets/scene/icon-shelf.png" alt=""></div>
   <div>
-    <p class="crumbs"><a href="index.html">Общий зал</a> › Книжная полка</p>
-    <h1>Книжная полка</h1>
+    <p class="crumbs"><a href="index.html">Общий зал</a> › Листаем</p>
+    <h1>Листаем</h1>
     <p class="epigraph">Во многой мудрости много печали; и кто умножает познания, умножает скорбь.</p>
-    <p class="about">Прочитанное и просмотренное с оценками: книги, манга, аниме. Что брать, а что сжечь.</p>
-    <p class="meta">2 свитка в канале · <span class="mono">#книги #книга #манга #аниме</span></p>
+    <p class="about">Понедельничная полка: что читал, что советую и что бросил на третьей главе. Книги по Warhammer, манга и манхва.</p>
+    <p class="meta">по понедельникам · 7 свитков в канале · <span class="mono">#чтение #манга #манхва #книги</span></p>
   </div>
 </section>
 <section class="parchment catalog">
-  <h2>На полке <small class="count" data-count-for="shelf-list">6</small></h2>
+  <h2>На полке <small class="count" data-count-for="shelf-list">14</small></h2>
   <div class="filterbox" data-target="#shelf-list">
-    <label class="search-field"><span>Название, автор, жанр</span><input type="search" data-search placeholder="Берсерк, Эко, фэнтези…"></label>
-    <div class="chips" data-mode="any" data-group="type"><span class="chips-label">Что:</span><button type="button" class="chip" data-facet="type" data-value="книга">книга <sup>3</sup></button><button type="button" class="chip" data-facet="type" data-value="аниме">аниме <sup>2</sup></button><button type="button" class="chip" data-facet="type" data-value="манга">манга <sup>1</sup></button></div>
-    <div class="chips" data-mode="any" data-group="status"><span class="chips-label">Статус:</span><button type="button" class="chip" data-facet="status" data-value="прочитано">прочитано <sup>3</sup></button><button type="button" class="chip" data-facet="status" data-value="брошено">брошено <sup>1</sup></button><button type="button" class="chip" data-facet="status" data-value="в планах">в планах <sup>1</sup></button><button type="button" class="chip" data-facet="status" data-value="в процессе">в процессе <sup>1</sup></button></div>
-    <div class="row-controls"><label>Оценка от <select data-min="rating"><option value="">любая</option><option value="3">сносно</option><option value="4">добро</option><option value="5">благодать</option></select></label><label>Порядок <select data-sort><option value="rating-desc">лучшие</option><option value="name-asc">по имени</option></select></label><button type="button" class="btn-link" data-reset>сбросить</button></div>
+    <label class="search-field"><span>Название, автор, слово</span><input type="search" data-search placeholder="Берсерк, MAPPA, Warhammer…"></label>
+    <div class="chips" data-mode="any" data-group="type"><span class="chips-label">Что:</span><button type="button" class="chip" data-facet="type" data-value="манхва">манхва <sup>6</sup></button><button type="button" class="chip" data-facet="type" data-value="манга">манга <sup>5</sup></button><button type="button" class="chip" data-facet="type" data-value="книга">книга <sup>3</sup></button></div>
+    <div class="chips" data-mode="any" data-group="verdict"><span class="chips-label">Вердикт:</span><button type="button" class="chip" data-facet="verdict" data-value="советую">советую <sup>9</sup></button><button type="button" class="chip" data-facet="verdict" data-value="без вердикта">без вердикта <sup>3</sup></button><button type="button" class="chip" data-facet="verdict" data-value="приятно">приятно <sup>2</sup></button></div>
+    <div class="chips" data-mode="any" data-group="status"><span class="chips-label">Статус:</span><button type="button" class="chip" data-facet="status" data-value="прочитано">прочитано <sup>11</sup></button><button type="button" class="chip" data-facet="status" data-value="в процессе">в процессе <sup>3</sup></button></div>
+    <div class="row-controls"><label>Порядок <select data-sort><option value="rank-desc">лучшие</option><option value="date-desc">новые</option><option value="name-asc">по имени</option></select></label><button type="button" class="btn-link" data-reset>сбросить</button></div>
   </div>
-  <div class="cards cards-2" id="shelf-list"><article class="card book entry" style="--h:59" data-search="имя розы умберто эко книга детектив средневековье монахи, яд и библиотека. идеально для трактира." data-type="книга" data-status="прочитано" data-rating="5" data-name="имя розы" data-date="">
-  <span class="stamp">образец</span>
-  <div class="spine" aria-hidden="true"><span>Имя розы</span></div>
+  <div class="cards cards-2" id="shelf-list"><article class="card book entry" style="--h:202" data-search="metronomicon  книга  зацепила стилистикой в духе самосбора и scp, иллюстрациями и погружением в лор. приятно" data-type="книга" data-status="прочитано" data-verdict="приятно" data-rank="3" data-name="metronomicon" data-date="2024-09-02">
+  
+  <div class="spine" aria-hidden="true"><span>METRONOMICON</span></div>
   <div class="book-body">
     <p class="type">книга</p>
-    <h3>Имя розы</h3>
-    <p class="author">Умберто Эко</p>
-    <p><span class="rating r5" title="5 из 5">✦✦✦✦✦ <b>благодать</b></span></p>
-    <p class="verdict">«Монахи, яд и библиотека. Идеально для трактира.»</p>
-    <p class="meta"><span class="status s-ok">прочитано</span> детектив · средневековье</p>
+    <h3>METRONOMICON</h3>
+    
+    <p><span class="verdict v3" title="Вердикт трактирщика">☙ приятно</span></p>
+    <p class="verdict-text">Зацепила стилистикой в духе САМОСБОРа и SCP, иллюстрациями и погружением в лор.</p>
+    <p class="meta"><span class="status s-ok">прочитано</span>  <a href="scroll/18.html">свиток →</a></p>
   </div>
-</article><article class="card book entry" style="--h:342" data-search="берсерк кэнтаро миура манга тёмное фэнтези страдающее средневековье в чистом виде." data-type="манга" data-status="в процессе" data-rating="5" data-name="берсерк" data-date="">
-  <span class="stamp">образец</span>
+</article><article class="card book entry" style="--h:125" data-search="эйзенхорн: ордо ксенос дэн абнетт книга warhammer 40k первая книга по warhammer за 15 лет во вселенной — прослушал за пять вечеров. для знакомства с вахой — отличный вариант. советую" data-type="книга" data-status="прочитано" data-verdict="советую" data-rank="4" data-name="эйзенхорн: ордо ксенос" data-date="2026-06-05">
+  
+  <div class="spine" aria-hidden="true"><span>Эйзенхорн: Ордо Ксенос</span></div>
+  <div class="book-body">
+    <p class="type">книга</p>
+    <h3>Эйзенхорн: Ордо Ксенос</h3>
+    <p class="author">Дэн Абнетт</p>
+    <p><span class="verdict v4" title="Вердикт трактирщика">✦ советую</span></p>
+    <p class="verdict-text">Первая книга по Warhammer за 15 лет во вселенной — прослушал за пять вечеров. Для знакомства с Вахой — отличный вариант.</p>
+    <p class="meta"><span class="status s-ok">прочитано</span> Warhammer 40k <a href="scroll/923.html">свиток →</a></p>
+  </div>
+</article><article class="card book entry" style="--h:28" data-search="неведая страха дэн абнетт книга ересь хоруса абзацы вперемешку с загадочными отметками вида «136.57.07». пришлось выгрузить их в базу и разобраться, что это координаты. без вердикта" data-type="книга" data-status="в процессе" data-verdict="без вердикта" data-rank="0" data-name="неведая страха" data-date="2026-05-24">
+  
+  <div class="spine" aria-hidden="true"><span>Неведая страха</span></div>
+  <div class="book-body">
+    <p class="type">книга</p>
+    <h3>Неведая страха</h3>
+    <p class="author">Дэн Абнетт</p>
+    <p><span class="verdict v0" title="Вердикт трактирщика">… без вердикта</span></p>
+    <p class="verdict-text">Абзацы вперемешку с загадочными отметками вида «136.57.07». Пришлось выгрузить их в базу и разобраться, что это координаты.</p>
+    <p class="meta"><span class="status s-wip">в процессе</span> Ересь Хоруса <a href="scroll/910.html">свиток →</a></p>
+  </div>
+</article><article class="card book entry" style="--h:342" data-search="берсерк кэнтаро миура манга тёмное фэнтези классика дип-дарк фэнтези. очень жестоко, но это средневековье во всей его суровости. советую" data-type="манга" data-status="прочитано" data-verdict="советую" data-rank="4" data-name="берсерк" data-date="2024-09-09">
+  
   <div class="spine" aria-hidden="true"><span>Берсерк</span></div>
   <div class="book-body">
     <p class="type">манга</p>
     <h3>Берсерк</h3>
     <p class="author">Кэнтаро Миура</p>
-    <p><span class="rating r5" title="5 из 5">✦✦✦✦✦ <b>благодать</b></span></p>
-    <p class="verdict">«Страдающее средневековье в чистом виде.»</p>
-    <p class="meta"><span class="status s-wip">в процессе</span> тёмное фэнтези</p>
+    <p><span class="verdict v4" title="Вердикт трактирщика">✦ советую</span></p>
+    <p class="verdict-text">Классика дип-дарк фэнтези. Очень жестоко, но это средневековье во всей его суровости.</p>
+    <p class="meta"><span class="status s-ok">прочитано</span> тёмное фэнтези <a href="scroll/32.html">свиток →</a></p>
   </div>
-</article><article class="card book entry" style="--h:18" data-search="магическая битва гэгэ акутами аниме сёнэн экшн драки красивые, сердце болит." data-type="аниме" data-status="прочитано" data-rating="4" data-name="магическая битва" data-date="">
-  <span class="stamp">образец</span>
-  <div class="spine" aria-hidden="true"><span>Магическая битва</span></div>
+</article><article class="card book entry" style="--h:322" data-search="акира кацухиро отомо манга киберпанк классика киберпанка, проверенная временем. советую" data-type="манга" data-status="прочитано" data-verdict="советую" data-rank="4" data-name="акира" data-date="2024-09-09">
+  
+  <div class="spine" aria-hidden="true"><span>Акира</span></div>
   <div class="book-body">
-    <p class="type">аниме</p>
-    <h3>Магическая битва</h3>
-    <p class="author">Гэгэ Акутами</p>
-    <p><span class="rating r4" title="4 из 5">✦✦✦✦✧ <b>добро</b></span></p>
-    <p class="verdict">«Драки красивые, сердце болит.»</p>
-    <p class="meta"><span class="status s-ok">прочитано</span> сёнэн · экшн</p>
+    <p class="type">манга</p>
+    <h3>Акира</h3>
+    <p class="author">Кацухиро Отомо</p>
+    <p><span class="verdict v4" title="Вердикт трактирщика">✦ советую</span></p>
+    <p class="verdict-text">Классика киберпанка, проверенная временем.</p>
+    <p class="meta"><span class="status s-ok">прочитано</span> киберпанк <a href="scroll/32.html">свиток →</a></p>
   </div>
-</article><article class="card book entry" style="--h:47" data-search="путешествие к западу у чэнъэнь книга классика уважаю, но на сотой главе сдался." data-type="книга" data-status="брошено" data-rating="3" data-name="путешествие к западу" data-date="">
-  <span class="stamp">образец</span>
-  <div class="spine" aria-hidden="true"><span>Путешествие к Западу</span></div>
+</article><article class="card book entry" style="--h:75" data-search="призрак в доспехах масамунэ сиро манга киберпанк классика киберпанка: многие знают аниме и фильмы, а первоисточник упускают. советую" data-type="манга" data-status="прочитано" data-verdict="советую" data-rank="4" data-name="призрак в доспехах" data-date="2024-09-09">
+  
+  <div class="spine" aria-hidden="true"><span>Призрак в доспехах</span></div>
   <div class="book-body">
-    <p class="type">книга</p>
-    <h3>Путешествие к Западу</h3>
-    <p class="author">У Чэнъэнь</p>
-    <p><span class="rating r3" title="3 из 5">✦✦✦✧✧ <b>сносно</b></span></p>
-    <p class="verdict">«Уважаю, но на сотой главе сдался.»</p>
-    <p class="meta"><span class="status s-dead">брошено</span> классика</p>
+    <p class="type">манга</p>
+    <h3>Призрак в доспехах</h3>
+    <p class="author">Масамунэ Сиро</p>
+    <p><span class="verdict v4" title="Вердикт трактирщика">✦ советую</span></p>
+    <p class="verdict-text">Классика киберпанка: многие знают аниме и фильмы, а первоисточник упускают.</p>
+    <p class="meta"><span class="status s-ok">прочитано</span> киберпанк <a href="scroll/32.html">свиток →</a></p>
   </div>
-</article><article class="card book entry" style="--h:225" data-search="провожающая в последний путь фрирен канэхито ямада аниме фэнтези меланхолия тихая грусть эльфа. смотреть с чаем." data-type="аниме" data-status="прочитано" data-rating="5" data-name="провожающая в последний путь фрирен" data-date="">
-  <span class="stamp">образец</span>
-  <div class="spine" aria-hidden="true"><span>Провожающая в последний путь Фрирен</span></div>
+</article><article class="card book entry" style="--h:190" data-search="поднятие уровня в одиночку  манхва система экшен приятная, сбалансированная, на одном дыхании — но на культ, в который её возвели после аниме, не тянет. приятно" data-type="манхва" data-status="прочитано" data-verdict="приятно" data-rank="3" data-name="поднятие уровня в одиночку" data-date="2025-03-31">
+  
+  <div class="spine" aria-hidden="true"><span>Поднятие уровня в одиночку</span></div>
   <div class="book-body">
-    <p class="type">аниме</p>
-    <h3>Провожающая в последний путь Фрирен</h3>
-    <p class="author">Канэхито Ямада</p>
-    <p><span class="rating r5" title="5 из 5">✦✦✦✦✦ <b>благодать</b></span></p>
-    <p class="verdict">«Тихая грусть эльфа. Смотреть с чаем.»</p>
-    <p class="meta"><span class="status s-ok">прочитано</span> фэнтези · меланхолия</p>
+    <p class="type">манхва</p>
+    <h3>Поднятие уровня в одиночку</h3>
+    
+    <p><span class="verdict v3" title="Вердикт трактирщика">☙ приятно</span></p>
+    <p class="verdict-text">Приятная, сбалансированная, на одном дыхании — но на культ, в который её возвели после аниме, не тянет.</p>
+    <p class="meta"><span class="status s-ok">прочитано</span> система · экшен <a href="scroll/279.html">свиток →</a></p>
   </div>
-</article><article class="card book entry" style="--h:5" data-search="благие знамения пратчетт и гейман книга юмор фэнтези лежит у изголовья, ждёт своего часа." data-type="книга" data-status="в планах" data-rating="4" data-name="благие знамения" data-date="">
-  <span class="stamp">образец</span>
-  <div class="spine" aria-hidden="true"><span>Благие знамения</span></div>
+</article><article class="card book entry" style="--h:294" data-search="выбери меня! / pick me up  манхва  игра престолов от мира манхв: автор не щадит никого, напряжение до последней страницы. советую" data-type="манхва" data-status="прочитано" data-verdict="советую" data-rank="4" data-name="выбери меня! / pick me up" data-date="2025-04-07">
+  
+  <div class="spine" aria-hidden="true"><span>Выбери меня! / Pick Me Up</span></div>
   <div class="book-body">
-    <p class="type">книга</p>
-    <h3>Благие знамения</h3>
-    <p class="author">Пратчетт и Гейман</p>
-    <p><span class="rating r4" title="4 из 5">✦✦✦✦✧ <b>добро</b></span></p>
-    <p class="verdict">«Лежит у изголовья, ждёт своего часа.»</p>
-    <p class="meta"><span class="status s-sleep">в планах</span> юмор · фэнтези</p>
+    <p class="type">манхва</p>
+    <h3>Выбери меня! / Pick Me Up</h3>
+    
+    <p><span class="verdict v4" title="Вердикт трактирщика">✦ советую</span></p>
+    <p class="verdict-text">Игра престолов от мира манхв: автор не щадит никого, напряжение до последней страницы.</p>
+    <p class="meta"><span class="status s-ok">прочитано</span>  <a href="scroll/294.html">свиток →</a></p>
+  </div>
+</article><article class="card book entry" style="--h:323" data-search="левиафан  манхва  из списка тех, что могут выстрелить, если получат экранизацию. советую" data-type="манхва" data-status="прочитано" data-verdict="советую" data-rank="4" data-name="левиафан" data-date="2025-04-07">
+  
+  <div class="spine" aria-hidden="true"><span>Левиафан</span></div>
+  <div class="book-body">
+    <p class="type">манхва</p>
+    <h3>Левиафан</h3>
+    
+    <p><span class="verdict v4" title="Вердикт трактирщика">✦ советую</span></p>
+    <p class="verdict-text">Из списка тех, что могут выстрелить, если получат экранизацию.</p>
+    <p class="meta"><span class="status s-ok">прочитано</span>  <a href="scroll/294.html">свиток →</a></p>
+  </div>
+</article><article class="card book entry" style="--h:170" data-search="легендарный лунный скульптор  манхва  из списка тех, что могут выстрелить, если получат экранизацию. советую" data-type="манхва" data-status="прочитано" data-verdict="советую" data-rank="4" data-name="легендарный лунный скульптор" data-date="2025-04-07">
+  
+  <div class="spine" aria-hidden="true"><span>Легендарный лунный скульптор</span></div>
+  <div class="book-body">
+    <p class="type">манхва</p>
+    <h3>Легендарный лунный скульптор</h3>
+    
+    <p><span class="verdict v4" title="Вердикт трактирщика">✦ советую</span></p>
+    <p class="verdict-text">Из списка тех, что могут выстрелить, если получат экранизацию.</p>
+    <p class="meta"><span class="status s-ok">прочитано</span>  <a href="scroll/294.html">свиток →</a></p>
+  </div>
+</article><article class="card book entry" style="--h:254" data-search="воин-скелет не смог защитить подземелье  манхва  из списка тех, что могут выстрелить, если получат экранизацию. советую" data-type="манхва" data-status="прочитано" data-verdict="советую" data-rank="4" data-name="воин-скелет не смог защитить подземелье" data-date="2025-04-07">
+  
+  <div class="spine" aria-hidden="true"><span>Воин-скелет не смог защитить подземелье</span></div>
+  <div class="book-body">
+    <p class="type">манхва</p>
+    <h3>Воин-скелет не смог защитить подземелье</h3>
+    
+    <p><span class="verdict v4" title="Вердикт трактирщика">✦ советую</span></p>
+    <p class="verdict-text">Из списка тех, что могут выстрелить, если получат экранизацию.</p>
+    <p class="meta"><span class="status s-ok">прочитано</span>  <a href="scroll/294.html">свиток →</a></p>
+  </div>
+</article><article class="card book entry" style="--h:63" data-search="всеведущий читатель  манхва  начал читать оригинал — и через месяц по нему уже вышло кино. без вердикта" data-type="манхва" data-status="в процессе" data-verdict="без вердикта" data-rank="0" data-name="всеведущий читатель" data-date="2025-09-21">
+  
+  <div class="spine" aria-hidden="true"><span>Всеведущий читатель</span></div>
+  <div class="book-body">
+    <p class="type">манхва</p>
+    <h3>Всеведущий читатель</h3>
+    
+    <p><span class="verdict v0" title="Вердикт трактирщика">… без вердикта</span></p>
+    <p class="verdict-text">Начал читать оригинал — и через месяц по нему уже вышло кино.</p>
+    <p class="meta"><span class="status s-wip">в процессе</span>  <a href="scroll/593.html">свиток →</a></p>
+  </div>
+</article><article class="card book entry" style="--h:61" data-search="dr. stone  манга  мангу дочитал, поэтому финальный сезон аниме смотреть почти не хочется. без вердикта" data-type="манга" data-status="прочитано" data-verdict="без вердикта" data-rank="0" data-name="dr. stone" data-date="2026-04-06">
+  
+  <div class="spine" aria-hidden="true"><span>Dr. Stone</span></div>
+  <div class="book-body">
+    <p class="type">манга</p>
+    <h3>Dr. Stone</h3>
+    
+    <p><span class="verdict v0" title="Вердикт трактирщика">… без вердикта</span></p>
+    <p class="verdict-text">Мангу дочитал, поэтому финальный сезон аниме смотреть почти не хочется.</p>
+    <p class="meta"><span class="status s-ok">прочитано</span>  <a href="scroll/852.html">свиток →</a></p>
+  </div>
+</article><article class="card book entry" style="--h:337" data-search="гачиакута  манга  после первого сезона аниме не выдержал и полез читать мангу. советую" data-type="манга" data-status="в процессе" data-verdict="советую" data-rank="4" data-name="гачиакута" data-date="2026-06-01">
+  
+  <div class="spine" aria-hidden="true"><span>Гачиакута</span></div>
+  <div class="book-body">
+    <p class="type">манга</p>
+    <h3>Гачиакута</h3>
+    
+    <p><span class="verdict v4" title="Вердикт трактирщика">✦ советую</span></p>
+    <p class="verdict-text">После первого сезона аниме не выдержал и полез читать мангу.</p>
+    <p class="meta"><span class="status s-wip">в процессе</span>  <a href="scroll/916.html">свиток →</a></p>
   </div>
 </article></div>
-  <p class="nothing" hidden>Такого на полке нет. Пока.</p>
+  <p class="nothing" hidden>Такого здесь нет. Пока.</p>
 </section>
 <section class="parchment feed" id="feed">
-  <h2>Свитки с полки <small class="count" data-count-for="feed-list">2</small></h2>
+  <h2>Свитки с полки <small class="count" data-count-for="feed-list">7</small></h2>
   <div class="filterbox" data-target="#feed-list" data-page="12">
     <label class="search-field"><span>Искать в свитках</span><input type="search" data-search placeholder="например: мята, агент, Берсерк…"></label>
-    <div class="chips" data-mode="all" data-group="tags"><button type="button" class="chip" data-facet="tags" data-value="аниме">#аниме <sup>1</sup></button><button type="button" class="chip" data-facet="tags" data-value="книги">#книги <sup>1</sup></button></div>
+    <div class="chips" data-mode="all" data-group="tags"><button type="button" class="chip" data-facet="tags" data-value="манга">#манга <sup>5</sup></button><button type="button" class="chip" data-facet="tags" data-value="чтение">#чтение <sup>5</sup></button><button type="button" class="chip" data-facet="tags" data-value="сад">#сад <sup>2</sup></button><button type="button" class="chip" data-facet="tags" data-value="кальян">#кальян <sup>2</sup></button><button type="button" class="chip" data-facet="tags" data-value="chill">#chill <sup>2</sup></button><button type="button" class="chip" data-facet="tags" data-value="пыльныезаписи">#пыльныезаписи <sup>2</sup></button><button type="button" class="chip" data-facet="tags" data-value="игры">#игры <sup>2</sup></button><button type="button" class="chip" data-facet="tags" data-value="хобби">#хобби <sup>2</sup></button><button type="button" class="chip" data-facet="tags" data-value="ai">#ai <sup>1</sup></button><button type="button" class="chip" data-facet="tags" data-value="выдыхай">#выдыхай <sup>1</sup></button><button type="button" class="chip" data-facet="tags" data-value="аниме">#аниме <sup>1</sup></button><button type="button" class="chip" data-facet="tags" data-value="мысль">#мысль <sup>1</sup></button><button type="button" class="chip" data-facet="tags" data-value="warhammer">#warhammer <sup>1</sup></button></div>
     <div class="row-controls">
       <label>Порядок <select data-sort><option value="date-desc">сначала новые</option><option value="date-asc">сначала старые</option></select></label>
       <button type="button" class="btn-link" data-reset>сбросить</button>
     </div>
   </div>
   <div class="cards" id="feed-list">
-<article class="card post" data-search="фрирен: самое спокойное аниме про смерть смотрел по серии перед сном. плакал тихо, по-эльфийски. аниме" data-tags="аниме" data-date="2026-09-14T23:00:00">
-  <a class="post-pic" href="scroll/111.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:177" aria-hidden="true"><span>Ф</span></div></a>
-  <div class="post-body"><span class="stamp">образец</span>
-    <h3><a href="scroll/111.html">Фрирен: самое спокойное аниме про смерть</a></h3>
-    <p class="meta"><time datetime="2026-09-14T23:00:00">14 сентября 2026</time> · <a href="https://t.me/SMailsPub/111" rel="noopener" target="_blank">в канал ↗</a></p>
-    <p class="excerpt">Смотрел по серии перед сном. Плакал тихо, по-эльфийски.</p>
-    <p class="tags"><a class="chip chip-sm" href="search.html?tag=аниме">#аниме</a></p>
+<article class="card post" data-search="ладно, с solo leveling всё понятно — продолжение только в 26–27 году, ждать ещё долго. если кто-то смотрел или читал, и тоже немного в печали, — вот список манхв и манга, которые могут выстрелить, если получат экранизацию: 💡выбери меня! / pick me up 💡левиафан / leviathan 💡легендарный лунный скульптор / the legendary moonlight sculptor 💡воин-скелет не смог защитить подземелье / haegolbyeongsaneun danjon-eul jikiji moshaessda особенно &quot;выбери меня!&quot; — это вообще что-то в духе игры престолов от мира манхв. 🤤 автор не щадит никого, напряжение держится до последней страницы. «а что дальше? а кто? иолку за что?!» — стандартный набор эмоций. если есть что предложить в ответ — welcome в комменты. делимся, что сами читали и что ждём на экранах. манга" data-tags="манга" data-date="2025-04-07T16:07:45">
+  <a class="post-pic" href="scroll/294.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:138" aria-hidden="true"><span>Л</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/294.html">Ладно, с Solo Leveling всё понятно — продолжение только в 26–27 году, ждать ещё долго.</a></h3>
+    <p class="meta"><time datetime="2025-04-07T16:07:45">7 апреля 2025</time> · <a href="https://t.me/SMailsPub/294" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Если кто-то смотрел или читал, и тоже немного в печали, — вот список манхв и манга, которые могут выстрелить, если получат экранизацию: 💡Выбери меня! / PICK ME UP 💡Левиафан / Leviathan 💡Легендарный лунный скульптор / The…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=манга">#манга</a></p>
   </div>
 </article>
-<article class="card post" data-search="дочитал «имя розы» монастырь, книги-убийцы и очень много латыни. пять кружек эля из пяти. книги" data-tags="книги" data-date="2026-08-22T17:00:00">
-  <a class="post-pic" href="scroll/110.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:130" aria-hidden="true"><span>Д</span></div></a>
-  <div class="post-body"><span class="stamp">образец</span>
-    <h3><a href="scroll/110.html">Дочитал «Имя розы»</a></h3>
-    <p class="meta"><time datetime="2026-08-22T17:00:00">22 августа 2026</time> · <a href="https://t.me/SMailsPub/110" rel="noopener" target="_blank">в канал ↗</a></p>
-    <p class="excerpt">Монастырь, книги-убийцы и очень много латыни. Пять кружек эля из пяти.</p>
-    <p class="tags"><a class="chip chip-sm" href="search.html?tag=книги">#книги</a></p>
+<article class="card post" data-search="закреп для солнышек ☀️😎 навигация и сотрудничество в obsidian у меня всё по полочкам - с тегами, связями и уютом. и здесь хочу так же: чтобы каждый знал, в какой уголок таверны заглянуть за нужным. 📅 рубрики по дням: пн — листаем 📚 (чтение манга) вт — земля и тишина 🌱 (сад) ср — дым и покой ☁️ (кальян chill) чт — архивы разума 📂 (ai пыльныезаписи) пт — конец недели 🎮 (игры выдыхай) сб — дела руками 🔧 (хобби) вс — лис в экране 🎥 (аниме) 🔖 а ещё в таверну заглядывают: мысль, warhammer, и всё, что не влезло, но захотелось. 🔮 лор с зазеркальем чтобы не заблудиться - кликай по тегам или ищи через 🔍 в личку можно стучаться сюда @smailkiller 😎 я закрепил - значит, сам пользуюсь. 🦊🦊sup!🦊🦊 чтение манга сад кальян chill ai пыльныезаписи игры выдыхай хобби аниме мысль warhammer" data-tags="чтение манга сад кальян chill ai пыльныезаписи игры выдыхай хобби аниме мысль warhammer" data-date="2025-04-06T15:25:39">
+  <a class="post-pic" href="scroll/292.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:44" aria-hidden="true"><span>З</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/292.html">Закреп для солнышек ☀️😎</a></h3>
+    <p class="meta"><time datetime="2025-04-06T15:25:39">6 апреля 2025</time> · <a href="https://t.me/SMailsPub/292" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Навигация и сотрудничество В Obsidian у меня всё по полочкам - с тегами, связями и уютом. И здесь хочу так же: чтобы каждый знал, в какой уголок таверны заглянуть за нужным. 📅 Рубрики по дням: ПН — Листаем 📚 (чтение манга) ВТ —…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=чтение">#чтение</a><a class="chip chip-sm" href="search.html?tag=манга">#манга</a><a class="chip chip-sm" href="search.html?tag=сад">#сад</a><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="сегодня никаких умных мыслей, просто небольшой злободневный хихик😛😠, навеянный болезненным… лежанием и бесконечной лентой рилсов. к выходным меня свалила простуда — классика жанра: сопли, кашель, чай, и «ну ещё один видосик, и спать». спойлер — спать пошёл, но было так себе. лента, как назло, завалила меня нейро-контентом и нейро-соплями, но вот что действительно зацепило — массивная подборка жалоб от фанатов на то, что “поднятие уровня в одиночку” (a.k.a. solo leveling) не будет продолжено на 3 сезон. и вот тут я начал ехидно хихикать😠, потому что: 📚 манхва давно закончена. 📅 закончили её в 2016, а в 2018 — переиздали, перерисовали и перевели на русский, причём качественно. 🙃 а вот тогда — тишина. ни фанатских воплей, ни восторгов, ни миллионов обсуждений. я, кстати, прочитал её пару лет назад — и она реально была приятной, сбалансированной и на одном дыхании, но никак не тянула на культ, в который её сейчас возводят. а теперь, когда аниме-адаптация показала только 25–30% всего сюжета, фанаты в панике и страданиях. а ведь концовка уже есть, бери — иди читай. но нет. аниме — это &quot;святое&quot;. и просто, чтоб напомнить: мы уже пережили: 🌀 волну исекаев 🕹 волну прокачки по системе rpg 🔥 комбо-атаку: исекаи + rpg 🈲 и теперь — волну китайских боевых искусств, где каждый третий герой владеет какой-то “древней техникой призрачного дракона” и говорит с пафосом как будто выступает на церемонии открытия олимпиады. так что болейте красиво, пейте витаминки и не забывайте, что концовки бывают ближе, чем вы думаете 😉 манга" data-tags="манга" data-date="2025-03-31T13:29:17">
+  <a class="post-pic" href="scroll/279.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:153" aria-hidden="true"><span>С</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/279.html">Сегодня никаких умных мыслей, просто небольшой злободневный хихик😛😠, навеянный болезненным…</a></h3>
+    <p class="meta"><time datetime="2025-03-31T13:29:17">31 марта 2025</time> · <a href="https://t.me/SMailsPub/279" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">лежанием и бесконечной лентой рилсов. К выходным меня свалила простуда — классика жанра: сопли, кашель, чай, и «ну ещё один видосик, и спать». Спойлер — спать пошёл, но было так себе. Лента, как назло, завалила меня…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=манга">#манга</a></p>
+  </div>
+</article>
+<article class="card post" data-search="сегодня поговорим про чтение, но с twist&#x27;ом. у меня для вас три мини-заметки на тему: 1. nas хранилище недавно я обзавёлся своим домашним nas хранилищем, и это была целая одиссея. радости было полные штаны: много гигабайт на хранение, широкий функционал для pet-проектов — мечта! смотрел 20-минутное видео по настройке и думал: &quot;окей, это будет быстро!&quot; но вместо 20 минут я потратил часов 8-9, разрываясь между гайдами, статьями и обходами блокировок, своеобразное чтиво. мораль истории — если кажется, что это просто, и ты новичок, лучше заложи время с запасом и поумерь ожидания. 2. цифровая безграмотность недавно в разговоре с коллегами осознал, насколько многие люди в нашем цифровом мире слабо владеют базовыми компьютерными навыками. да, скачать и крякнуть пиратскую версию программы для многих уже проблема, не говоря о том, чтобы не попасть на левые ссылки. может, я слишком многого жду от людей, но кажется, что базовым вещам, как минимум, должен учить опыт или практика. особенно заметно, что среди поколения младше 25 лет есть такая же тенденция: игры установить или рилс на коленке смонтировать — это запросто, но как только речь заходит о чем-то, что требует хоть капли технической грамотности для работы, сразу начинается &quot;ой, я не умею&quot; или руки умывают. возможно проблема в том, что многие просто не придают значения развитию навыков, которые могут пригодиться в работе. весь акцент на развлекательный контент, а когда дело доходит до профессиональных задач, как минимум технических, наступает ступор. вроде бы цифровая эпоха, но у части людей даже базовые навыки компьютерной грамотности где-то потерялись по дороге. 3. градиенты и дизайн на днях наткнулся на статью на хабре про градиенты. в последнее время я часто делаю графические материалы для презентаций, и эта статья оказалась полезной. в ней рассказывалось, как делать &quot;чистые&quot; градиенты без серых пятен на переходах. если интересует, могу поделиться ссылкой. информация простая, но полезная. habr ссылка всем продуктивной недели и новых знаний! чтение" data-tags="чтение" data-date="2024-09-16T11:38:01">
+  <a class="post-pic" href="scroll/57.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:159" aria-hidden="true"><span>С</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/57.html">Сегодня поговорим про чтение, но с twist&#x27;ом.</a></h3>
+    <p class="meta"><time datetime="2024-09-16T11:38:01">16 сентября 2024</time> · <a href="https://t.me/SMailsPub/57" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">У меня для вас три мини-заметки на тему: 1. NAS хранилище Недавно я обзавёлся своим домашним NAS хранилищем, и это была целая одиссея. Радости было полные штаны: много гигабайт на хранение, широкий функционал для pet-проектов —…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=чтение">#чтение</a></p>
+  </div>
+</article>
+<article class="card post" data-search="книжный шаи-хулуд на горизонте! 🦊🦊🦊🦊🦊🦊🦊 чтение манга как-то не сложилось с этими тегами, но один пост на форуме по warhammer меня раскачал! почему если кто-то читает комиксы — он гик, а если читаешь мангу, то тебя считают странным? может, во мне сейчас бушует огонь негодования после очередного треда в warhammer👾, но всё же есть тенденция. когда знакомишься с кем-то и тебя спрашивают, что читаешь, я отвечаю: мангу, манхву или маньхуа... и видишь в глазах собеседника выражение типа &quot;ну, с тобой всё ясно&quot;. давайте попробую развить эту тему. возможно, из-за массового производства посредственного контента в этом направлении у вас сложилось мнение, что манга — это помойка, к которой не стоит притрагиваться. но, как говорит народная мудрость: &quot;у тебя просто не было нормальной манги(вставить любое слово) в жизни&quot;. комиксы уже признаны частью гиковской культуры, возможно, из-за того, что их создание требует больше времени и усилий, а может, потому что они касаются понятных всем фандомов, вроде супергероев из marvel и dc - это делает их восприятие проще и привычнее. попробую предложить вам список манги, которая стоит вашего внимания. дайте этому направлению второй шанс — вдруг ваше представление изменится? берсерк — классика дип-дарк фэнтези. очень жестокая история, полная расчленёнки, насилия и сатанизма, но это средневековье во всей его суровости. акира или призрак в доспехах — классика киберпанка, проверенная временем. многие знают аниме или фильмы, но первоисточник часто упоминается в контексте кино и игровой индустрии. человек-бензопила или магическая битва — добротный экшен с качественной прорисовкой, порой лучше, чем в некоторых комиксах marvel. я бы ещё добавил гинтаму, но её сумасшествие лучше оставить на десерт (а может, просто посмотреть аниме). главное преимущество манги — разнообразие сюжетов, которые легко воспринимаются. возможно, вы не научитесь &quot;писать правильно и красиво составлять предложения&quot;, как нас учили на уроках литературы, но манга и не претендует на это. это способ развлечься и отдохнуть, а не научный труд. до:мо аригато: годзаимас🥺 чтение манга" data-tags="чтение манга" data-date="2024-09-09T15:22:56">
+  <a class="post-pic" href="scroll/32.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:64" aria-hidden="true"><span>К</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/32.html">Книжный Шаи-Хулуд на горизонте!</a></h3>
+    <p class="meta"><time datetime="2024-09-09T15:22:56">9 сентября 2024</time> · <a href="https://t.me/SMailsPub/32" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">🦊🦊🦊🦊🦊🦊🦊 чтение манга Как-то не сложилось с этими тегами, но один пост на форуме по Warhammer меня раскачал! Почему если кто-то читает комиксы — он гик, а если читаешь мангу, то тебя считают странным? Может, во мне сейчас бушует…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=чтение">#чтение</a><a class="chip chip-sm" href="search.html?tag=манга">#манга</a></p>
+  </div>
+</article>
+<article class="card post" data-search="легкой недели!🥳 планировал посвятить понедельник хештегу чтение, но чувствую, что в его классическом понимании что-то не заходит. если задуматься, когда я последний раз держал книгу в руках, это, наверное, было полгода назад, когда читал подаренную книгу metronomicon. она привлекла меня стилистикой, напоминающей рассказы самозбора и scp, да и честно говоря, из-за иллюстраций и погружения в лор. мне кажется, что в существующем формате чтение «литературы» я не воспринимаю как что-то необходимое. я не стремлюсь улучшить свои орфографические навыки — это для меня какой-то космос (да и все свои тексты я обычно прогоняю через специальные инструменты коррекции), а чтобы подчерпнуть что-то новое... есть много других более удачных или комфортных для меня способов: статьи, видео или подкасты. возможно, лет через &quot;дцать&quot;, я поменяю свое отношение к художественной литературе, но сейчас, просто «не дозрел». может, вы сможете подсказать, что можно почитать, или попробуете «научить», как правильно читать?🤔 чтение" data-tags="чтение" data-date="2024-09-02T12:54:04">
+  <a class="post-pic" href="scroll/18.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:126" aria-hidden="true"><span>Л</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/18.html">Легкой недели!🥳</a></h3>
+    <p class="meta"><time datetime="2024-09-02T12:54:04">2 сентября 2024</time> · <a href="https://t.me/SMailsPub/18" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Планировал посвятить понедельник хештегу чтение, но чувствую, что в его классическом понимании что-то не заходит. Если задуматься, когда я последний раз держал книгу в руках, это, наверное, было полгода назад, когда читал…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=чтение">#чтение</a></p>
+  </div>
+</article>
+<article class="card post" data-search="если вы решили узнать, чем закончится этот марафон, то добро пожаловать!😎 для удобства рефлексии и поиска по тегам я выделил небольшую подсказку, которая будет пополняться. этот список, по сути, появился из моего расписания на неделю: пн: чтение манга вт: сад ср: кальян chill чтв: пыльныезаписи пт: игры сб: хобби чтение манга сад кальян chill пыльныезаписи игры хобби" data-tags="чтение манга сад кальян chill пыльныезаписи игры хобби" data-date="2024-09-01T16:05:02">
+  <a class="post-pic" href="scroll/15.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:345" aria-hidden="true"><span>Е</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/15.html">Если вы решили узнать, чем закончится этот марафон, то добро пожаловать!😎</a></h3>
+    <p class="meta"><time datetime="2024-09-01T16:05:02">1 сентября 2024</time> · <a href="https://t.me/SMailsPub/15" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Для удобства рефлексии и поиска по тегам я выделил небольшую подсказку, которая будет пополняться. Этот список, по сути, появился из моего расписания на неделю: ПН: чтение манга ВТ: сад СР: кальян chill ЧТВ: пыльныезаписи ПТ: игры СБ: хобби</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=чтение">#чтение</a><a class="chip chip-sm" href="search.html?tag=манга">#манга</a><a class="chip chip-sm" href="search.html?tag=сад">#сад</a><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
   </div>
 </article>
   </div>
@@ -156,6 +290,7 @@
     <section class="box">
       <h3>Грамота</h3>
       <p>Сие есть архив канала <a href="https://t.me/SMailsPub">Лисья таверна</a>. Лента в Telegram течёт и тонет, а здесь всё лежит по полкам.</p>
+      <p>Стучаться к трактирщику: <a href="https://t.me/Smailkiller">@Smailkiller</a></p>
       <p class="quote" data-quotes='[&quot;Всяк сюда входящий — вытри ноги и надежду.&quot;, &quot;Трактирщик не виноват. Виноваты звёзды и понедельник.&quot;, &quot;Улитка снова победила рыцаря. Летописец плачет.&quot;, &quot;Эль тёплый, свечи коптят, Wi-Fi через раз. Средневековье.&quot;, &quot;Здесь могла быть ваша чума.&quot;, &quot;Писано при лучине, дрожащей от сквозняка.&quot;]'>Всяк сюда входящий — вытри ноги и надежду.</p>
     </section>
     <section class="box">
@@ -165,7 +300,7 @@
     </section>
     <section class="box">
       <h3>Трактовое кольцо</h3>
-      <p class="ring"><a href="https://smailkiller.github.io/">Мастерская хозяина (AI и BIM)</a><a href="https://t.me/SMailsPub">Канал в Telegram</a><a href="sitemap.xml">Карта трактира</a></p>
+      <p class="ring"><a href="https://smailkiller.github.io/">Мастерская хозяина (AI и BIM)</a><a href="https://xml-agr.ru/">XML-AGR: инструменты для АГР</a><a href="https://t.me/SMailsPub">Канал в Telegram</a><a href="sitemap.xml">Карта трактира</a></p>
       <div class="buttons88" aria-hidden="true">
         <span class="b88 b-a">лучше смотреть<br>при лучине</span>
         <span class="b88 b-b">сделано<br>гусиным пером</span>
