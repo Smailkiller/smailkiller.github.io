@@ -2,7 +2,7 @@
 """Пиксельный общий зал Лисьей таверны.
 
 Рисует сцену 480×280 с освещением (очаг, свечи, магический шар), дизерингом и обводками,
-в 4 кадрах анимации (огонь, дым, шестерни, глаз в шаре). Результат:
+в 4 кадрах анимации (огонь, дым, шестерни, глаз в шаре, бобыль). Результат:
 
   assets/scene/frames.png      — 4 кадра в ряд (CSS листает их)
   assets/scene/hl-<id>.png     — подсветка предмета при наведении
@@ -51,18 +51,22 @@ RAMPS = {
     "smoke": ["#595560", "#827c84", "#aca5aa", "#d2cbcb", "#efe9e4"],
     "cork": ["#281910", "#4b301e", "#704d2d", "#966c40", "#b48955", "#cfa66d"],
     "hl": ["#fee761"],
+    "kok": ["#141a18", "#232d2a", "#34413d", "#4a5a55", "#62756f", "#7f928b", "#a3b3ad"],
+    "eye": ["#e6ff3a"],
+    "tin": ["#16181f", "#2a2e3a", "#434857", "#5f6578", "#7e8598", "#a0a8ba", "#c6ccda"],
     "tvfur": ["#1b0c08", "#3a150b", "#66220f", "#963511", "#c65216", "#e67624", "#f69c42", "#ffc574"],
     "tvcream": ["#29211e", "#574740", "#8b776a", "#bdab99", "#e1d4c2", "#faf3e6"],
 }
 MATS = list(RAMPS)
 MID = {m: i for i, m in enumerate(MATS)}
-EMISSIVE = {"fire", "sky", "star", "screen", "brew", "orb", "hl", "tvfur", "tvcream"}
+EMISSIVE = {"fire", "sky", "star", "screen", "brew", "orb", "hl", "tvfur", "tvcream", "eye"}
 RGB = [np.array([[int(h[i:i + 2], 16) for i in (1, 3, 5)] for h in RAMPS[m]], np.uint8) for m in MATS]
 BAYER = (np.array([[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]]) + 0.5) / 16
 BAYER = np.tile(BAYER, (H // 4 + 1, W // 4 + 1))[:H, :W]
 
 OBJ = {"garden": 1, "shelf": 2, "hearth": 3, "board": 4, "ai": 5, "minis": 6, "hookah": 7,
-       "fox": 8, "cat": 9, "snail": 10, "knight": 11, "barrel": 12, "chandelier": 13, "table": 14, "screen": 15}
+       "fox": 8, "cat": 9, "snail": 10, "knight": 11, "barrel": 12, "chandelier": 13, "table": 14, "screen": 15,
+       "plumbiy": 16}
 HOT = {  # ключ — id комнаты из config.json (search — поиск), значение — предметы сцены
     "garden": ["garden"], "shelf": ["shelf"], "thoughts": ["hearth"], "search": ["board"],
     "ai": ["ai"], "anime": ["screen"], "minis": ["minis"], "games": ["barrel"], "hookah": ["hookah", "table", "fox"],
@@ -190,36 +194,142 @@ kOOOOOOk............kbbbk..
 FOX_LEG = {"k": ("ink", 1), "O": ("fur", 5), "o": ("fur", 3.5), "w": ("cream", 3.5), "W": ("cream", 4.5),
            "e": ("ink", 0), "G": ("green", 3.6), "d": ("green", 2.2), "y": ("brass", 4.6), "b": ("wood", 2.5)}
 
-CAT = """
-................k.k..
-...............kokok.
-.....kkkkkkkkkkoooook
-...kkoooooooooooooOok
-..koooooooooooooooook
-.koooooooooooooooook.
-kooookoooooooooooook.
-kook.kkkkkkkkkkkkkk..
-.kk..................
-"""
-CAT_LEG = {"k": ("ink", 1), "o": ("metal", 2.6), "O": ("brass", 5)}
 
-SNAIL = """
-..................k..k
-..................k..k
-......kkkkk.......k.k.
-....kkSSSSSkk.....kk..
-...kSSsssssSSk...kbk..
-..kSssSSSSSssSk.kbbk..
-..kSsSkkkkkSsSkkbbbk..
-..kSsSkSSSkSsSkbbbk...
-..kSsSkSkkkSsSkbbk....
-...kSsSkkSSsSkbbbk....
-....kSSSSSSSkbbbbk....
-.kkkkkkkkkkkbbbbbk....
-kbbbbbbbbbbbbbbbk.....
-.kkkkkkkkkkkkkkk......
+# бобыль: яйцеподобный, клокочет под полом (вместо улитки)
+BOBYL = """
+....kkkk....
+...kWwwwk...
+..kWWwwwwk..
+..kWwwwwwk..
+.kwwwwwwwwk.
+.kweewweewk.
+.kwwwwwwwwk.
+.kwwwkkwwwk.
+.kwwwwwwwwk.
+..kwwwwwwk..
+..kkwwwwkk..
+...kk..kk...
 """
-SNAIL_LEG = {"k": ("ink", 1), "S": ("terra", 5), "s": ("terra", 3.4), "b": ("cream", 3.6)}
+BOBYL_LEG = {"k": ("ink", 1), "w": ("bone", 4.2), "W": ("bone", 5.4), "e": ("ink", 0)}
+
+# Кокш Томик на книжной полке: лесной кот, читает с конца
+TOMIK = """
+.k...k...............
+kxk.kxk..............
+kxxkxxk..............
+kxYxxYxkkkkkkkkkkk...
+kxxxxxxxxxxxxxxxxxxk.
+.kxxxxxxxxxxxxxxxxxxk
+..kXXxxxxxxxxxxxxxxk.
+..kkkkkkkkkkkkkkkkk..
+"""
+TOMIK_LEG = {"k": ("ink", 1), "x": ("kok", 3.6), "X": ("kok", 5), "Y": ("eye", 0)}
+
+# Черенок Фомич: рассадный стаканчик, прутья, ростки
+FOMICH = """
+.....ll..LL.....
+....lLLl.lLl....
+.....ll.kk......
+......kkddkk....
+.....kddddddk...
+....kuuuuuuUk...
+....kuekkeuUk.l.
+t...kuuuuuuUk.t.
+.t..kuukkuuUkt..
+..t.kkkkkkkkt...
+...ttuuuuuuUk...
+....kuuuuuuUk...
+....kuUuuuuUk...
+....kuuuuuuUk...
+....kuuuuuuUk...
+.....kkkkkkk....
+......t...t.....
+"""
+FOMICH_LEG = {"k": ("ink", 1), "u": ("cream", 4.8), "U": ("cream", 3.4), "d": ("cork", 2), "e": ("ink", 0),
+              "t": ("wood", 5), "l": ("plant", 5.2), "L": ("plant", 6.4)}
+
+# Ответень Гаврилыч: гриб-дождевик на подставке, всегда уверен
+GAVR = """
+..kkkkk..
+.kPPPPpk.
+kPkPPkPpk
+kPPPPPPpk
+kPkkkkPpk
+.kPPPPpk.
+..kbbbk..
+.kbbbbbk.
+"""
+GAVR_LEG = {"k": ("ink", 1), "P": ("parch", 5.4), "p": ("parch", 4), "b": ("wood", 4.4)}
+
+# Уголёк Тимофеич: ходячий уголь на трёх ножках
+UGOL = """
+..kkkkk..
+.kcfcccck
+kcFckcFck
+kccfccfck
+kcccfccck
+.kkkkkkk.
+.k..k..k.
+"""
+UGOL_LEG = {"k": ("ink", 1), "c": ("ink", 2.2), "f": ("fire", 3), "F": ("fire", 6)}
+
+# Оловянный ротмистр Плюмбий: половина крашеная, половина в грунте
+PLUMB = """
+...rr.....
+..kjjjk...
+..kmmmk...
+..kPPzk...
+..kPPzk...
+.kRRmzzk..
+kRRRmzzzk.
+kPkRmzzkZ.
+..kRmzk.Z.
+..kRkzk.Z.
+..kRkzk...
+.kkkkkkk..
+kzzzzzzzk.
+.kkkkkkk..
+"""
+PLUMB_LEG = {"k": ("ink", 1), "r": ("red", 5.5), "j": ("tin", 1.5), "m": ("brass", 5.2), "P": ("skin", 4),
+             "z": ("tin", 3.6), "Z": ("tin", 6), "R": ("red", 4.2)}
+
+# Герой Шутливый Лисивый: клоун в ромбах, нос — скорлупа бобыля, в лапе бидон чужого смеха
+LISIVY = """
+...k.......k..........
+..kOk.....kOk.........
+..kOOk...kOOk.........
+..kOwOkkkkOwOk........
+.kOOOOOOOOOOOOk.......
+.kwwwOOOOOOOOOk.......
+.kweewOOOOkeOOk.......
+.kwwwwOOOOOOOOk.......
+..kwwwOOOKKKOk........
+...kwwwwKKKKKk........
+....kkwwwKKKk.........
+...kKKKKKKKKKk........
+..kKkKkKkKkKkKk.......
+..kQQNNQQNNQQNk.......
+.kQNNQQNNQQNNQQk......
+.kNQQNNQQNNQQNQk......
+kQkNNQQNNQQNNkQk......
+kwkQQNNQQNNQQkwk.kkkk.
+kk.NNQQNNQQNNkwkkmmmmk
+...QQNNQQNNQQk..kmMmmk
+...NNQQNNQQNNk..kmmmmk
+...QQNNQQNNQQk..kmmmmk
+...NNQQNNQQNNk..kmmmmk
+...QQNNQQNNQQk..kkkkkk
+...NNQQNNQQNNk........
+...kQQNNkQQNNk........
+....kNNk.kQQk.........
+....kQQk.kNNk.........
+....kbbk.kBBk.........
+...kbbbk.kBBBk........
+...kkkkk.kkkkk........
+"""
+LISIVY_LEG = {"k": ("ink", 1), "O": ("fur", 5), "w": ("bone", 5.4), "e": ("ink", 0), "K": ("bone", 5.6),
+              "Q": ("brass", 3.8), "N": ("green", 3.4), "m": ("metal", 4.4), "M": ("metal", 6.4),
+              "b": ("wood", 3), "B": ("red", 3.6)}
 
 TVFOX = """
 ..k..............k..
@@ -242,26 +352,6 @@ TVFOX_BLINK = {6: "kOOOOOOOOOOOOOOOOOOk", 7: "kOOkkkkOOOOOOkkkkOOk", 8: "kOOOOOO
 TVFOX_LEG = {"k": ("ink", 0.5), "O": ("tvfur", 5.4), "w": ("tvcream", 3), "W": ("tvcream", 4.8),
              "e": ("ink", 0), }
 
-KNIGHT = """
-....kkkkk....
-...kMMMMMk...
-..kMMMMMMMk..
-..kMkkkkkMk..
-..kMMMMMMMk..
-...kMMMMMk...
-..kkrrrrrkk..
-.kMkrrrrrkMk.
-kMMkrrrrrkMMk
-kMkkrrrrrkkMk
-kk.krrrrrk.kk
-...kMMkMMk...
-...kMk.kMk...
-...kMk.kMk...
-..kkMk.kMkk..
-..kMMk.kMMk..
-..kkkk.kkkk..
-"""
-KNIGHT_LEG = {"k": ("ink", 1), "M": ("metal", 4.6), "r": ("red", 4)}
 
 
 def soldier(c, x, base, color, flag, frame):
@@ -390,15 +480,8 @@ def draw(frame):
         c.paint(c.line([(x0 + 2, (y0 + y1) // 2), (x1 - 2, (y0 + y1) // 2)]) & leaf, "plant", 6)
         c.paint(c.line([((x0 + x1) // 2, y0 + 3), ((x0 + x1) // 2 + 2, y0 + 6)]) & leaf, "sky", 1)
     c.paint(c.line([(54, 131), (46, 110)]) | c.line([(54, 131), (62, 104)]) | c.line([(54, 131), (54, 94)]), "plant", 3.4, "garden")
-    # чили
-    c.paint(c.poly([(72, 146), (74, 136), (86, 136), (88, 146)]), "terra", 4.2, "garden")
-    c.paint(c.rect(71, 134, 89, 137), "terra", 5, "garden")
-    c.paint(c.line([(80, 135), (80, 110)], 2), "plant", 3.6, "garden")
-    for (lx, ly) in [(74, 116), (84, 112), (76, 124), (86, 122), (80, 106)]:
-        c.paint(c.ell(lx - 3, ly - 2, lx + 4, ly + 2), "plant", 5, "garden")
-    for (px_, py_) in [(76, 120), (84, 117), (79, 127), (86, 128)]:
-        c.paint(c.rect(px_, py_, px_ + 2, py_ + 5), "red", 5.2, "garden")
-        c.px(px_, py_ - 1, "plant", 5, "garden")
+    # Черенок Фомич вместо горшка с чили
+    c.sprite(72, 129, FOMICH.strip("\n").split("\n"), FOMICH_LEG, "garden")
 
     # ── книжная полка ──
     c.paint(c.rect(104, 44, 174, 212), "wood", 1.5, "shelf")
@@ -553,7 +636,10 @@ def draw(frame):
     c.px(311, 131, "orb", 7, "ai")
     c.light(318, 140, 70, 0.28)
     # свиток, чернильница, перо
-    c.paint(c.rect(300, 150, 306, 156) | c.ell(298, 149, 304, 157), "parch", 5.5, "ai")
+    c.sprite(296, 148, GAVR.strip("\n").split("\n"), GAVR_LEG, "ai")      # Ответень Гаврилыч
+    c.paint(c.rect(295, 139, 306, 144), "parch", 6, "ai")                     # табличка над ним
+    c.paint(c.rect(297, 141, 304, 142), "parch", 2.4, "ai")
+    c.px(300, 145, "wood", 4, "ai")
     c.paint(c.rect(374, 148, 379, 156), "ink", 1.5, "ai")
     c.paint(c.line([(376, 150), (384, 136)], 2), "cream", 5, "ai")
     candle(c, 330, 156, 7, rng, "ai")
@@ -616,20 +702,23 @@ def draw(frame):
     c.paint(c.rect(385, 256, 396, 258), "wood", 2, "barrel")
     c.paint(c.line([(390, 256), (403, 197)]), "bone", 5.5, "barrel")
 
-    # ── кот у очага ──
-    c.sprite(270, 204, CAT.strip("\n").split("\n"), CAT_LEG, "cat")
-    z = [(292, 196), (294, 192), (296, 188), (298, 184)][frame]
+    # ── Уголёк Тимофеич у очага ──
+    c.sprite(280, 203, UGOL.strip("\n").split("\n"), UGOL_LEG, "hearth")
+    # ── Кокш Томик на книжной полке ──
+    c.sprite(132, 30, TOMIK.strip("\n").split("\n"), TOMIK_LEG, "shelf")
+    z = [(152, 26), (154, 22), (156, 18), (158, 14)][frame]
     c.px(z[0], z[1], "cream", 3.6)
     c.px(z[0] + 1, z[1], "cream", 3.6)
     c.px(z[0], z[1] + 1, "cream", 3.6)
     c.px(z[0] + 1, z[1] + 2, "cream", 3.6)
-
-    # ── улитка против рыцаря ──
-    c.sprite(300, 262, SNAIL.strip("\n").split("\n"), SNAIL_LEG, "snail")
-    c.paint(c.line([(318, 270), (338, 262)]), "wood", 5, "snail")
-    c.px(339, 261, "metal", 6, "snail")
-    c.sprite(342, 259, KNIGHT.strip("\n").split("\n"), KNIGHT_LEG, "knight")
-    c.paint(c.line([(342, 268), (334, 256)], 1), "metal", 6, "knight")
+    # ── Плюмбий объявляет манёвры на каминной полке ──
+    c.sprite(206, 72, PLUMB.strip("\n").split("\n"), PLUMB_LEG, "plumbiy")
+    # ── бобыль из-под пола и Герой Шутливый Лисивый с бидоном ──
+    c.sprite(304 + (1 if frame % 2 else 0), 266, BOBYL.strip("\n").split("\n"), BOBYL_LEG, "snail")
+    if frame % 2:
+        c.paint(c.line([(318, 262), (321, 259)]) | c.line([(318, 266), (322, 266)]), "bone", 5.5)
+    c.sprite(344, 246, LISIVY.strip("\n").split("\n"), LISIVY_LEG, "barrel")
+    c.light(356, 256, 46, 0.22)
 
     # ── дымная горница: стол с кальяном и лис ──
     c.paint(c.rect(138, 232, 146, 266), "wood", 3.4, "table", tex=.4)

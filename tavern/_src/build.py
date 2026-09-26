@@ -13,7 +13,9 @@
   _src/config.json        — название, ссылка на канал, комнаты и их хэштеги
   _src/catalog/*.json     — каталоги (забивки, растения, миниатюры, полка, ярлыки ИИ), правятся руками
   _src/posts.json         — посты канала после импорта (создаётся сам)
+  _src/catalog/heroes.json — герои таверны и её мир (страница «Кто в таверне», смотрители комнат)
   _src/pixel_scene.py     — рисует пиксельный зал (assets/scene/*, hotspots.json)
+  _src/pixel_heroes.py    — пиксельные портреты героев и неоновые текстуры (assets/heroes/*)
   tavern/*.html, scroll/  — готовые страницы (генерируются, руками не править)
 """
 import argparse
@@ -39,15 +41,9 @@ MONTHS = ["января", "февраля", "марта", "апреля", "ма�
           "августа", "сентября", "октября", "ноября", "декабря"]
 HASHTAG_RE = re.compile(r"#([0-9A-Za-zА-Яа-яЁё_]+)")
 URL_RE = re.compile(r"https?://[^\s<>\"')\]]+")
-QUOTES = [
-    "Всяк сюда входящий — вытри ноги и надежду.",
-    "Трактирщик не виноват. Виноваты звёзды и понедельник.",
-    "Улитка снова победила рыцаря. Летописец плачет.",
-    "Эль тёплый, свечи коптят, Wi-Fi через раз. Средневековье.",
-    "Здесь могла быть ваша чума.",
-    "Писано при лучине, дрожащей от сквозняка.",
-]
-
+# цвета комнат: подсветка ссылок, «зеркала» на орбите (совпадают с ORBS в pixel_heroes.py)
+ROOM_COLOR = {"shelf": "#ff5fa8", "garden": "#b6ff5a", "hookah": "#ffb05a", "ai": "#6ff0ff", "games": "#c89bff",
+              "minis": "#ffe66a", "anime": "#ff7ae0", "thoughts": "#ffd259", "search": "#e6ff3a"}
 
 def esc(s):
     return html.escape(str(s or ""), quote=True)
@@ -498,6 +494,10 @@ class Site:
         self.room_posts = {r["id"]: [p for p in posts if r["id"] in p["rooms"]] for r in self.rooms}
         self.today = dt.date.today()
         self.sample = any(p.get("sample") for p in posts)
+        self.hero_data = catalogs.get("heroes") or {}
+        self.heroes = self.hero_data.get("heroes", [])
+        self.quotes = [f"«{a}» — {b}" if b else f"«{a}…»" for a, b in self.hero_data.get("guestbook", [])] or [
+            "Плата — одна забытая вещь. Сдача не даётся."]
 
     def tg_link(self, pid):
         u = self.s.get("channel_username", "").lstrip("@")
@@ -511,19 +511,27 @@ class Site:
     def page(self, path, title, body, root="", room=None, desc="", scene=False):
         s = self.s
         full_title = f"{title} — {s['title']}" if title != s["title"] else s["title"]
-        nav = "".join(
-            f'<a class="plank{" is-here" if room == r["id"] else ""}" href="{root}{r["page"]}">'
-            f'<span>{esc(r["sign"])}</span><small>{esc((r.get("day") + " · ") if r.get("day") else "")}#{esc(r["hashtags"][0])}</small></a>'
-            for r in self.rooms)
+        nav = ""
+        for r in self.rooms:
+            day = f'<small>{esc(r["day"])}</small>' if r.get("day") else ""
+            nav += (f'<a class="tn{" is-here" if room == r["id"] else ""}" href="{root}{r["page"]}" style="--rc:{ROOM_COLOR.get(r["id"], "#e6ff3a")}">'
+                    f'<img src="{root}assets/heroes/{self.keeper_of(r["id"])["id"]}.png" alt="" width="16" height="16">'
+                    f'<span>{esc(r["sign"])}</span>{day}</a>')
+        nav += (f'<a class="tn tn-search{" is-here" if room == "search" else ""}" href="{root}search.html" style="--rc:{ROOM_COLOR["search"]}">'
+                f'<img src="{root}assets/heroes/osevoy.png" alt="" width="16" height="16"><span>Картотека</span></a>'
+                f'<a class="tn tn-guests{" is-here" if room == "guests" else ""}" href="{root}guests.html" style="--rc:#ff6a1f">'
+                f'<img src="{root}assets/heroes/lisivy.png" alt="" width="16" height="16"><span>Кто здесь</span></a>')
         metrika = ""
         if s.get("yandex_metrika"):
             mid = int(s["yandex_metrika"])
             metrika = f"""<script>(function(m,e,t,r,i,k,a){{m[i]=m[i]||function(){{(m[i].a=m[i].a||[]).push(arguments)}};m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){{if(document.scripts[j].src===r){{return;}}}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)}})(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id={mid}','ym');ym({mid},'init',{{ssr:true,clickmap:true,trackLinks:true,accurateTrackBounce:true}});</script>"""
         neighbors = "".join(f'<a href="{esc(n["url"])}">{esc(n["title"])}</a>' for n in s.get("neighbors", []))
         chan = esc(s["channel_url"])
-        sample_note = ('<div class="sample-bar">Трактир обставлен <b>образцами</b>: '
+        sample_note = ('<div class="sample-bar">Таверна обставлена <b>образцами</b>: '
                        'настоящие посты появятся после импорта экспорта канала.</div>') if self.sample else ""
         canonical = s["base_url"] + (path if path != "index.html" else "")
+        first = ru_date(self.posts[-1]["date"]) if self.posts else "—"
+        last = ru_date(self.posts[0]["date"]) if self.posts else "—"
         html_out = f"""<!doctype html>
 <html lang="ru">
 <head>
@@ -536,53 +544,58 @@ class Site:
 <meta property="og:title" content="{esc(full_title)}">
 <meta property="og:description" content="{esc(desc or s['tagline'])}">
 <meta property="og:url" content="{esc(canonical)}">
-<meta name="theme-color" content="#1b120c">
+<meta name="theme-color" content="#050706">
 <link rel="icon" href="{root}assets/favicon.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Ruslan+Display&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=PT+Mono&family=Pixelify+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Press+Start+2P&family=Rubik+Glitch&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{root}assets/tavern.css">
+<script>try{{if(localStorage.getItem("tavern-still")==="1")document.documentElement.classList.add("is-still")}}catch(e){{}}</script>
 {metrika}
 </head>
 <body class="{'is-hall' if scene else 'is-room'}{' room-' + room if room else ''}">
 <a class="skip" href="#main">К содержимому</a>
-<div class="torchlight" aria-hidden="true"></div>
-<header class="top">
-  <a class="sign" href="{root}index.html" title="В общий зал">
-    <span class="sign-chain" aria-hidden="true"></span>
-    <span class="sign-board"><span class="sign-small">{esc(s['channel_title'])}</span>{esc(s['title'])}</span>
-  </a>
-  <nav class="planks" aria-label="Комнаты трактира">{nav}<a class="plank plank-search{' is-here' if room == 'search' else ''}" href="{root}search.html"><span>Писарь</span><small>поиск</small></a></nav>
+<header class="topbar">
+  <a class="logo" href="{root}index.html" title="В общий зал"><img src="{root}assets/heroes/kalyanych.png" alt="" width="24" height="24"><span>лисья<b>.</b>таверна</span></a>
+  <nav class="topnav" aria-label="Комнаты таверны">{nav}</nav>
+  <button type="button" class="still-btn" aria-pressed="false" title="Остановить движение на странице"><span aria-hidden="true">⏸</span><span class="visually-hidden">Остановить движение</span></button>
 </header>
 {sample_note}
 <main id="main">
 {body}
 </main>
 <footer class="bottom">
+  <p class="statbar"><span>свитков: <b>{len(self.posts)}</b></span><span>комнат: <b>{len(self.rooms)}</b></span><span>первый свиток: <b>{first}</b></span><span>последний: <b>{last}</b></span><span>плата: <b>одна забытая вещь</b></span></p>
   <div class="foot-grid">
-    <section class="box">
-      <h3>Грамота</h3>
-      <p>Сие есть архив канала <a href="{chan}">{esc(s['channel_title'])}</a>. Лента в Telegram течёт и тонет, а здесь всё лежит по полкам.</p>
-      <p>Стучаться к трактирщику: <a href="{esc(s.get('owner_url', chan))}">{esc(s.get('owner', ''))}</a></p>
-      <p class="quote" data-quotes='{esc(json.dumps(QUOTES, ensure_ascii=False))}'>{esc(QUOTES[0])}</p>
+    <section class="panel box">
+      <h3 class="bar">Грамота</h3>
+      <div class="box-in">
+        <p>Архив канала <a href="{chan}">{esc(s['channel_title'])}</a>. Лента в Telegram течёт и тонет, а здесь всё лежит по полкам, подписанное Дедом Осевым.</p>
+        <p>Стучаться к хозяину: <a href="{esc(s.get('owner_url', chan))}">{esc(s.get('owner', ''))}</a></p>
+        <p class="quote" data-quotes='{esc(json.dumps(self.quotes, ensure_ascii=False))}'>{esc(self.quotes[0])}</p>
+      </div>
     </section>
-    <section class="box">
-      <h3>Свечной счётчик</h3>
-      <p class="candles" aria-live="polite"><span class="candle-row" aria-hidden="true"></span><span class="candle-text">Ты здесь впервые, путник.</span></p>
-      <p class="tiny">Свечи считаются только в твоём браузере. Мы не шпионим, мы страдаем.</p>
+    <section class="panel box">
+      <h3 class="bar">Банки в подвале</h3>
+      <div class="box-in">
+        <p class="candles" aria-live="polite"><span class="candle-row" aria-hidden="true"></span><span class="candle-text">Ты здесь впервые. Плата — одна забытая вещь.</span></p>
+        <p class="tiny">Банки считаются только в твоём браузере. Хозяин ищет в них своё имя, а не твоё.</p>
+      </div>
     </section>
-    <section class="box">
-      <h3>Трактовое кольцо</h3>
-      <p class="ring">{neighbors}<a href="{chan}">Канал в Telegram</a><a href="{root}sitemap.xml">Карта трактира</a></p>
-      <div class="buttons88" aria-hidden="true">
-        <span class="b88 b-a">лучше смотреть<br>при лучине</span>
-        <span class="b88 b-b">сделано<br>гусиным пером</span>
-        <span class="b88 b-c">без чумы<br>и NFT</span>
-        <span class="b88 b-d">HTML 1.0<br>ANNO 2026</span>
+    <section class="panel box">
+      <h3 class="bar">Трактовое кольцо</h3>
+      <div class="box-in">
+        <p class="ring">{neighbors}<a href="{chan}">Канал в Telegram</a><a href="{root}guests.html">Кто в таверне</a><a href="{root}sitemap.xml">Карта таверны</a></p>
+        <div class="buttons88" aria-hidden="true">
+          <span class="b88 b-a">смотреть<br>при жаровне</span>
+          <span class="b88 b-b">восьмое<br>зеркало</span>
+          <span class="b88 b-c">бобылей<br>не выдаём</span>
+          <span class="b88 b-d">осам<br>не наливаем</span>
+        </div>
       </div>
     </section>
   </div>
-  <p class="colophon">Переписано писарем {self.today.year} года от Р. Х. · <a href="{root}index.html">общий зал</a> · <a href="#main">наверх ↑</a></p>
+  <p class="colophon">Подписано Дедом Осевым, {self.today.year} · <a href="{root}index.html">общий зал</a> · <a href="#main">наверх ↑</a></p>
 </footer>
 <script src="{root}assets/tavern.js"></script>
 </body>
@@ -591,6 +604,13 @@ class Site:
         out = SITE / path
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(html_out, encoding="utf-8")
+
+    def keeper_of(self, room_id):
+        """Кто из героев присматривает за комнатой (поле room/rooms в catalog/heroes.json)."""
+        for h in self.heroes:
+            if room_id == h.get("room") or room_id in h.get("rooms", []):
+                return h
+        return self.heroes[0] if self.heroes else {"id": "kalyanych", "name": "Лис Кальяныч", "quote": ""}
 
     # ─────────── маленькие детали ───────────
 
@@ -619,7 +639,7 @@ class Site:
 
     def feed(self, posts, root="", title="Свитки из канала", big=False, empty=None):
         if not posts:
-            return f'<section class="parchment"><h2>{esc(title)}</h2><p class="empty">{esc(empty or "Свиток пуст. Писарь запил.")}</p></section>'
+            return f'<section class="parchment"><h2>{esc(title)}</h2><p class="empty">{esc(empty or "Свиток пуст. Томик ещё не дочитал — с конца это долго.")}</p></section>'
         counts = {}
         for p in posts:
             for t in p["hashtags"]:
@@ -644,17 +664,31 @@ class Site:
   <button type="button" class="btn more" data-more="#feed-list">Ещё свитков</button>
 </section>"""
 
-    def room_head(self, r):
-        n = len(self.room_posts[r["id"]])
-        tags = " ".join(f"#{t}" for t in r["hashtags"][:4])
-        return f"""<section class="room-head">
-  <div class="marginalia marg-{r['id']}" aria-hidden="true"><img class="pix" src="assets/scene/icon-{r['id']}.png" alt=""></div>
-  <div>
-    <p class="crumbs"><a href="index.html">Общий зал</a> › {esc(r['name'])}</p>
+    def room_head(self, r, count=None, root=""):
+        """Шапка комнаты: смотритель в зеркале и «инспектор» с выносками, как на espy.world."""
+        n = len(self.room_posts[r["id"]]) if count is None else count
+        tags = " ".join(f"#{t}" for t in r.get("hashtags", [])[:4])
+        k = self.keeper_of(r["id"])
+        color = ROOM_COLOR.get(r["id"], "#e6ff3a")
+        day = DAYS.get(r.get("day", ""), "в любой день") if r.get("hashtags") else "всегда"
+        rows = [("смотритель", f'<a href="{root}guests.html#{esc(k["id"])}">{esc(k["name"])}</a>'),
+                ("когда", esc(day)),
+                ("свитков", f'{n} {plural(n, "свиток", "свитка", "свитков")}' if r.get("hashtags") else f"{n} всего")]
+        if tags:
+            rows.append(("метки", f'<span class="mono">{esc(tags)}</span>'))
+        rows_html = "".join(f'<div class="irow"><span class="ik">{a}</span><span class="iv">{b}</span></div>' for a, b in rows)
+        return f"""<section class="room-head" style="--rc:{color}">
+  <div class="rh-mirror" aria-hidden="true">
+    <img class="rh-orb" src="{root}assets/heroes/orb-{esc(r['id'] if r['id'] in ROOM_COLOR else 'search')}.png" alt="">
+    <img class="rh-keeper" src="{root}assets/heroes/{esc(k['id'])}.png" alt="">
+  </div>
+  <div class="rh-text">
+    <p class="crumbs"><a href="{root}index.html">общий зал</a> <span>›</span> {esc(r['name'])}</p>
     <h1>{esc(r['name'])}</h1>
     <p class="epigraph">{esc(r['epigraph'])}</p>
     <p class="about">{esc(r['about'])}</p>
-    <p class="meta">{esc(DAYS.get(r.get('day', ''), 'в любой день'))} · {n} {plural(n, 'свиток', 'свитка', 'свитков')} в канале · <span class="mono">{esc(tags)}</span></p>
+    <div class="inspect rh-rows">{rows_html}</div>
+    <p class="keeper-says"><img src="{root}assets/heroes/{esc(k['id'])}.png" alt="" width="32" height="32"><span>«{esc(k.get('quote', ''))}» <small>— {esc(k['name'])}</small></span></p>
   </div>
 </section>"""
 
@@ -703,8 +737,8 @@ def pixel_scene_html(site):
             href, name, n = r["page"], r["sign"], len(site.room_posts[key])
             aria = f'{r["name"]}: {n} {plural(n, "свиток", "свитка", "свитков")}'
         elif key == "search":
-            href, name, n = "search.html", "Писарь", len(site.posts)
-            aria = f"Доска писаря: поиск по {n} свиткам"
+            href, name, n = "search.html", "Картотека", len(site.posts)
+            aria = f"Доска Деда Осевого: поиск по {n} свиткам"
         else:
             continue
         style = (f"left:{x0 / sw * 100:.3f}%;top:{y0 / sh * 100:.3f}%;"
@@ -715,71 +749,285 @@ def pixel_scene_html(site):
                      f'<span class="pix-label">{esc(name)}{count}</span></a>')
     snail = (f"left:{300 / sw * 100:.3f}%;top:{256 / sh * 100:.3f}%;"
              f"width:{56 / sw * 100:.3f}%;height:{22 / sh * 100:.3f}%")
-    return f"""<div class="pix-scene" role="group" aria-label="Общий зал Лисьей таверны: окно с огородом, книжная полка, очаг, доска писаря, стол алхимика с магическим шаром, зеркало с лисом, шкаф с оловянными воинами, бочка с костями и лис с кальяном">
+    return f"""<div class="pix-scene" role="group" aria-label="Общий зал Лисьей таверны: окно с огородом, книжная полка, очаг, доска Деда Осевого, стол с гаданием и грибом Гаврилычем, зеркало с лисом, шкаф с оловянным полком Плюмбия, бочка с костями, Герой Шутливый Лисивый с бидоном, бобыль и Лис Кальяныч с кальяном">
       <div class="pix-film" aria-hidden="true"><img src="assets/scene/frames.png" alt="" width="{sw * 4}" height="{sh}"></div>
       {''.join(hls)}
       {''.join(links)}
-      <button type="button" class="pix-snail" style="{snail}" aria-label="Улитка против рыцаря"></button>
+      <button type="button" class="pix-snail" style="{snail}" aria-label="Бобыль из-под пола"></button>
     </div>"""
+
+
+def fox_figure_svg():
+    """Лис Кальяныч во весь рост: неоновый контур, как демон-машина на espy.world.
+    Голова — лого таверны (xml-agr.ru/lisya-taverna.html), тело дорисовано по описанию:
+    стёганка цвета старой хвои, фартук из клеёнки, связка мундштуков, тлеющий хвост и чаша."""
+    beads = []
+    for i in range(1, 10):
+        t = i / 10
+        x = (1 - t) ** 2 * 148 + 2 * (1 - t) * t * 210 + t ** 2 * 272
+        y = (1 - t) ** 2 * 258 + 2 * (1 - t) * t * 326 + t ** 2 * 258
+        col = "#ffd259" if i % 2 else "#d49f3e"
+        beads.append(f'<rect x="{x - 2.5:.1f}" y="{y - 2:.1f}" width="5" height="13" rx="2" fill="{col}"/>')
+    head = """<polygon points="37,16 68,70 28,74" fill="#8d3b16"/>
+      <polygon points="43,29 64,68 47,68" fill="#3a1a10"/>
+      <polygon points="163,16 172,74 132,70" fill="#a8471a"/>
+      <polygon points="157,29 169,70 153,68" fill="#3a1a10"/>
+      <polygon points="100,52 62,73 100,112" fill="#c4551f"/>
+      <polygon points="100,52 138,73 100,112" fill="#a8471a"/>
+      <polygon points="62,73 71,115 100,112" fill="#e07a3a"/>
+      <polygon points="138,73 129,115 100,112" fill="#b64d1c"/>
+      <polygon points="28,74 68,70 71,115" fill="#8d3b16"/>
+      <polygon points="172,74 132,70 129,115" fill="#7d3413"/>
+      <polygon points="76,90 95,86 87,101" fill="#140f0b"/>
+      <polygon points="124,90 105,86 113,101" fill="#140f0b"/>
+      <polygon class="eye" points="79,89 88,88 85,93" fill="#6fc9bd"/>
+      <polygon class="eye" points="121,89 112,88 115,93" fill="#6fc9bd"/>
+      <polygon points="71,115 100,112 84,142" fill="#d9dbc6"/>
+      <polygon points="129,115 100,112 116,142" fill="#bcbfa9"/>
+      <polygon points="84,142 100,112 116,142" fill="#e8dcc6"/>
+      <polygon points="84,142 116,142 100,172" fill="#cfd1bb"/>
+      <polygon points="90,152 110,152 100,168" fill="#140f0b"/>
+      <polygon points="116,150 168,178 164,190 112,160" fill="#3d3226"/>
+      <polygon points="164,186 178,180 176,196" fill="#2a231b"/>
+      <polygon class="ember" points="172,183 182,180 180,192" fill="#e2662a"/>"""
+    return f"""<svg class="fox-svg" viewBox="-60 0 580 780" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <pattern id="quilt" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="16" height="16" fill="#0b150e"/>
+      <path d="M0 0H16M0 0V16" stroke="#2f5a38" stroke-width="1.4"/>
+      <circle cx="8" cy="8" r="1.2" fill="#46654b"/>
+    </pattern>
+    <pattern id="oilcloth" width="14" height="14" patternUnits="userSpaceOnUse">
+      <rect width="14" height="14" fill="#0a1616"/>
+      <rect width="7" height="7" fill="#123030"/>
+      <rect x="7" y="7" width="7" height="7" fill="#123030"/>
+    </pattern>
+    <radialGradient id="flask" cx=".4" cy=".35" r=".7">
+      <stop offset="0" stop-color="#6ff0ff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#0a1a2a" stop-opacity=".9"/>
+    </radialGradient>
+  </defs>
+  <!-- хвост: кончик тлеет, от него раскуривают уголь -->
+  <path class="tail" d="M74,704 C4,700 -48,600 -40,480 C-38,446 -22,420 2,426 C-10,470 -6,560 66,612 Z" fill="#c4551f"/>
+  <path d="M-40,480 C-38,446 -22,420 2,426 C-6,446 -24,470 -40,480 Z" fill="#e8dcc6"/>
+  <circle class="ember tip" cx="-8" cy="428" r="7" fill="#ff6a1f"/>
+  <g class="wisps"><path d="M-8,414 c-10,-18 12,-30 0,-52 c-8,-16 10,-26 4,-44"/><path d="M0,418 c8,-20 -10,-34 4,-56"/></g>
+  <!-- стёганка -->
+  <path class="robe" d="M150,240 L270,240 L330,290 L352,420 L362,760 L58,760 L68,420 L90,290 Z" fill="url(#quilt)"/>
+  <path class="arm" d="M92,292 C48,380 50,470 104,528" fill="none"/>
+  <path class="arm" d="M328,292 C372,360 372,430 334,470" fill="none"/>
+  <!-- фартук из клеёнки -->
+  <path class="apron" d="M160,300 L260,300 L278,760 L142,760 Z" fill="url(#oilcloth)"/>
+  <path class="strap" d="M160,300 L182,252 M260,300 L238,252"/>
+  <!-- чаша: кальян -->
+  <ellipse class="brass" cx="430" cy="752" rx="42" ry="8" fill="#1c120b"/>
+  <circle class="glass" cx="430" cy="700" r="46" fill="url(#flask)"/>
+  <g class="bubbles"><circle cx="418" cy="712" r="3"/><circle cx="436" cy="722" r="2"/><circle cx="428" cy="700" r="2.5"/></g>
+  <rect class="brass" x="424" y="470" width="12" height="186" fill="#2a1a0c"/>
+  <ellipse class="brass" cx="430" cy="530" rx="36" ry="6" fill="#1c120b"/>
+  <ellipse class="brass" cx="430" cy="610" rx="18" ry="5" fill="#1c120b"/>
+  <path class="brass" d="M410,470 L450,470 L444,448 L416,448 Z" fill="#592815"/>
+  <g class="coals"><rect x="418" y="440" width="7" height="6"/><rect x="427" y="438" width="7" height="8"/><rect x="436" y="440" width="7" height="6"/></g>
+  <g class="wisps"><path d="M430,432 c-12,-20 10,-34 -2,-58 c-8,-16 12,-28 2,-50"/><path d="M438,434 c10,-18 -8,-30 6,-50"/></g>
+  <path class="hose" d="M440,590 C510,560 470,450 336,474 C382,420 384,320 322,286"/>
+  <ellipse cx="334" cy="474" rx="13" ry="10" fill="#e8dcc6" class="paw"/>
+  <ellipse cx="106" cy="530" rx="13" ry="10" fill="#e8dcc6" class="paw"/>
+  <!-- связка мундштуков -->
+  <path class="string" d="M148,258 Q210,326 272,258"/>
+  {''.join(beads)}
+  <!-- зеркало на груди -->
+  <circle class="mirror" cx="210" cy="470" r="66"/>
+  <circle class="mirror mirror-in" cx="210" cy="470" r="56"/>
+  <!-- голова по мотивам лого -->
+  <g class="head" transform="translate(60 0) scale(1.5)">
+      {head}
+  </g>
+  <g class="wisps mouth"><path d="M330,262 c10,-16 -6,-28 8,-46 c8,-12 -4,-22 6,-36"/><path d="M340,268 c14,-14 0,-30 16,-44"/></g>
+</svg>"""
+
+
+# выноски у лиса: (id, x, y, точка на лисе в координатах сцены 1100×820)
+CALLOUTS = {
+    "days1": (90, 96, (470, 122)),
+    "days2": (90, 318, (470, 352)),
+    "tavern": (120, 540, (392, 486)),
+    "channel": (790, 92, (628, 116)),
+    "search": (806, 250, (665, 312)),
+    "friends": (826, 430, (744, 480)),
+}
 
 
 def build_hall(site):
     scene = pixel_scene_html(site)
+    rooms = {r["id"]: r for r in site.rooms}
+
+    def room_link(rid):
+        r = rooms[rid]
+        n = len(site.room_posts[rid])
+        k = site.keeper_of(rid)
+        day = f'<i>{esc(r["day"])}</i>' if r.get("day") else "<i>✦</i>"
+        return (f'<a class="ilink" href="{r["page"]}" style="--rc:{ROOM_COLOR.get(rid, "#e6ff3a")}">'
+                f'<img src="assets/heroes/{k["id"]}.png" alt="" width="16" height="16">{day}'
+                f'<span>{esc(r["name"])}</span><b>{n}</b></a>')
+
+    ids = [r["id"] for r in site.rooms]
+    week = [i for i in ids if rooms[i].get("day") in ("Пн", "Вт", "Ср", "Чт")]
+    rest = [i for i in ids if i not in week]
+
+    def callout(cid, title, inner, side="left", cls=""):
+        x, y, _ = CALLOUTS[cid]
+        return (f'<div class="callout {side} {cls}" id="co-{cid}" style="left:{x}px;top:{y}px">'
+                f'<p class="ctitle">{title}</p>{inner}</div>')
+
+    wires = ""
+    for cid, (x, y, (ex, ey)) in CALLOUTS.items():
+        sx = x + (230 if cid in ("days1", "days2", "tavern") else 0)
+        sy = y + 18
+        wires += (f'<g class="wire w-{cid}"><line x1="{sx}" y1="{sy}" x2="{ex}" y2="{ey}"/>'
+                  f'<circle cx="{ex}" cy="{ey}" r="9"/></g>')
+
+    neighbors = "".join(f'<a class="ilink" href="{esc(n["url"])}"><i>↗</i><span>{esc(n["title"])}</span></a>'
+                        for n in site.s.get("neighbors", []))
+    rules = site.hero_data.get("rules", [])
+    latest = site.posts[:8]
+    news = "".join(f'<li><time datetime="{esc(p["date"])}">{esc(p["date"][:10].replace("-", "."))}</time>'
+                   f'<a href="scroll/{p["id"]}.html">{esc(p["title"])}</a></li>' for p in latest)
+
+    threshold = f"""<section class="threshold" aria-labelledby="hall-title">
+  <div class="moss moss-l" aria-hidden="true"><div class="moss-glow"></div></div>
+  <div class="moss moss-r" aria-hidden="true"><div class="moss-glow"></div></div>
+  <div class="stage">
+    <div class="logo-big tl" aria-hidden="true"><span class="glitch" data-text="Лисья таверна">Лисья таверна</span><small>з а &nbsp;з е р к а л о м</small></div>
+    <div class="logo-big br" aria-hidden="true"><span class="glitch" data-text="Лисья таверна">Лисья таверна</span><small>з а &nbsp;з е р к а л о м</small></div>
+    <h1 class="visually-hidden" id="hall-title">{esc(site.s['title'])} — архив канала {esc(site.s['channel_title'])}</h1>
+    <svg class="wires" viewBox="0 0 1100 820" aria-hidden="true">{wires}</svg>
+    <div class="figure">
+      <div class="fox-glow" aria-hidden="true"></div>
+      {fox_figure_svg()}
+      <a class="enter" href="#orbit"><small>восьмое</small><b>ВОЙТИ</b><small>зеркало</small></a>
+    </div>
+    {callout("days1", "пн — чт", "".join(room_link(i) for i in week))}
+    {callout("days2", "пт — вс · у огня", "".join(room_link(i) for i in rest))}
+    {callout("tavern", "таверна", '<a class="ilink" href="guests.html"><img src="assets/heroes/lisivy.png" alt="" width="16" height="16"><i>♣</i><span>Кто в таверне</span></a><a class="ilink" href="#hall-window"><img src="assets/heroes/tomik.png" alt="" width="16" height="16"><i>▣</i><span>Окно в зал</span></a>')}
+    <a class="bubble" id="co-channel" style="left:{CALLOUTS['channel'][0]}px;top:{CALLOUTS['channel'][1]}px" href="{esc(site.s['channel_url'])}" rel="noopener"><span class="bubble-ico" aria-hidden="true">✉</span><span>{esc(site.s['channel_url'].replace('https://', ''))}</span><small>канал «{esc(site.s['channel_title'])}»</small></a>
+    {callout("search", "картотека осевого", f'<form class="iform" action="search.html" method="get" role="search"><label class="visually-hidden" for="hall-q">Найти свиток</label><input id="hall-q" name="q" type="search" placeholder="что ищешь?"><button type="submit">→</button></form><a class="ilink" href="search.html" style="--rc:{ROOM_COLOR["search"]}"><img src="assets/heroes/osevoy.png" alt="" width="16" height="16"><i>#</i><span>Все {len(site.posts)} свитков</span></a>', "right")}
+    {callout("friends", "соседи", neighbors, "right")}
+    <div class="warn" id="co-warn">
+      <p class="warn-ico" aria-hidden="true">⚠</p>
+      <p><b>Доска у входа.</b> {' '.join(esc(x) for x in rules[:3])}<span class="long"> {' '.join(esc(x) for x in rules[6:9])}</span></p>
+      <a href="guests.html#rules">читать всю доску →</a>
+    </div>
+    <div class="newsbox" id="co-news">
+      <p class="newsbox-title">вести с тракта</p>
+      <ol class="newsbox-list">{news}</ol>
+    </div>
+  </div>
+</section>"""
+
+    # орбита комнат: зеркала, размер — по числу свитков
+    orbit_pos = {"hookah": (41, 16), "games": (69, 18), "minis": (88, 45), "ai": (73, 75),
+                 "search": (92, 86), "thoughts": (26, 80), "anime": (12, 60), "garden": (26, 36), "shelf": (9, 22)}
+    planets = []
+    for key, (px_, py_) in orbit_pos.items():
+        if key == "search":
+            href, name, n, day = "search.html", "Картотека", len(site.posts), "поиск"
+        elif key in rooms:
+            r = rooms[key]
+            href, name, n, day = r["page"], r["sign"], len(site.room_posts[key]), r.get("day") or "✦"
+        else:
+            continue
+        d = 9 + min(n, 200) ** .5 * 1.05 if key != "search" else 13
+        k = site.keeper_of(key)
+        planets.append(
+            f'<a class="planet" href="{href}" style="left:{px_}%;top:{py_}%;--d:{d:.2f}%;--rc:{ROOM_COLOR.get(key, "#e6ff3a")}">'
+            f'<span class="p-body"><img class="p-orb" src="assets/heroes/orb-{key}.png" alt="">'
+            f'<img class="p-keeper" src="assets/heroes/{k["id"]}.png" alt=""></span>'
+            f'<span class="p-label">{esc(name)} <small>{esc(day)} · {n}</small></span></a>')
+    orbit = f"""<section class="orbit-wrap" id="orbit" aria-labelledby="orbit-title">
+  <h2 class="visually-hidden" id="orbit-title">Комнаты таверны</h2>
+  <div class="orbit">
+    <svg class="orbit-rings" viewBox="0 0 1100 720" preserveAspectRatio="none" aria-hidden="true">
+      <ellipse cx="550" cy="370" rx="520" ry="330"/><ellipse cx="550" cy="370" rx="420" ry="260"/>
+      <ellipse cx="550" cy="370" rx="310" ry="190"/><ellipse cx="550" cy="370" rx="200" ry="120"/>
+      <path d="M550,40 L1070,370 L550,700 L30,370 Z"/><path d="M200,120 L900,120 L900,620 L200,620 Z"/>
+    </svg>
+    <a class="planet planet-hall" href="#hall-window" style="left:50%;top:56%;--d:24%;--rc:#ff6a1f">
+      <span class="p-body"><span class="p-scene"></span></span>
+      <span class="p-label">Общий зал <small>окно · live</small></span></a>
+    {''.join(planets)}
+    <p class="orbit-hint">Каждая комната — зеркало. Чем больше свитков, тем крупнее.</p>
+  </div>
+</section>"""
+
     lines = []
     for r in site.rooms:
         n = len(site.room_posts[r["id"]])
         day = f'{r["day"]} — ' if r.get("day") else ""
-        lines.append(f'<li><a href="{r["page"]}">{esc(r["name"])}</a><span class="dots"></span>'
-                     f'<span class="n">{n} {plural(n, "свиток", "свитка", "свитков")}</span>'
+        lines.append(f'<li style="--rc:{ROOM_COLOR.get(r["id"], "#e6ff3a")}"><a href="{r["page"]}">{esc(r["name"])}</a><span class="dots"></span>'
+                     f'<span class="n">{n}</span>'
                      f'<span class="d">{esc(day)}{esc(r["short"])} · #{esc(r["hashtags"][0])}</span></li>')
-    lines.append(f'<li><a href="search.html">Картотека писаря</a><span class="dots"></span>'
-                 f'<span class="n">{len(site.posts)} всего</span><span class="d">поиск по всему каналу</span></li>')
-    lines.append(f'<li><a href="{esc(site.s["channel_url"])}">Сама таверна</a><span class="dots"></span>'
-                 f'<span class="n">↗</span><span class="d">канал {esc(site.s["channel_title"])} в Telegram</span></li>')
-    latest = site.posts[:6]
-    ticker = " ✠ ".join(esc(p["title"]) for p in site.posts[:8])
-    latest_html = "".join(f'<li><time datetime="{esc(p["date"])}">{ru_date(p["date"])}</time> '
-                          f'<a href="scroll/{p["id"]}.html">{esc(p["title"])}</a></li>' for p in latest)
-    body = f"""<section class="hall">
-  <h1 class="visually-hidden">{esc(site.s['title'])} — архив канала {esc(site.s['channel_title'])}</h1>
+    lines.append(f'<li><a href="search.html">Картотека Осевого</a><span class="dots"></span>'
+                 f'<span class="n">{len(site.posts)}</span><span class="d">поиск по всему каналу</span></li>')
+    p0 = site.posts[0] if site.posts else None
+    fresh = ""
+    if p0:
+        tags = "".join(f'<a class="chip chip-sm" href="search.html?tag={esc(t)}">#{esc(t)}</a>' for t in p0["hashtags"][:5])
+        fresh = (f'<p class="meta"><time datetime="{esc(p0["date"])}">{ru_date(p0["date"])}</time></p>'
+                 f'<h3><a href="scroll/{p0["id"]}.html">{esc(p0["title"])}</a></h3>'
+                 f'<p class="excerpt">{esc(p0["excerpt"])}</p><p class="tags">{tags}</p>')
+    log = "".join(f'<li><time datetime="{esc(p["date"])}">{esc(p["date"][:10].replace("-", "."))}</time> '
+                  f'<a href="scroll/{p["id"]}.html">{esc(p["title"])}</a></li>' for p in site.posts[1:13])
+    host = site.keeper_of("hookah")
+    status = [("чаша", "дымит", "on"), ("хвост", "тлеет", "on"), ("Уголёк", "раскалён, молчит", "on"),
+              ("Фомичей", "11 · полив не решён", "warn"), ("Гаврилыч", "уверен", "warn"), ("осы", "не слышно", "off")]
+    status_html = "".join(f'<li class="st-{c}"><span>{esc(a)}</span><b>{esc(b)}</b></li>' for a, b, c in status)
+    ticker = " ✦ ".join(esc(p["title"]) for p in site.posts[:8])
+
+    dash = f"""<section class="panel window" id="hall-window">
+  <h2 class="bar">Окно в общий зал <small>наведи на предмет — и войди</small></h2>
   <div class="scene-frame">
     {scene}
   </div>
-  <p class="scene-hint">Наведи свечу на предмет и войди. Или выбери дверь в указателе ниже.</p>
-  <div class="ticker" aria-label="Свежие свитки"><div class="ticker-track"><span>Вести с тракта ✠ {ticker} ✠ </span><span aria-hidden="true">Вести с тракта ✠ {ticker} ✠ </span></div></div>
+  <div class="ticker" aria-label="Свежие свитки"><div class="ticker-track"><span>вести с тракта ✦ {ticker} ✦ </span><span aria-hidden="true">вести с тракта ✦ {ticker} ✦ </span></div></div>
 </section>
-<div class="hall-grid">
-  <section class="parchment welcome">
-    <h2>Здорово, солнышко</h2>
-    <p class="lead"><span class="dropcap">З</span>десь лежит всё, что утонуло в ленте Лисьей таверны. Telegram течёт, как река: старое уносит, искать неудобно, поисковики туда не заглядывают. А в трактирной книге свитки разложены по комнатам — как по дням недели в закрепе.</p>
-    <ul class="why">
-      <li><b>Писарь.</b> Найдёт любой пост по слову или хэштегу — хоть про АГР, хоть про земляных мушек.</li>
-      <li><b>Каталоги.</b> Книга забивок с фильтром «фруктовое, но не приторное», дневники роста каждого зелёного подопытного, воинства по фракциям, полка и экран с вердиктами.</li>
-      <li><b>Ярлыки.</b> Гайды по ИИ-агентам и инструменты для АГР — в один клик.</li>
-    </ul>
-    <form class="ask" action="search.html" method="get" role="search">
-      <label for="ask-q">Спросить писаря</label>
-      <div class="ask-row"><input id="ask-q" name="q" type="search" placeholder="что ищешь?"><button class="btn">Искать</button></div>
-    </form>
-    <h3>Устав таверны</h3>
-    <ol class="rules">
-      <li>Дым пускать в горнице по средам. В остальные дни — тоже, но тихо.</li>
-      <li>Зелёных подопытных не жалеть: кто сдох — тот лох.</li>
-      <li>Миниатюры без магнитов не принимаются.</li>
-      <li>Отчёту агента не верить — проверять самому.</li>
-      <li>Грейпфрут в чашу не класть. Трактирщик предупреждал.</li>
-      <li>Улитку не обижать. Она сильнее, чем кажется.</li>
-    </ol>
-  </section>
-  <section class="parchment directory">
-    <h2>Указатель</h2>
-    <ul class="dir">{''.join(lines)}</ul>
-    <h3>Свежие свитки</h3>
-    <ul class="latest">{latest_html}</ul>
-    <div class="construction"><span class="snail" aria-hidden="true">🐌</span> Трактир ещё строится. Каменщики пьют, улитка наступает.</div>
-  </section>
+<div class="dash">
+  <div class="dash-col">
+    <section class="panel">
+      <h2 class="bar">Свежий свиток <span class="bar-ico" aria-hidden="true">≋</span></h2>
+      <div class="panel-in fresh">{fresh}</div>
+      <a class="panel-foot" href="search.html">все свитки</a>
+    </section>
+    <section class="panel">
+      <h2 class="bar">Летопись <span class="bar-ico" aria-hidden="true">☰</span></h2>
+      <ol class="panel-in log">{log}</ol>
+      <a class="panel-foot" href="search.html">вся картотека</a>
+    </section>
+  </div>
+  <div class="dash-col">
+    <section class="panel">
+      <h2 class="bar">Статус <span class="bar-ico" aria-hidden="true">∿</span></h2>
+      <ul class="panel-in status-list">{status_html}</ul>
+    </section>
+    <section class="panel">
+      <h2 class="bar">Передача <span class="bar-ico" aria-hidden="true">⌁</span></h2>
+      <div class="panel-in transmission"><p class="quote" data-quotes='{esc(json.dumps(site.quotes, ensure_ascii=False))}'>{esc(site.quotes[0])}</p></div>
+    </section>
+    <section class="panel">
+      <h2 class="bar">Хозяин <span class="bar-ico" aria-hidden="true">✦</span></h2>
+      <div class="panel-in host">
+        <img class="host-pic" src="assets/heroes/{esc(host['id'])}.png" alt="{esc(host['name'])}" width="96" height="96">
+        <div><h3>{esc(host['name'])}</h3><p class="says">«{esc(host.get('quote', ''))}»</p>
+        <p>{esc(host['blocks'][0][1] if host.get('blocks') else '')}</p></div>
+      </div>
+      <a class="panel-foot" href="guests.html">кто ещё в таверне</a>
+    </section>
+    <section class="panel">
+      <h2 class="bar">Указатель <span class="bar-ico" aria-hidden="true">⌖</span></h2>
+      <ul class="panel-in dir">{''.join(lines)}</ul>
+    </section>
+  </div>
 </div>"""
-    site.page("index.html", site.s["title"], body, root="", desc=site.s["tagline"], scene=True)
+    site.page("index.html", site.s["title"], threshold + orbit + dash, root="", desc=site.s["tagline"], scene=True)
 
 
 VERDICTS = {"любимое": (5, "❤"), "советую": (4, "✦"), "приятно": (3, "☙"), "спорно": (2, "⚖"),
@@ -792,7 +1040,7 @@ STATUS_CLASS = {"растёт": "ok", "цветёт": "bloom", "плодонос
 
 def verdict_badge(v):
     rank, icon = VERDICTS.get(v, (0, "…"))
-    return f'<span class="verdict v{rank}" title="Вердикт трактирщика">{icon} {esc(v)}</span>'
+    return f'<span class="verdict v{rank}" title="Вердикт хозяина">{icon} {esc(v)}</span>'
 
 
 def post_more(site, pid, label="читать свиток →"):
@@ -861,7 +1109,7 @@ def build_hookah(site, r):
     body = site.room_head(r) + f"""
 <section class="parchment catalog">
   <h2>Книга забивок <small class="count" data-count-for="hookah-list">{len(items)}</small></h2>
-  <p class="lead-in">Всё, что трактирщик забивал и о чём писал в канале. Вердикты — его словами, у каждой записи ссылка на свиток.</p>
+  <p class="lead-in">Всё, что Кальяныч забивал и о чём писал в канале. Вердикты — его словами, у каждой записи ссылка на свиток.</p>
   <div class="filterbox" data-target="#hookah-list">
     <label class="search-field"><span>Вкус, бренд, слово</span><input type="search" data-search placeholder="вишня, Trofimoff, кола…"></label>
     {facet_chips(flavors, 'flavors', 'all', 'Вкус:')}
@@ -966,7 +1214,7 @@ def build_minis(site, r):
 <section class="parchment catalog">
   <h2>Воинства на полках <small class="count" data-count-for="minis-list">{len(items)}</small></h2>
   <ul class="factions">{legend}</ul>
-  <p class="shame">Непокрашенного в куче позора: <b>{shame}</b>. Летописец скорбит, трактирщик вставляет магниты.</p>
+  <p class="shame">Непокрашенного в куче позора: <b>{shame}</b>. Плюмбий командует ими, хоть и сам наполовину в грунте. Хозяин вставляет магниты.</p>
   <div class="filterbox" data-target="#minis-list">
     {facet_chips([factions.get(it.get('faction'), {}).get('name', it.get('faction', '')) for it in items], 'faction', 'any', 'Фракция:')}
     {facet_chips([it.get('status', '') for it in items], 'status', 'any', 'Готовность:')}
@@ -1018,6 +1266,116 @@ def build_shelf(site, r):
     site.page(r["page"], r["name"], body, room=r["id"], desc=r["about"])
 
 
+def hero_card(site, h, big=False):
+    rooms = {r["id"]: r for r in site.rooms}
+    watch = []
+    for rid in [h.get("room")] + [x for x in h.get("rooms", []) if x != h.get("room")]:
+        if rid in rooms:
+            watch.append(f'<a href="{rooms[rid]["page"]}">{esc(rooms[rid]["name"])}</a>')
+        elif rid == "search":
+            watch.append('<a href="search.html">Картотека</a>')
+    blocks = "".join(f'<p>{f"<b>{esc(a)}.</b> " if a else ""}{esc(b)}</p>' for a, b in h.get("blocks", []))
+    stats = "".join(f'<div class="irow"><span class="ik">{esc(a)}</span><span class="iv">{esc(b)}</span></div>'
+                    for a, b in h.get("stats", []))
+    if watch:
+        stats += f'<div class="irow irow-watch"><span class="ik">смотрит за</span><span class="iv">{" · ".join(watch)}</span></div>'
+    color = ROOM_COLOR.get(h.get("room"), "#e6ff3a")
+    return f"""<article class="hero{' hero-big' if big else ''}" id="{esc(h['id'])}" style="--rc:{color}">
+  <div class="hero-mirror"><img class="rh-orb" src="assets/heroes/orb-{esc(h.get('room') if h.get('room') in ROOM_COLOR else 'search')}.png" alt=""><img class="hero-pic" src="assets/heroes/{esc(h['id'])}.png" alt="Пиксельный портрет: {esc(h['name'])}"></div>
+  <div class="hero-text">
+    <p class="hero-tag">{esc(h.get('tag', ''))}</p>
+    <h3>{esc(h['name'])}</h3>
+    <p class="hero-quote">«{esc(h.get('quote', ''))}»</p>
+    <div class="hero-blocks">{blocks}</div>
+    <div class="inspect">{stats}</div>
+  </div>
+</article>"""
+
+
+def build_guests(site):
+    d = site.hero_data
+    heroes = d.get("heroes", [])
+    host = [h for h in heroes if h.get("group") == "host"]
+    fox = [h for h in heroes if h.get("group") == "fox"]
+    residents = [h for h in heroes if h.get("group") == "resident"]
+    intro = "".join(f"<p>{esc(p)}</p>" for p in d.get("intro", []))
+    signs = "".join(f'<span class="sign-tag">{esc(s)}</span>' for s in d.get("signs", []))
+    world = "".join(f'<div class="wk"><dt>{esc(a)}</dt><dd>{esc(b)}</dd></div>' for a, b in d.get("world", []))
+    rules = "".join(f"<li>{esc(r)}</li>" for r in d.get("rules", []))
+    bowls = "".join(f'<li><b>{esc(a)}</b><span>{esc(b)}</span><em>плата: {esc(c)}</em></li>' for a, b, c in d.get("bowls", []))
+    roman = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
+    jars = "".join(f'<button type="button" class="jar" aria-expanded="false"><span class="jar-lid"></span>'
+                   f'<span class="jar-no">банка {roman[i] if i < len(roman) else i + 1}</span>'
+                   f'<span class="jar-label">{esc(j)}</span></button>' for i, j in enumerate(d.get("jars", [])))
+    book = "".join(f'<li><span>{esc(a)}</span>{f"<small>— {esc(b)}</small>" if b else ""}</li>' for a, b in d.get("guestbook", []))
+    keepers = "".join(f'<a class="ilink" href="#{esc(h["id"])}" style="--rc:{ROOM_COLOR.get(h.get("room"), "#e6ff3a")}">'
+                      f'<img src="assets/heroes/{esc(h["id"])}.png" alt="" width="16" height="16"><span>{esc(h["name"])}</span></a>'
+                      for h in heroes)
+    body = f"""<section class="room-head guests-head" style="--rc:#ff6a1f">
+  <div class="rh-mirror" aria-hidden="true"><img class="rh-orb" src="assets/heroes/orb-hookah.png" alt=""><img class="rh-keeper" src="assets/heroes/kalyanych.png" alt=""></div>
+  <div class="rh-text">
+    <p class="crumbs"><a href="index.html">общий зал</a> <span>›</span> кто в таверне</p>
+    <p class="kicker">{esc(d.get('place', ''))}</p>
+    <h1>Кто в таверне</h1>
+    <div class="intro">{intro}</div>
+    <p class="signs">{signs}</p>
+  </div>
+</section>
+<nav class="panel who-nav" aria-label="Герои">
+  <h2 class="bar">Постояльцы и хозяева</h2>
+  <div class="panel-in who-links">{keepers}<a class="ilink" href="#rules"><i>⚠</i><span>Доска у входа</span></a><a class="ilink" href="#bowls"><i>♨</i><span>Что в чаше</span></a><a class="ilink" href="#jars"><i>▥</i><span>Полка банок</span></a><a class="ilink" href="#book"><i>✎</i><span>Гостевая</span></a><a class="ilink" href="#world"><i>⌖</i><span>Окружающий архив</span></a></div>
+</nav>
+<section class="panel">
+  <h2 class="bar">Хозяин <small>держит заведение</small></h2>
+  <div class="panel-in">{''.join(hero_card(site, h, True) for h in host)}</div>
+</section>
+<section class="panel">
+  <h2 class="bar">Второй лис</h2>
+  <div class="panel-in">{''.join(f'<p class="lead-in">{esc(h.get("lead", ""))}</p>' + hero_card(site, h, True) for h in fox)}</div>
+</section>
+<section class="panel">
+  <h2 class="bar">Постояльцы <small>каждый присматривает за своей комнатой</small></h2>
+  <div class="panel-in">
+    <p class="lead-in">Шестеро, которые были здесь ещё до того, как Лис принял заведение. Ни один не платит, ни один не уходит. Без них таверна не то чтобы опустеет — она перестанет держаться.</p>
+    <div class="heroes-grid">{''.join(hero_card(site, h) for h in residents)}</div>
+  </div>
+</section>
+<div class="dash">
+  <div class="dash-col">
+    <section class="panel warn-panel" id="rules">
+      <h2 class="bar">Доска у входа <small>читать до того, как сесть</small></h2>
+      <ol class="panel-in rules">{rules}</ol>
+    </section>
+    <section class="panel" id="jars">
+      <h2 class="bar">Полка над лестницей</h2>
+      <div class="panel-in">
+        <p class="lead-in">{esc(d.get('jars_note', ''))}</p>
+        <div class="jars">{jars}</div>
+        <p class="jar-hint" aria-live="polite">Возьмите банку с полки.</p>
+      </div>
+    </section>
+  </div>
+  <div class="dash-col">
+    <section class="panel" id="bowls">
+      <h2 class="bar">Что в чаше</h2>
+      <div class="panel-in"><p class="lead-in">{esc(d.get('bowls_note', ''))}</p><ul class="bowls">{bowls}</ul>
+      <p class="tiny">Настоящие забивки хозяина — в горнице: <a href="hookah.html">Дым и покой →</a></p></div>
+    </section>
+    <section class="panel" id="book">
+      <h2 class="bar">Гостевая <small>лежит у двери на цепочке</small></h2>
+      <ol class="panel-in guestbook">{book}</ol>
+    </section>
+  </div>
+</div>
+<section class="panel" id="world">
+  <h2 class="bar">Окружающий архив <small>что здесь считается общеизвестным</small></h2>
+  <dl class="panel-in world">{world}</dl>
+  <p class="panel-in how"><b>Как найти.</b> {esc(d.get('how_to_find', ''))}</p>
+</section>"""
+    site.page("guests.html", "Кто в таверне", body, room="guests",
+              desc="Лис Кальяныч, Герой Шутливый Лисивый и постояльцы Лисьей таверны за зеркалом")
+
+
 def build_search(site):
     index = [{"id": p["id"], "t": p["title"], "x": p["excerpt"], "s": p["search"][:4000], "h": p["hashtags"],
               "d": p["date"][:10], "r": p["rooms"], "i": p["photos"][0] if p["photos"] else ""} for p in site.posts]
@@ -1032,13 +1390,10 @@ def build_search(site):
     chips = "".join(f'<button type="button" class="chip" data-tag="{esc(t)}">#{esc(t)} <sup>{n}</sup></button>'
                     for t, n in sorted(counts.items(), key=lambda kv: -kv[1])[:60])
     opts = "".join(f'<option value="{r["id"]}">{esc(r["name"])}</option>' for r in site.rooms)
-    body = f"""<section class="room-head">
-  <div class="marginalia" aria-hidden="true"><img class="pix" src="assets/scene/icon-search.png" alt=""></div>
-  <div><p class="crumbs"><a href="index.html">Общий зал</a> › Картотека писаря</p>
-  <h1>Картотека писаря</h1>
-  <p class="epigraph">Спроси — и писарь, ворча, пороется в сундуках.</p>
-  <p class="about">Поиск по всем {len(site.posts)} свиткам канала: по словам, хэштегам и комнатам.</p></div>
-</section>
+    pseudo = {"id": "search", "name": "Картотека Деда Осевого",
+              "epigraph": "Не привязано к сетке — значит, не существует.",
+              "about": f"Дед Осевой подписал все {len(site.posts)} свитков канала: ищи по словам, хэштегам и комнатам."}
+    body = site.room_head(pseudo, count=len(site.posts)) + f"""
 <section class="parchment" id="search-app">
   <form class="ask" role="search" onsubmit="return false">
     <div class="ask-row"><input id="q" type="search" placeholder="слово, имя, вкус…" autocomplete="off" aria-label="Что искать"><select id="room" aria-label="Комната"><option value="">все комнаты</option>{opts}</select></div>
@@ -1046,10 +1401,10 @@ def build_search(site):
   <div class="chips" id="tagchips">{chips}</div>
   <p class="result-count" id="rc" aria-live="polite"></p>
   <ol class="results" id="results"></ol>
-  <noscript><p>Писарь без JavaScript не ищет, но все свитки есть в комнатах трактира.</p></noscript>
+  <noscript><p>Без JavaScript Осевой не ищет, но все свитки есть в комнатах таверны.</p></noscript>
 </section>
 <script src="assets/search-index.js"></script>"""
-    site.page("search.html", "Картотека писаря", body, room="search", desc="Поиск по всем постам канала")
+    site.page("search.html", "Картотека Деда Осевого", body, room="search", desc="Поиск по всем постам канала")
 
 
 def build_scrolls(site):
@@ -1092,7 +1447,7 @@ def build_scrolls(site):
 
 def build_sitemap(site):
     base = site.s["base_url"]
-    urls = [base] + [base + r["page"] for r in site.rooms] + [base + "search.html"]
+    urls = [base] + [base + r["page"] for r in site.rooms] + [base + "search.html", base + "guests.html"]
     urls += [f"{base}scroll/{p['id']}.html" for p in site.posts]
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     xml += "".join(f"  <url><loc>{esc(u)}</loc></url>\n" for u in urls) + "</urlset>\n"
@@ -1120,6 +1475,7 @@ def main():
     build_hall(site)
     for r in site.rooms:
         BUILDERS.get(r.get("kind", "feed"), build_feed_room)(site, r)
+    build_guests(site)
     build_search(site)
     build_scrolls(site)
     build_sitemap(site)

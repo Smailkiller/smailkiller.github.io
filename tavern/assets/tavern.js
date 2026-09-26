@@ -1,4 +1,4 @@
-/* Трактирная книга — фильтры, поиск, свечи и прочая магия. Без библиотек. */
+/* Трактирная книга — фильтры, поиск, банки, зеркала и прочая магия. Без библиотек. */
 (function () {
   "use strict";
 
@@ -134,7 +134,7 @@
     });
   });
 
-  /* ───────── писарь: поиск по всем свиткам ───────── */
+  /* ───────── картотека Деда Осевого: поиск по всем свиткам ───────── */
   var app = document.getElementById("search-app");
   if (app && window.TAVERN_INDEX) {
     var idx = window.TAVERN_INDEX, rooms = window.TAVERN_ROOMS || {};
@@ -194,7 +194,7 @@
           '<p class="meta">' + ruDate(p.d) + " · " + esc(roomName) + "</p>" +
           "<p>" + mark(p.x, words) + "</p></div></li>";
       }).join("") + (res.length > limit ? '<li class="more-row" style="display:block;text-align:center;box-shadow:none;border:0;background:none"><button type="button" class="btn" id="more-res">Ещё свитков</button></li>' : "");
-      if (!res.length) out.innerHTML = '<li style="display:block">Писарь перерыл сундуки и ничего не нашёл. Попробуй другое слово.</li>';
+      if (!res.length) out.innerHTML = '<li style="display:block">Дед Осевой перебрал сетку: такого не привязано. Попробуй другое слово.</li>';
       var mb = document.getElementById("more-res");
       if (mb) mb.addEventListener("click", function () { limit += 40; run(true); });
       var u = new URLSearchParams();
@@ -216,7 +216,7 @@
     if (!q.value && !tags.length) q.focus();
   }
 
-  /* ───────── свечной счётчик ───────── */
+  /* ───────── банки в подвале: счётчик визитов ───────── */
   var cRow = document.querySelector(".candle-row"), cText = document.querySelector(".candle-text");
   if (cRow && cText) {
     var ls = store("localStorage"), ss = store("sessionStorage"), n = 1;
@@ -226,8 +226,8 @@
       n = Math.max(n, 1);
     }
     cRow.innerHTML = new Array(Math.min(n, 24) + 1).join("<i></i>");
-    cText.textContent = n === 1 ? "Ты здесь впервые, путник. Зажжена одна свеча."
-      : "Ты заходил " + n + " " + plural(n, "раз", "раза", "раз") + ". Горит " + n + " " + plural(n, "свеча", "свечи", "свечей") + (n > 24 ? " (на полке место кончилось)." : ".");
+    cText.textContent = n === 1 ? "Ты здесь впервые. Плата — одна забытая вещь."
+      : "Ты заходил " + n + " " + plural(n, "раз", "раза", "раз") + " и оставил " + n + " " + plural(n, "забытую вещь", "забытые вещи", "забытых вещей") + (n > 24 ? ". Подвал переполнен." : ". Сдача не даётся.");
   }
 
   /* цитаты в подвале */
@@ -259,27 +259,52 @@
   /* спойлеры на тач-экранах */
   $$(".spoiler").forEach(function (s) { s.addEventListener("click", function () { s.classList.toggle("is-open"); }); });
 
+  /* ───────── кнопка «остановить движение» (как на espy.world) ───────── */
+  var stillBtn = document.querySelector(".still-btn"), html = document.documentElement;
+  if (stillBtn) {
+    var setStill = function (on) {
+      html.classList.toggle("is-still", on);
+      stillBtn.setAttribute("aria-pressed", on ? "true" : "false");
+      stillBtn.firstChild.textContent = on ? "▶" : "⏸";
+      stillBtn.title = on ? "Вернуть движение" : "Остановить движение на странице";
+    };
+    setStill(html.classList.contains("is-still"));
+    stillBtn.addEventListener("click", function () {
+      var on = !html.classList.contains("is-still");
+      setStill(on);
+      var ls2 = store("localStorage");
+      if (ls2) ls2.setItem("tavern-still", on ? "1" : "0");
+    });
+  }
+
+  /* ───────── полка над лестницей: банки ───────── */
+  var jarHint = document.querySelector(".jar-hint");
+  $$(".jar").forEach(function (jar) {
+    jar.addEventListener("click", function () {
+      var open = jar.getAttribute("aria-expanded") !== "true";
+      jar.setAttribute("aria-expanded", open ? "true" : "false");
+      if (!jarHint) return;
+      var label = jar.querySelector(".jar-label").textContent;
+      jarHint.textContent = !open ? "Банку вернули на полку." : /КАЛЬЯНЫЧ/.test(label)
+        ? "Эту хозяин, кажется, ищет давно. Поставьте на место — тихо."
+        : "Взяли банку: «" + label + "». Хозяин не против.";
+    });
+  });
+
   /* ───────── общий зал ───────── */
   if (document.body.classList.contains("is-hall")) {
-    var root = document.documentElement;
-    window.addEventListener("pointermove", function (e) {
-      root.style.setProperty("--mx", e.clientX + "px");
-      root.style.setProperty("--my", e.clientY + "px");
-    }, { passive: true });
-
     var frame = document.querySelector(".scene-frame");
     if (frame && frame.scrollWidth > frame.clientWidth) frame.scrollLeft = (frame.scrollWidth - frame.clientWidth) / 2;
 
-    /* пасхалка: улитка побеждает рыцаря */
-    var snail = document.querySelector(".pix-snail"), hits = 0;
-    if (snail) {
-      var lines = ["Улитка наступает.", "Рыцарь дрогнул.", "Улитка неумолима.", "Рыцарь молится.", "Ещё немного…", "Рыцарь пишет завещание."];
-      snail.addEventListener("click", function () {
+    /* пасхалка: бобыль из-под пола */
+    var bob = document.querySelector(".pix-snail"), hits = 0;
+    if (bob) {
+      var lines = ["Клок.", "Клок-клок.", "Бобыль смотрит на тебя слабоумно.", "Плюмбий объявил манёвры.", "Кокалку — на крюк!", "Клок-клок-клок…"];
+      bob.addEventListener("click", function () {
         hits++;
-        var hint = document.querySelector(".scene-hint");
-        if (!hint) return;
-        hint.textContent = hits >= 7 ? "Улитка победила рыцаря. Как и предсказано в рукописях XIII века."
-          : lines[(hits - 1) % lines.length];
+        var msg = hits >= 7 ? "Бобыль уполз под пол. Хозяин его не выдаст." : lines[(hits - 1) % lines.length];
+        var t = document.querySelector(".window .bar small");
+        if (t) t.textContent = msg;
       });
     }
   }
