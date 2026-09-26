@@ -392,7 +392,6 @@ select { padding: 5px 8px; font-size: 15px; }
 .post:not(.post-big) .initial span { font-size: 44px; padding: 4px 14px 0; }
 
 .card:has(> .stamp) h3 { padding-right: 86px; }
-.book:has(> .stamp) .type { padding-right: 86px; }
 .stamp {
   position: absolute;
   top: 8px;
@@ -423,9 +422,15 @@ select { padding: 5px 8px; font-size: 15px; }
 .pips-sweet i.on { background: var(--gold); }
 .pips-strong i { border-radius: 2px; transform: none; }
 .pips-strong i.on { background: var(--red); }
-.rating { font-size: 16px; color: var(--gold); letter-spacing: 1px; white-space: nowrap; }
-.rating b { font: 13px var(--f-mono); color: var(--ink); letter-spacing: 0; margin-left: 4px; text-transform: uppercase; }
-.rating.r1 b, .rating.r2 b { color: var(--red); }
+.verdict { display: inline-block; font: 600 14px/1 var(--f-mono); text-transform: uppercase; letter-spacing: .05em; padding: 5px 9px 4px; border: 2px solid var(--ink); box-shadow: 2px 2px 0 var(--ink); background: var(--parch-2); }
+.verdict.v5 { background: var(--red); color: var(--parch); }
+.verdict.v4 { background: var(--gold-2); }
+.verdict.v3 { background: #cfe3b8; }
+.verdict.v2 { background: #d9d9e8; }
+.verdict.v1 { background: var(--ink); color: var(--parch-3); }
+.verdict.v0 { background: transparent; color: var(--ink-soft); border-style: dashed; box-shadow: none; }
+.lead-in { margin: -4px 0 14px; color: var(--ink-soft); font-style: italic; }
+.verdict-text { font-style: italic; margin: 8px 0; }
 .note { font-style: italic; margin: 6px 0; }
 
 /* огород */
@@ -485,7 +490,6 @@ select { padding: 5px 8px; font-size: 15px; }
 .book-body { padding: 12px 14px 12px 0; }
 .type { font: 12px var(--f-mono); text-transform: uppercase; letter-spacing: .1em; color: var(--red); margin: 0; }
 .author { margin: 0 0 6px; color: var(--ink-soft); }
-.verdict { font-style: italic; margin: 8px 0; }
 
 /* ИИ */
 .quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }

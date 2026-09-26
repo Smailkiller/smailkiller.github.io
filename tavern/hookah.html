@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Дымная горница — Трактирная книга</title>
-<meta name="description" content="Проверенные забивки: вкусы, сладость, крепость и вердикт. Фильтр «фруктовое, но не приторное» прилагается.">
+<title>Дым и покой — Трактирная книга</title>
+<meta name="description" content="Средовая горница: забивки и миксы с вердиктами трактирщика, лимитки, выставки и музыка под дымок.">
 <link rel="canonical" href="https://smailkiller.github.io/tavern/hookah.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Дымная горница — Трактирная книга">
-<meta property="og:description" content="Проверенные забивки: вкусы, сладость, крепость и вердикт. Фильтр «фруктовое, но не приторное» прилагается.">
+<meta property="og:title" content="Дым и покой — Трактирная книга">
+<meta property="og:description" content="Средовая горница: забивки и миксы с вердиктами трактирщика, лимитки, выставки и музыка под дымок.">
 <meta property="og:url" content="https://smailkiller.github.io/tavern/hookah.html">
 <meta name="theme-color" content="#1b120c">
 <link rel="icon" href="assets/favicon.png" type="image/png">
@@ -26,135 +26,667 @@
     <span class="sign-chain" aria-hidden="true"></span>
     <span class="sign-board"><span class="sign-small">Лисья таверна</span>Трактирная книга</span>
   </a>
-  <nav class="planks" aria-label="Комнаты трактира"><a class="plank" href="ai.html"><span>Келья</span><small>#ии</small></a><a class="plank is-here" href="hookah.html"><span>Горница</span><small>#кальян</small></a><a class="plank" href="garden.html"><span>Огород</span><small>#растения</small></a><a class="plank" href="minis.html"><span>Оружейная</span><small>#миниатюры</small></a><a class="plank" href="shelf.html"><span>Полка</span><small>#книги</small></a><a class="plank plank-search" href="search.html"><span>Писарь</span><small>поиск</small></a></nav>
+  <nav class="planks" aria-label="Комнаты трактира"><a class="plank" href="shelf.html"><span>Полка</span><small>Пн · #чтение</small></a><a class="plank" href="garden.html"><span>Огород</span><small>Вт · #сад</small></a><a class="plank is-here" href="hookah.html"><span>Горница</span><small>Ср · #кальян</small></a><a class="plank" href="ai.html"><span>Архивы</span><small>Чт · #ai</small></a><a class="plank" href="games.html"><span>Игры</span><small>Пт · #игры</small></a><a class="plank" href="minis.html"><span>Мастерская</span><small>Сб · #хобби</small></a><a class="plank" href="anime.html"><span>Экран</span><small>Вс · #аниме</small></a><a class="plank" href="thoughts.html"><span>Очаг</span><small>#мысль</small></a><a class="plank plank-search" href="search.html"><span>Писарь</span><small>поиск</small></a></nav>
 </header>
-<div class="sample-bar">Трактир обставлен <b>образцами</b>: настоящие посты появятся после импорта экспорта канала.</div>
+
 <main id="main">
 <section class="room-head">
   <div class="marginalia marg-hookah" aria-hidden="true"><img class="pix" src="assets/scene/icon-hookah.png" alt=""></div>
   <div>
-    <p class="crumbs"><a href="index.html">Общий зал</a> › Дымная горница</p>
-    <h1>Дымная горница</h1>
-    <p class="epigraph">Дым отечества сладок. Но не приторен.</p>
-    <p class="about">Проверенные забивки: вкусы, сладость, крепость и вердикт. Фильтр «фруктовое, но не приторное» прилагается.</p>
-    <p class="meta">2 свитка в канале · <span class="mono">#кальян #забивка #забивки #табак</span></p>
+    <p class="crumbs"><a href="index.html">Общий зал</a> › Дым и покой</p>
+    <h1>Дым и покой</h1>
+    <p class="epigraph">Табак исчезает не тогда, когда кончается партия. А когда ты к нему привязался. — Саркун Нежгущий, архикальянщик Забытого Полустанка</p>
+    <p class="about">Средовая горница: забивки и миксы с вердиктами трактирщика, лимитки, выставки и музыка под дымок.</p>
+    <p class="meta">по средам · 45 свитков в канале · <span class="mono">#кальян #chill #drive</span></p>
   </div>
 </section>
 <section class="parchment catalog">
-  <h2>Книга забивок <small class="count" data-count-for="hookah-list">6</small></h2>
+  <h2>Книга забивок <small class="count" data-count-for="hookah-list">24</small></h2>
+  <p class="lead-in">Всё, что трактирщик забивал и о чём писал в канале. Вердикты — его словами, у каждой записи ссылка на свиток.</p>
   <div class="filterbox" data-target="#hookah-list">
-    <label class="search-field"><span>Вкус, табак, слово</span><input type="search" data-search placeholder="малина, мята, чай…"></label>
-    <div class="chips" data-mode="all" data-group="flavors"><span class="chips-label">Вкус:</span><button type="button" class="chip" data-facet="flavors" data-value="фруктовое">фруктовое <sup>3</sup></button><button type="button" class="chip" data-facet="flavors" data-value="десертное">десертное <sup>2</sup></button><button type="button" class="chip" data-facet="flavors" data-value="пряное">пряное <sup>2</sup></button><button type="button" class="chip" data-facet="flavors" data-value="свежее">свежее <sup>2</sup></button><button type="button" class="chip" data-facet="flavors" data-value="цитрусовое">цитрусовое <sup>2</sup></button><button type="button" class="chip" data-facet="flavors" data-value="тропическое">тропическое <sup>1</sup></button><button type="button" class="chip" data-facet="flavors" data-value="чайное">чайное <sup>1</sup></button><button type="button" class="chip" data-facet="flavors" data-value="ягодное">ягодное <sup>1</sup></button></div>
+    <label class="search-field"><span>Вкус, бренд, слово</span><input type="search" data-search placeholder="вишня, Trofimoff, кола…"></label>
+    <div class="chips" data-mode="all" data-group="flavors"><span class="chips-label">Вкус:</span><button type="button" class="chip" data-facet="flavors" data-value="фруктовое">фруктовое <sup>13</sup></button><button type="button" class="chip" data-facet="flavors" data-value="ягодное">ягодное <sup>10</sup></button><button type="button" class="chip" data-facet="flavors" data-value="газировка">газировка <sup>7</sup></button><button type="button" class="chip" data-facet="flavors" data-value="цитрусовое">цитрусовое <sup>4</sup></button><button type="button" class="chip" data-facet="flavors" data-value="пряное">пряное <sup>3</sup></button><button type="button" class="chip" data-facet="flavors" data-value="парфюмное">парфюмное <sup>2</sup></button><button type="button" class="chip" data-facet="flavors" data-value="десертное">десертное <sup>1</sup></button><button type="button" class="chip" data-facet="flavors" data-value="древесное">древесное <sup>1</sup></button><button type="button" class="chip" data-facet="flavors" data-value="кокосовое">кокосовое <sup>1</sup></button><button type="button" class="chip" data-facet="flavors" data-value="кофейное">кофейное <sup>1</sup></button><button type="button" class="chip" data-facet="flavors" data-value="мятное">мятное <sup>1</sup></button><button type="button" class="chip" data-facet="flavors" data-value="ореховое">ореховое <sup>1</sup></button><button type="button" class="chip" data-facet="flavors" data-value="свежее">свежее <sup>1</sup></button><button type="button" class="chip" data-facet="flavors" data-value="травяное">травяное <sup>1</sup></button><button type="button" class="chip" data-facet="flavors" data-value="тропическое">тропическое <sup>1</sup></button><button type="button" class="chip" data-facet="flavors" data-value="хвойное">хвойное <sup>1</sup></button><button type="button" class="chip" data-facet="flavors" data-value="шоколадное">шоколадное <sup>1</sup></button></div>
+    <div class="chips" data-mode="all" data-group="notes"><span class="chips-label">Особое:</span><button type="button" class="chip" data-facet="notes" data-value="лимитка">лимитка <sup>7</sup></button><button type="button" class="chip" data-facet="notes" data-value="не приторно">не приторно <sup>3</sup></button><button type="button" class="chip" data-facet="notes" data-value="держит жар">держит жар <sup>1</sup></button><button type="button" class="chip" data-facet="notes" data-value="для улицы">для улицы <sup>1</sup></button></div>
+    <div class="chips" data-mode="any" data-group="verdict"><span class="chips-label">Вердикт:</span><button type="button" class="chip" data-facet="verdict" data-value="любимое">любимое <sup>6</sup></button><button type="button" class="chip" data-facet="verdict" data-value="советую">советую <sup>5</sup></button><button type="button" class="chip" data-facet="verdict" data-value="мимо">мимо <sup>4</sup></button><button type="button" class="chip" data-facet="verdict" data-value="приятно">приятно <sup>4</sup></button><button type="button" class="chip" data-facet="verdict" data-value="спорно">спорно <sup>4</sup></button><button type="button" class="chip" data-facet="verdict" data-value="без вердикта">без вердикта <sup>1</sup></button></div>
     <div class="row-controls">
-      <label class="toggle"><input type="checkbox" data-max="sweet" value="2"> <span>не приторное</span></label>
-      <label>Крепость до <select data-max="strength"><option value="">любая</option><option value="2">лёгкая</option><option value="3">средняя</option><option value="4">крепкая</option></select></label>
-      <label>Вердикт от <select data-min="rating"><option value="">любой</option><option value="3">сносно</option><option value="4">добро</option><option value="5">благодать</option></select></label>
-      <label>Порядок <select data-sort><option value="rating-desc">лучшие</option><option value="date-desc">новые</option><option value="sweet-asc">несладкие</option><option value="name-asc">по имени</option></select></label>
+      <label>Что <select data-eq="kind"><option value="">всё</option><option value="табак">табаки</option><option value="микс">миксы</option></select></label>
+      <label>Порядок <select data-sort><option value="rank-desc">лучшие</option><option value="date-desc">новые</option><option value="name-asc">по имени</option></select></label>
       <button type="button" class="btn-link" data-reset>сбросить</button>
     </div>
   </div>
-  <div class="cards cards-3" id="hookah-list"><article class="card recipe entry" data-search="малиновый лимонад ягодное|цитрусовое|свежее малина — 50% лимон — 30% мята — 20% кисло-сладко, мята не душит. летняя классика." data-flavors="ягодное|цитрусовое|свежее" data-sweet="2" data-strength="2" data-rating="5" data-date="2026-06-14" data-name="малиновый лимонад">
-  <span class="stamp">образец</span>
-  <h3>Малиновый лимонад</h3>
-  <p class="tags"><span class="chip chip-sm">ягодное</span><span class="chip chip-sm">цитрусовое</span><span class="chip chip-sm">свежее</span></p>
-  <ul class="mix"><li>малина — 50%</li><li>лимон — 30%</li><li>мята — 20%</li></ul>
-  <dl class="meters">
-    <div><dt>Сладость</dt><dd><span class="pips pips-sweet" title="Сладость: 2 из 5" aria-label="Сладость: 2 из 5"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span></dd></div>
-    <div><dt>Крепость</dt><dd><span class="pips pips-strong" title="Крепость: 2 из 5" aria-label="Крепость: 2 из 5"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span></dd></div>
-    <div><dt>Вердикт</dt><dd><span class="rating r5" title="5 из 5">✦✦✦✦✦ <b>благодать</b></span></dd></div>
-  </dl>
-  <p class="note">Кисло-сладко, мята не душит. Летняя классика.</p>
-  <p class="meta">фанел · 14 июня 2026 </p>
-</article><article class="card recipe entry" data-search="персик в сливках фруктовое|десертное персик — 60% сливки — 25% ваниль — 15% вкусно первые полчаса, потом приторно, аки мёд в лампадном масле." data-flavors="фруктовое|десертное" data-sweet="4" data-strength="2" data-rating="3" data-date="2026-05-02" data-name="персик в сливках">
-  <span class="stamp">образец</span>
-  <h3>Персик в сливках</h3>
-  <p class="tags"><span class="chip chip-sm">фруктовое</span><span class="chip chip-sm">десертное</span></p>
-  <ul class="mix"><li>персик — 60%</li><li>сливки — 25%</li><li>ваниль — 15%</li></ul>
-  <dl class="meters">
-    <div><dt>Сладость</dt><dd><span class="pips pips-sweet" title="Сладость: 4 из 5" aria-label="Сладость: 4 из 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span></dd></div>
-    <div><dt>Крепость</dt><dd><span class="pips pips-strong" title="Крепость: 2 из 5" aria-label="Крепость: 2 из 5"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span></dd></div>
-    <div><dt>Вердикт</dt><dd><span class="rating r3" title="3 из 5">✦✦✦✧✧ <b>сносно</b></span></dd></div>
-  </dl>
-  <p class="note">Вкусно первые полчаса, потом приторно, аки мёд в лампадном масле.</p>
-  <p class="meta">убивашка · 2 мая 2026 </p>
-</article><article class="card recipe entry" data-search="грейпфрут и хвоя цитрусовое|свежее|пряное грейпфрут — 50% хвоя — 30% лёд — 20% горчинка и лес. для тех, кого тошнит от сладкого." data-flavors="цитрусовое|свежее|пряное" data-sweet="1" data-strength="3" data-rating="4" data-date="2026-03-20" data-name="грейпфрут и хвоя">
-  <span class="stamp">образец</span>
-  <h3>Грейпфрут и хвоя</h3>
-  <p class="tags"><span class="chip chip-sm">цитрусовое</span><span class="chip chip-sm">свежее</span><span class="chip chip-sm">пряное</span></p>
-  <ul class="mix"><li>грейпфрут — 50%</li><li>хвоя — 30%</li><li>лёд — 20%</li></ul>
-  <dl class="meters">
-    <div><dt>Сладость</dt><dd><span class="pips pips-sweet" title="Сладость: 1 из 5" aria-label="Сладость: 1 из 5"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></dd></div>
-    <div><dt>Крепость</dt><dd><span class="pips pips-strong" title="Крепость: 3 из 5" aria-label="Крепость: 3 из 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span></dd></div>
-    <div><dt>Вердикт</dt><dd><span class="rating r4" title="4 из 5">✦✦✦✦✧ <b>добро</b></span></dd></div>
-  </dl>
-  <p class="note">Горчинка и лес. Для тех, кого тошнит от сладкого.</p>
-  <p class="meta">фанел · 20 марта 2026 </p>
-</article><article class="card recipe entry" data-search="манго-маракуйя фруктовое|тропическое манго — 50% маракуйя — 40% лайм — 10% сочно, лайм держит сладость в узде." data-flavors="фруктовое|тропическое" data-sweet="3" data-strength="2" data-rating="4" data-date="2026-02-11" data-name="манго-маракуйя">
-  <span class="stamp">образец</span>
-  <h3>Манго-маракуйя</h3>
-  <p class="tags"><span class="chip chip-sm">фруктовое</span><span class="chip chip-sm">тропическое</span></p>
-  <ul class="mix"><li>манго — 50%</li><li>маракуйя — 40%</li><li>лайм — 10%</li></ul>
-  <dl class="meters">
-    <div><dt>Сладость</dt><dd><span class="pips pips-sweet" title="Сладость: 3 из 5" aria-label="Сладость: 3 из 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span></dd></div>
-    <div><dt>Крепость</dt><dd><span class="pips pips-strong" title="Крепость: 2 из 5" aria-label="Крепость: 2 из 5"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span></dd></div>
-    <div><dt>Вердикт</dt><dd><span class="rating r4" title="4 из 5">✦✦✦✦✧ <b>добро</b></span></dd></div>
-  </dl>
-  <p class="note">Сочно, лайм держит сладость в узде.</p>
-  <p class="meta">фанел · 11 февраля 2026 </p>
-</article><article class="card recipe entry" data-search="чай с чабрецом чайное|пряное чёрный чай — 60% чабрец — 25% лимон — 15% как у бабки в деревне, только в дыму. крепко." data-flavors="чайное|пряное" data-sweet="1" data-strength="4" data-rating="4" data-date="2025-12-01" data-name="чай с чабрецом">
-  <span class="stamp">образец</span>
-  <h3>Чай с чабрецом</h3>
-  <p class="tags"><span class="chip chip-sm">чайное</span><span class="chip chip-sm">пряное</span></p>
-  <ul class="mix"><li>чёрный чай — 60%</li><li>чабрец — 25%</li><li>лимон — 15%</li></ul>
-  <dl class="meters">
-    <div><dt>Сладость</dt><dd><span class="pips pips-sweet" title="Сладость: 1 из 5" aria-label="Сладость: 1 из 5"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></dd></div>
-    <div><dt>Крепость</dt><dd><span class="pips pips-strong" title="Крепость: 4 из 5" aria-label="Крепость: 4 из 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span></dd></div>
-    <div><dt>Вердикт</dt><dd><span class="rating r4" title="4 из 5">✦✦✦✦✧ <b>добро</b></span></dd></div>
-  </dl>
-  <p class="note">Как у бабки в деревне, только в дыму. Крепко.</p>
-  <p class="meta">убивашка · 1 декабря 2025 </p>
-</article><article class="card recipe entry" data-search="арбузная жвачка фруктовое|десертное арбуз — 50% жвачка — 50% приторно до зубовного скрежета. ересь." data-flavors="фруктовое|десертное" data-sweet="5" data-strength="1" data-rating="2" data-date="2025-10-18" data-name="арбузная жвачка">
-  <span class="stamp">образец</span>
-  <h3>Арбузная жвачка</h3>
-  <p class="tags"><span class="chip chip-sm">фруктовое</span><span class="chip chip-sm">десертное</span></p>
-  <ul class="mix"><li>арбуз — 50%</li><li>жвачка — 50%</li></ul>
-  <dl class="meters">
-    <div><dt>Сладость</dt><dd><span class="pips pips-sweet" title="Сладость: 5 из 5" aria-label="Сладость: 5 из 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></dd></div>
-    <div><dt>Крепость</dt><dd><span class="pips pips-strong" title="Крепость: 1 из 5" aria-label="Крепость: 1 из 5"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></dd></div>
-    <div><dt>Вердикт</dt><dd><span class="rating r2" title="2 из 5">✦✦✧✧✧ <b>ересь</b></span></dd></div>
-  </dl>
-  <p class="note">Приторно до зубовного скрежета. Ересь.</p>
-  <p class="meta">фанел · 18 октября 2025 </p>
+  <div class="cards cards-3" id="hookah-list"><article class="card recipe entry" data-search="darkside xperience berry табак фруктовое ягодное   виноград, малина и чёрная смородина — ничего ярко выраженного, зато не дерёт горло: лёгок и приятен своей неопределённостью. приятно" data-flavors="фруктовое|ягодное" data-notes="" data-verdict="приятно" data-kind="табак" data-rank="3" data-date="2024-08-28" data-name="darkside xperience berry">
+  
+  <p class="type">табак</p>
+  <h3>Darkside Xperience Berry</h3>
+  <p><span class="verdict v3" title="Вердикт трактирщика">☙ приятно</span></p>
+  
+  <p class="note">Виноград, малина и чёрная смородина — ничего ярко выраженного, зато не дерёт горло: лёгок и приятен своей неопределённостью.</p>
+  <p class="tags"><span class="chip chip-sm">фруктовое</span><span class="chip chip-sm">ягодное</span></p>
+  <p class="meta">28 августа 2024 <a href="scroll/10.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="chabacco incredible india табак пряное травяное   индийская жвачка: вкус сиропа и трав радует, но по мнению жены пахнет котёнком. курить украдкой. спорно" data-flavors="пряное|травяное" data-notes="" data-verdict="спорно" data-kind="табак" data-rank="2" data-date="2024-09-25" data-name="chabacco incredible india">
+  
+  <p class="type">табак</p>
+  <h3>Chabacco Incredible India</h3>
+  <p><span class="verdict v2" title="Вердикт трактирщика">⚖ спорно</span></p>
+  
+  <p class="note">Индийская жвачка: вкус сиропа и трав радует, но по мнению жены пахнет котёнком. Курить украдкой.</p>
+  <p class="tags"><span class="chip chip-sm">пряное</span><span class="chip chip-sm">травяное</span></p>
+  <p class="meta">25 сентября 2024 <a href="scroll/77.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="помело-грейпфрут + черничная жвачка микс фруктовое цитрусовое ягодное element помело-грейпфрут — 10% черничная жвачка — 90%  грейпфрут перебил всё — буэ. снова убедился, что грейпфрут подводит. мимо" data-flavors="фруктовое|цитрусовое|ягодное" data-notes="" data-verdict="мимо" data-kind="микс" data-rank="1" data-date="2024-10-02" data-name="помело-грейпфрут + черничная жвачка">
+  
+  <p class="type">микс</p>
+  <h3>Помело-грейпфрут + черничная жвачка</h3>
+  <p><span class="verdict v1" title="Вердикт трактирщика">✗ мимо</span></p>
+  <ul class="mix"><li>Element помело-грейпфрут — 10%</li><li>черничная жвачка — 90%</li></ul>
+  <p class="note">Грейпфрут перебил всё — буэ. Снова убедился, что грейпфрут подводит.</p>
+  <p class="tags"><span class="chip chip-sm">фруктовое</span><span class="chip chip-sm">цитрусовое</span><span class="chip chip-sm">ягодное</span></p>
+  <p class="meta">2 октября 2024 <a href="scroll/100.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="наш «крошка айва» табак фруктовое   летний фаворит. купил потом настоящую айву — пресная, как репа. табак вкуснее. любимое" data-flavors="фруктовое" data-notes="" data-verdict="любимое" data-kind="табак" data-rank="5" data-date="2024-11-27" data-name="наш «крошка айва»">
+  
+  <p class="type">табак</p>
+  <h3>Наш «Крошка Айва»</h3>
+  <p><span class="verdict v5" title="Вердикт трактирщика">❤ любимое</span></p>
+  
+  <p class="note">Летний фаворит. Купил потом настоящую айву — пресная, как репа. Табак вкуснее.</p>
+  <p class="tags"><span class="chip chip-sm">фруктовое</span></p>
+  <p class="meta">27 ноября 2024 <a href="scroll/152.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="chabacco «ёлка с мандарином» табак хвойное цитрусовое  лимитка зимний дроп по рекламе блогера. ёлка оказалась совсем слабой. спорно" data-flavors="хвойное|цитрусовое" data-notes="лимитка" data-verdict="спорно" data-kind="табак" data-rank="2" data-date="2024-11-27" data-name="chabacco «ёлка с мандарином»">
+  
+  <p class="type">табак</p>
+  <h3>Chabacco «Ёлка с мандарином»</h3>
+  <p><span class="verdict v2" title="Вердикт трактирщика">⚖ спорно</span></p>
+  
+  <p class="note">Зимний дроп по рекламе блогера. Ёлка оказалась совсем слабой.</p>
+  <p class="tags"><span class="chip chip-sm">хвойное</span><span class="chip chip-sm">цитрусовое</span><span class="chip chip-sm">лимитка</span></p>
+  <p class="meta">27 ноября 2024 <a href="scroll/152.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="chabacco «вишня с пряностями» табак ягодное пряное  лимитка вишня еле ощутима, бывали варианты и вкуснее. спорно" data-flavors="ягодное|пряное" data-notes="лимитка" data-verdict="спорно" data-kind="табак" data-rank="2" data-date="2024-11-27" data-name="chabacco «вишня с пряностями»">
+  
+  <p class="type">табак</p>
+  <h3>Chabacco «Вишня с пряностями»</h3>
+  <p><span class="verdict v2" title="Вердикт трактирщика">⚖ спорно</span></p>
+  
+  <p class="note">Вишня еле ощутима, бывали варианты и вкуснее.</p>
+  <p class="tags"><span class="chip chip-sm">ягодное</span><span class="chip chip-sm">пряное</span><span class="chip chip-sm">лимитка</span></p>
+  <p class="meta">27 ноября 2024 <a href="scroll/152.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="deus «ганимед» табак парфюмное древесное  лимитка парфюмная линейка за 1800–2500 ₽ за 40 г. друзьям зашёл, а мне от начала до конца — только дерево. платить столько за дерево бессмысленно. мимо" data-flavors="парфюмное|древесное" data-notes="лимитка" data-verdict="мимо" data-kind="табак" data-rank="1" data-date="2025-01-01" data-name="deus «ганимед»">
+  
+  <p class="type">табак</p>
+  <h3>Deus «Ганимед»</h3>
+  <p><span class="verdict v1" title="Вердикт трактирщика">✗ мимо</span></p>
+  
+  <p class="note">Парфюмная линейка за 1800–2500 ₽ за 40 г. Друзьям зашёл, а мне от начала до конца — только дерево. Платить столько за дерево бессмысленно.</p>
+  <p class="tags"><span class="chip chip-sm">парфюмное</span><span class="chip chip-sm">древесное</span><span class="chip chip-sm">лимитка</span></p>
+  <p class="meta">1 января 2025 <a href="scroll/186.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="сарма, лёгкая линейка табак    лёгкая, сочная, приятная. правда, дольше 30–40 минут не держится. приятно" data-flavors="" data-notes="" data-verdict="приятно" data-kind="табак" data-rank="3" data-date="2025-02-19" data-name="сарма, лёгкая линейка">
+  
+  <p class="type">табак · лёгкий</p>
+  <h3>Сарма, лёгкая линейка</h3>
+  <p><span class="verdict v3" title="Вердикт трактирщика">☙ приятно</span></p>
+  
+  <p class="note">Лёгкая, сочная, приятная. Правда, дольше 30–40 минут не держится.</p>
+  <p class="tags"></p>
+  <p class="meta">19 февраля 2025 <a href="scroll/252.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="trofimoff на основе кашемира табак фруктовое  лимитка крепкий и сухой как сахара. в соло не заходит; с кешмир-персиком — сносно, с гуавой — ну такое. спорно" data-flavors="фруктовое" data-notes="лимитка" data-verdict="спорно" data-kind="табак" data-rank="2" data-date="2025-04-23" data-name="trofimoff на основе кашемира">
+  
+  <p class="type">табак · крепкий</p>
+  <h3>Trofimoff на основе кашемира</h3>
+  <p><span class="verdict v2" title="Вердикт трактирщика">⚖ спорно</span></p>
+  
+  <p class="note">Крепкий и сухой как Сахара. В соло не заходит; с кешмир-персиком — сносно, с гуавой — ну такое.</p>
+  <p class="tags"><span class="chip chip-sm">фруктовое</span><span class="chip chip-sm">лимитка</span></p>
+  <p class="meta">23 апреля 2025 <a href="scroll/314.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="пан раас табак пряное  для улицы вот это вообще что-то с чем-то. как и все пряности — строго для улицы, иначе на выдохе уйдёшь в космос. приятно" data-flavors="пряное" data-notes="для улицы" data-verdict="приятно" data-kind="табак" data-rank="3" data-date="2025-04-23" data-name="пан раас">
+  
+  <p class="type">табак</p>
+  <h3>Пан Раас</h3>
+  <p><span class="verdict v3" title="Вердикт трактирщика">☙ приятно</span></p>
+  
+  <p class="note">Вот это вообще что-то с чем-то. Как и все пряности — строго для улицы, иначе на выдохе уйдёшь в космос.</p>
+  <p class="tags"><span class="chip chip-sm">пряное</span><span class="chip chip-sm">для улицы</span></p>
+  <p class="meta">23 апреля 2025 <a href="scroll/314.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="muassel «шипучка» табак газировка  держит жар полгода ждал после зимнего феста. необычное сырьё, интересный вкус, долго держит даже под серьёзным жаром. фаворит сезона. советую" data-flavors="газировка" data-notes="держит жар" data-verdict="советую" data-kind="табак" data-rank="4" data-date="2025-05-14" data-name="muassel «шипучка»">
+  
+  <p class="type">табак</p>
+  <h3>Muassel «Шипучка»</h3>
+  <p><span class="verdict v4" title="Вердикт трактирщика">✦ советую</span></p>
+  
+  <p class="note">Полгода ждал после зимнего феста. Необычное сырьё, интересный вкус, долго держит даже под серьёзным жаром. Фаворит сезона.</p>
+  <p class="tags"><span class="chip chip-sm">газировка</span><span class="chip chip-sm">держит жар</span></p>
+  <p class="meta">14 мая 2025 <a href="scroll/344.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="яблоко + шипучка микс фруктовое газировка trofimoff двойное яблоко (без аниса) — 10% muassel «шипучка» — 90%  мечтал о яблочной газировке. получил вкус тёплого парного молока. чуть не стошнило. мимо" data-flavors="фруктовое|газировка" data-notes="" data-verdict="мимо" data-kind="микс" data-rank="1" data-date="2025-05-14" data-name="яблоко + шипучка">
+  
+  <p class="type">микс</p>
+  <h3>Яблоко + шипучка</h3>
+  <p><span class="verdict v1" title="Вердикт трактирщика">✗ мимо</span></p>
+  <ul class="mix"><li>Trofimoff двойное яблоко (без аниса) — 10%</li><li>Muassel «Шипучка» — 90%</li></ul>
+  <p class="note">Мечтал о яблочной газировке. Получил вкус тёплого парного молока. Чуть не стошнило.</p>
+  <p class="tags"><span class="chip chip-sm">фруктовое</span><span class="chip chip-sm">газировка</span></p>
+  <p class="meta">14 мая 2025 <a href="scroll/344.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="hit, готовые подборки табак    странные подборки, похожие на шоты от darkside. не зацепили. мимо" data-flavors="" data-notes="" data-verdict="мимо" data-kind="табак" data-rank="1" data-date="2025-05-14" data-name="hit, готовые подборки">
+  
+  <p class="type">табак</p>
+  <h3>HIT, готовые подборки</h3>
+  <p><span class="verdict v1" title="Вердикт трактирщика">✗ мимо</span></p>
+  
+  <p class="note">Странные подборки, похожие на шоты от Darkside. Не зацепили.</p>
+  <p class="tags"></p>
+  <p class="meta">14 мая 2025 <a href="scroll/344.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="overdose, мускатная вишня табак фруктовое ягодное парфюмное  не приторно лимитка просто космос. ни приторности, ни химозы. любимое" data-flavors="фруктовое|ягодное|парфюмное" data-notes="не приторно|лимитка" data-verdict="любимое" data-kind="табак" data-rank="5" data-date="2025-07-23" data-name="overdose, мускатная вишня">
+  
+  <p class="type">табак</p>
+  <h3>Overdose, мускатная вишня</h3>
+  <p><span class="verdict v5" title="Вердикт трактирщика">❤ любимое</span></p>
+  
+  <p class="note">Просто космос. Ни приторности, ни химозы.</p>
+  <p class="tags"><span class="chip chip-sm">фруктовое</span><span class="chip chip-sm">ягодное</span><span class="chip chip-sm">парфюмное</span><span class="chip chip-sm">не приторно</span><span class="chip chip-sm">лимитка</span></p>
+  <p class="meta">23 июля 2025 <a href="scroll/505.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="вечерний релакс микс фруктовое цитрусовое ягодное газировка свежее trofimoff no aroma limonchello — 25% overdoze lost futura — 30% наш юдзу-кола — 35% deus cooler — 10%  мягко, свежо и долгоиграюще — самое то для вечернего релакса. советую" data-flavors="фруктовое|цитрусовое|ягодное|газировка|свежее" data-notes="" data-verdict="советую" data-kind="микс" data-rank="4" data-date="2025-09-10" data-name="вечерний релакс">
+  
+  <p class="type">микс</p>
+  <h3>Вечерний релакс</h3>
+  <p><span class="verdict v4" title="Вердикт трактирщика">✦ советую</span></p>
+  <ul class="mix"><li>Trofimoff NO aroma Limonchello — 25%</li><li>Overdoze Lost Futura — 30%</li><li>НАШ Юдзу-кола — 35%</li><li>Deus Cooler — 10%</li></ul>
+  <p class="note">Мягко, свежо и долгоиграюще — самое то для вечернего релакса.</p>
+  <p class="tags"><span class="chip chip-sm">фруктовое</span><span class="chip chip-sm">цитрусовое</span><span class="chip chip-sm">ягодное</span><span class="chip chip-sm">газировка</span><span class="chip chip-sm">свежее</span></p>
+  <p class="meta">10 сентября 2025 <a href="scroll/570.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="muassel, линейка 4/10 табак    просто находка: лёгкая, мягкая, с выраженным вкусом без тяжести. и банки забиты так, что крышка еле закрывается. советую" data-flavors="" data-notes="" data-verdict="советую" data-kind="табак" data-rank="4" data-date="2025-10-08" data-name="muassel, линейка 4/10">
+  
+  <p class="type">табак · лёгкий</p>
+  <h3>Muassel, линейка 4/10</h3>
+  <p><span class="verdict v4" title="Вердикт трактирщика">✦ советую</span></p>
+  
+  <p class="note">Просто находка: лёгкая, мягкая, с выраженным вкусом без тяжести. И банки забиты так, что крышка еле закрывается.</p>
+  <p class="tags"></p>
+  <p class="meta">8 октября 2025 <a href="scroll/627.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="trofimoff, красная смородина табак фруктовое ягодное   старая добрая. но после месяцев на одной марке — пусто: душа не поёт, пора обновлять ассортимент. любимое" data-flavors="фруктовое|ягодное" data-notes="" data-verdict="любимое" data-kind="табак" data-rank="5" data-date="2025-10-08" data-name="trofimoff, красная смородина">
+  
+  <p class="type">табак</p>
+  <h3>Trofimoff, красная смородина</h3>
+  <p><span class="verdict v5" title="Вердикт трактирщика">❤ любимое</span></p>
+  
+  <p class="note">Старая добрая. Но после месяцев на одной марке — пусто: душа не поёт, пора обновлять ассортимент.</p>
+  <p class="tags"><span class="chip chip-sm">фруктовое</span><span class="chip chip-sm">ягодное</span></p>
+  <p class="meta">8 октября 2025 <a href="scroll/627.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="ореховый десерт микс десертное ореховое шоколадное кофейное overdoze walnut (грецкий орех) — 5–10% хулиган mario (апельсиновый шоколад) или hit choco comedy — остальное chabacco кофе — 15–20%, не больше не приторно не приторный десерт и не очередной ягодный винегрет: орех даёт основу, шоколад — тепло, кофе всё связывает. зашёл в самое сердечко. любимое" data-flavors="десертное|ореховое|шоколадное|кофейное" data-notes="не приторно" data-verdict="любимое" data-kind="микс" data-rank="5" data-date="2025-10-22" data-name="ореховый десерт">
+  
+  <p class="type">микс</p>
+  <h3>Ореховый десерт</h3>
+  <p><span class="verdict v5" title="Вердикт трактирщика">❤ любимое</span></p>
+  <ul class="mix"><li>Overdoze Walnut (грецкий орех) — 5–10%</li><li>Хулиган Mario (апельсиновый шоколад) или HIT Choco Comedy — остальное</li><li>Chabacco кофе — 15–20%, не больше</li></ul>
+  <p class="note">Не приторный десерт и не очередной ягодный винегрет: орех даёт основу, шоколад — тепло, кофе всё связывает. Зашёл в самое сердечко.</p>
+  <p class="tags"><span class="chip chip-sm">десертное</span><span class="chip chip-sm">ореховое</span><span class="chip chip-sm">шоколадное</span><span class="chip chip-sm">кофейное</span><span class="chip chip-sm">не приторно</span></p>
+  <p class="meta">22 октября 2025 <a href="scroll/650.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="вишня + рутбир микс фруктовое ягодное газировка вишня северный «рутбир» вместо колы  поворот классики вишня-кола из «поднебесной»: сладкая газировка с травяными нотками, как мягкая индийская жвачка без удара специй. советую" data-flavors="фруктовое|ягодное|газировка" data-notes="" data-verdict="советую" data-kind="микс" data-rank="4" data-date="2026-04-29" data-name="вишня + рутбир">
+  
+  <p class="type">микс</p>
+  <h3>Вишня + рутбир</h3>
+  <p><span class="verdict v4" title="Вердикт трактирщика">✦ советую</span></p>
+  <ul class="mix"><li>вишня</li><li>Северный «Рутбир» вместо колы</li></ul>
+  <p class="note">Поворот классики вишня-кола из «Поднебесной»: сладкая газировка с травяными нотками, как мягкая индийская жвачка без удара специй.</p>
+  <p class="tags"><span class="chip chip-sm">фруктовое</span><span class="chip chip-sm">ягодное</span><span class="chip chip-sm">газировка</span></p>
+  <p class="meta">29 апреля 2026 <a href="scroll/875.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="trofimoff, рутбир с мятой табак газировка мятное   пушка — ничего не сказать. в соло не забьёшь: история для спокойного вдумчивого вечера. любимое" data-flavors="газировка|мятное" data-notes="" data-verdict="любимое" data-kind="табак" data-rank="5" data-date="2026-05-20" data-name="trofimoff, рутбир с мятой">
+  
+  <p class="type">табак</p>
+  <h3>Trofimoff, рутбир с мятой</h3>
+  <p><span class="verdict v5" title="Вердикт трактирщика">❤ любимое</span></p>
+  
+  <p class="note">Пушка — ничего не сказать. В соло не забьёшь: история для спокойного вдумчивого вечера.</p>
+  <p class="tags"><span class="chip chip-sm">газировка</span><span class="chip chip-sm">мятное</span></p>
+  <p class="meta">20 мая 2026 <a href="scroll/904.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="окинава микс фруктовое цитрусовое газировка overdose «фанта окинава» — 40% северный «юдзу кола» — 60%  дымок из вечера, когда вспомнил, что уже был на окинаве. без вердикта" data-flavors="фруктовое|цитрусовое|газировка" data-notes="" data-verdict="без вердикта" data-kind="микс" data-rank="0" data-date="2026-08-05" data-name="окинава">
+  
+  <p class="type">микс</p>
+  <h3>Окинава</h3>
+  <p><span class="verdict v0" title="Вердикт трактирщика">… без вердикта</span></p>
+  <ul class="mix"><li>Overdose «Фанта Окинава» — 40%</li><li>Северный «Юдзу Кола» — 60%</li></ul>
+  <p class="note">Дымок из вечера, когда вспомнил, что уже был на Окинаве.</p>
+  <p class="tags"><span class="chip chip-sm">фруктовое</span><span class="chip chip-sm">цитрусовое</span><span class="chip chip-sm">газировка</span></p>
+  <p class="meta">5 августа 2026 <a href="scroll/996.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="хулиган × el capitos «тропика» табак фруктовое тропическое ягодное  лимитка ягодная смесь с акцентом на ананас, который — редкость — не перетягивает на себя всю чашу. приятно" data-flavors="фруктовое|тропическое|ягодное" data-notes="лимитка" data-verdict="приятно" data-kind="табак" data-rank="3" data-date="2026-08-19" data-name="хулиган × el capitos «тропика»">
+  
+  <p class="type">табак · хард</p>
+  <h3>Хулиган × El Capitos «Тропика»</h3>
+  <p><span class="verdict v3" title="Вердикт трактирщика">☙ приятно</span></p>
+  
+  <p class="note">Ягодная смесь с акцентом на ананас, который — редкость — не перетягивает на себя всю чашу.</p>
+  <p class="tags"><span class="chip chip-sm">фруктовое</span><span class="chip chip-sm">тропическое</span><span class="chip chip-sm">ягодное</span><span class="chip chip-sm">лимитка</span></p>
+  <p class="meta">19 августа 2026 <a href="scroll/1016.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="хулиган × el capitos «адьёс» табак фруктовое ягодное кокосовое  не приторно лимитка баунти с ягодами, но без приторной сладости: кокос в основе, но не забивает ягоды. из двух — однозначно этот. советую" data-flavors="фруктовое|ягодное|кокосовое" data-notes="не приторно|лимитка" data-verdict="советую" data-kind="табак" data-rank="4" data-date="2026-08-19" data-name="хулиган × el capitos «адьёс»">
+  
+  <p class="type">табак · хард</p>
+  <h3>Хулиган × El Capitos «Адьёс»</h3>
+  <p><span class="verdict v4" title="Вердикт трактирщика">✦ советую</span></p>
+  
+  <p class="note">Баунти с ягодами, но без приторной сладости: кокос в основе, но не забивает ягоды. Из двух — однозначно этот.</p>
+  <p class="tags"><span class="chip chip-sm">фруктовое</span><span class="chip chip-sm">ягодное</span><span class="chip chip-sm">кокосовое</span><span class="chip chip-sm">не приторно</span><span class="chip chip-sm">лимитка</span></p>
+  <p class="meta">19 августа 2026 <a href="scroll/1016.html">читать свиток →</a></p>
+</article><article class="card recipe entry" data-search="вишня-кола «автопилот» микс фруктовое ягодное газировка overdose lost futura (парфюмная мараскина) trofimoff coke или overdose imperial cola готовый вариант — starline «свободная куба»  мейнер вишни с колой. перепробованы десерты, леденцы и соки, но «тот самый» вкус — только из этих банок. dr pepper не нравится. любимое" data-flavors="фруктовое|ягодное|газировка" data-notes="" data-verdict="любимое" data-kind="микс" data-rank="5" data-date="2026-09-09" data-name="вишня-кола «автопилот»">
+  
+  <p class="type">микс</p>
+  <h3>Вишня-кола «автопилот»</h3>
+  <p><span class="verdict v5" title="Вердикт трактирщика">❤ любимое</span></p>
+  <ul class="mix"><li>Overdose Lost Futura (парфюмная мараскина)</li><li>Trofimoff Coke или Overdose Imperial Cola</li><li>готовый вариант — Starline «Свободная Куба»</li></ul>
+  <p class="note">Мейнер вишни с колой. Перепробованы десерты, леденцы и соки, но «тот самый» вкус — только из этих банок. Dr Pepper не нравится.</p>
+  <p class="tags"><span class="chip chip-sm">фруктовое</span><span class="chip chip-sm">ягодное</span><span class="chip chip-sm">газировка</span></p>
+  <p class="meta">9 сентября 2026 <a href="scroll/1055.html">читать свиток →</a></p>
 </article></div>
   <p class="nothing" hidden>Такой забивки в книге нет. Может, изобретёшь?</p>
 </section>
 <section class="parchment feed" id="feed">
-  <h2>Свитки из дымной горницы <small class="count" data-count-for="feed-list">2</small></h2>
+  <h2>Свитки из горницы <small class="count" data-count-for="feed-list">45</small></h2>
   <div class="filterbox" data-target="#feed-list" data-page="12">
     <label class="search-field"><span>Искать в свитках</span><input type="search" data-search placeholder="например: мята, агент, Берсерк…"></label>
-    <div class="chips" data-mode="all" data-group="tags"><button type="button" class="chip" data-facet="tags" data-value="кальян">#кальян <sup>2</sup></button><button type="button" class="chip" data-facet="tags" data-value="забивка">#забивка <sup>1</sup></button></div>
+    <div class="chips" data-mode="all" data-group="tags"><button type="button" class="chip" data-facet="tags" data-value="chill">#chill <sup>28</sup></button><button type="button" class="chip" data-facet="tags" data-value="кальян">#кальян <sup>27</sup></button><button type="button" class="chip" data-facet="tags" data-value="мысль">#мысль <sup>3</sup></button><button type="button" class="chip" data-facet="tags" data-value="игры">#игры <sup>3</sup></button><button type="button" class="chip" data-facet="tags" data-value="хобби">#хобби <sup>3</sup></button><button type="button" class="chip" data-facet="tags" data-value="ai">#ai <sup>2</sup></button><button type="button" class="chip" data-facet="tags" data-value="чтение">#чтение <sup>2</sup></button><button type="button" class="chip" data-facet="tags" data-value="манга">#манга <sup>2</sup></button><button type="button" class="chip" data-facet="tags" data-value="сад">#сад <sup>2</sup></button><button type="button" class="chip" data-facet="tags" data-value="пыльныезаписи">#пыльныезаписи <sup>2</sup></button><button type="button" class="chip" data-facet="tags" data-value="аниме">#аниме <sup>2</sup></button><button type="button" class="chip" data-facet="tags" data-value="drive">#drive <sup>1</sup></button><button type="button" class="chip" data-facet="tags" data-value="выдыхай">#выдыхай <sup>1</sup></button><button type="button" class="chip" data-facet="tags" data-value="warhammer">#warhammer <sup>1</sup></button></div>
     <div class="row-controls">
       <label>Порядок <select data-sort><option value="date-desc">сначала новые</option><option value="date-asc">сначала старые</option></select></label>
       <button type="button" class="btn-link" data-reset>сбросить</button>
     </div>
   </div>
   <div class="cards" id="feed-list">
-<article class="card post" data-search="забивка недели: малина, лимон, мята не приторно, свежо, держит час. чаша фанел, три угля. кальян забивка" data-tags="кальян забивка" data-date="2026-09-18T22:30:00">
-  <a class="post-pic" href="scroll/104.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:208" aria-hidden="true"><span>З</span></div></a>
-  <div class="post-body"><span class="stamp">образец</span>
-    <h3><a href="scroll/104.html">Забивка недели: малина, лимон, мята</a></h3>
-    <p class="meta"><time datetime="2026-09-18T22:30:00">18 сентября 2026</time> · <a href="https://t.me/SMailsPub/104" rel="noopener" target="_blank">в канал ↗</a></p>
-    <p class="excerpt">Не приторно, свежо, держит час. Чаша фанел, три угля.</p>
-    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a><a class="chip chip-sm" href="search.html?tag=забивка">#забивка</a></p>
+<article class="card post" data-search="⭐️ я ненавижу земляных мушек. ⭐️ расстроен рад эмиграцией друга, ведь он не сможет оценивать мои забивки для кальяна. ⭐️ а ещё я немного шарю в ии. что могло пойти не так? здорово, солнышки!🙂 одновременно восхитительным и безумно проклятым получился проект, который я вам покажу сейчас!🧟 в 2024 году полностью оцифровали мозг фруктовой мушки, а недавно на его основе смогли воспроизвести цифровую модель мозга. ии это или mcp — сейчас не так важно, главное, что мозг мухи теперь можно запустить в цифровом виде. а дальше на основе этой цифровой модели начали делать с мухой совершенно &quot;нормальные&quot; вещи: заставили её играть в doom, крутить слоты, а потом вообще засунули в minecraft⚔ и я решил: чем я хуже? посидел, поколдовал с агентами — и у меня получилась муха, дымный сомелье. то есть я предлагаю ей различные забивки табака для кальяна, а она своим цифровым «мозгом» их оценивает. а если мне не нравится её оценка — муху можно жахнуть током, после чего она немного переучится и начнёт иначе воспринимать предложенный вкус♻ получается, я буквально сделал себе цифровую муху, которая дегустирует мои кальяны, получает по мозгам за неправильные ответы и постепенно обучается моим вкусовым предпочтениям. я считаю, это просто какое-то безумие, опробуйте и вы его🤡 и теперь, кажется, самое время задаться вопросом: мечтают ли электро-мухи об электро-помёте? всем sup! ai кальян ai кальян" data-tags="ai кальян" data-date="2026-09-23T18:01:06">
+  <a class="post-pic" href="scroll/1072.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:344" aria-hidden="true"><span>Я</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/1072.html">⭐️ Я ненавижу земляных мушек.</a></h3>
+    <p class="meta"><time datetime="2026-09-23T18:01:06">23 сентября 2026</time> · <a href="https://t.me/SMailsPub/1072" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">⭐️ Расстроен Рад эмиграцией друга, ведь он не сможет оценивать мои забивки для кальяна. ⭐️ А ещё я немного шарю в ИИ. Что могло пойти не так? Здорово, солнышки!🙂 Одновременно восхитительным и безумно проклятым получился проект,…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=ai">#ai</a><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
   </div>
 </article>
-<article class="card post" data-search="почему я перестал курить десертные миксы короче: после третьей сливочной забивки хочется пить воду ведрами. кальян" data-tags="кальян" data-date="2026-08-05T20:00:00">
-  <a class="post-pic" href="scroll/105.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:255" aria-hidden="true"><span>П</span></div></a>
-  <div class="post-body"><span class="stamp">образец</span>
-    <h3><a href="scroll/105.html">Почему я перестал курить десертные миксы</a></h3>
-    <p class="meta"><time datetime="2026-08-05T20:00:00">5 августа 2026</time> · <a href="https://t.me/SMailsPub/105" rel="noopener" target="_blank">в канал ↗</a></p>
-    <p class="excerpt">Короче: после третьей сливочной забивки хочется пить воду ведрами.</p>
+<article class="card post" data-search="догадались, о чём это? нет? тогда рассказываю! здорово, солнышки!👋 забивая чаши год за годом, со временем вырабатывается чисто механическое привыкание к определённому типу забивки или определённым ароматам. даже если ты постоянно пробуешь что-то новое, всё равно наступает момент, когда тебе апатично, лень или просто хочется чего-то знакомого — и ты забиваешь своё любимое. мой друже🐔, например, любит зелёный чай с персиком. иногда мне кажется, что он вообще может его all day прокуривать, потому что я примерно такой же человек. только я мейнер — вишня и кола❤ и не просто какая-нибудь вишня и кола, а именно парфюмная или десертная. я, честно, перепробовал огромное количество разных вариаций этого сочетания, но каждый раз возвращаюсь примерно к одному и тому же набору: если вишня — то парфюмная мараскина. overdose — lost futura. если кола — trofimov — coke, а с недавних пор ещё и overdose — imperial cola. а если брать уже готовую смесь, то starline — свободная куба. и вот я вообще не понимаю, почему так. мне забивали и десертные варианты, и леденцы, и соки, и всякие другие интерпретации вишни с колой. они вкусные, правда. но если я хочу именно «тот самый» вкус — всё равно возвращаюсь к своим проверенным банкам. видимо, у каждого кальянщика со стажем формируется свой пищевой/ароматический автопилот. и мой почему-то стабильно ведёт в сторону вишнёвой колы, при этом dr pepper - вообще не нравится😕 кальян" data-tags="кальян" data-date="2026-09-09T20:03:17">
+  <a class="post-pic" href="scroll/1055.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:265" aria-hidden="true"><span>Д</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/1055.html">Догадались, о чём это?</a></h3>
+    <p class="meta"><time datetime="2026-09-09T20:03:17">9 сентября 2026</time> · <a href="https://t.me/SMailsPub/1055" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Нет? Тогда рассказываю! Здорово, солнышки!👋 Забивая чаши год за годом, со временем вырабатывается чисто механическое привыкание к определённому типу забивки или определённым ароматам. Даже если ты постоянно пробуешь что-то новое,…</p>
     <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="и новым осенним релизом от chillhop - пытаемся удержать кукушчеку и латаем крышу от съезда всем chill ! chill" data-tags="chill" data-date="2026-09-02T18:00:28">
+  <a class="post-pic" href="scroll/1041.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:327" aria-hidden="true"><span>И</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/1041.html">И новым осенним релизом от Chillhop - пытаемся удержать кукушчеку и латаем крышу от съезда</a></h3>
+    <p class="meta"><time datetime="2026-09-02T18:00:28">2 сентября 2026</time> · <a href="https://t.me/SMailsPub/1041" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Всем Chill !</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="в прошлую среду я рассказывал про коллаборацию el capitos × хулиган, а уже сегодня… наконец-то добрался до сего прекрасного заведения🙂 и знаете что? место действительно оказалось очень приятным. бар совсем небольшой и камерный, буквально несколько столиков — за счёт этого создаётся ощущение, будто пришёл не в бар, а в гости. отдельный кайф — коктейли собирают под твои вкусы. рассказываешь, что нравится и чего хочется, а дальше уже бармены колдуют. мы провели там около двух часов, и они пролетели буквально одним мгновением. по ценнику — условно около 1000 ₽ за позицию, будь то коктейль или еда. не назвал бы это супердемократичным местом для регулярных посиделок, но один раз точно стоит сходить, особенно если хочется попробовать что-то необычное📝 а ещё я смог отыскать ту самую чашу из лимитированной серии! правда, не моей расцветки. 😢 но ничего. теперь хотя бы знаю, как в живую выглядит! буэнос диас, пидрилас!🤡 chill chill" data-tags="chill" data-date="2026-08-27T00:16:23">
+  <a class="post-pic" href="scroll/1029.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:123" aria-hidden="true"><span>В</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/1029.html">В прошлую среду я рассказывал про коллаборацию El Capitos × Хулиган, а уже сегодня…</a></h3>
+    <p class="meta"><time datetime="2026-08-27T00:16:23">27 августа 2026</time> · <a href="https://t.me/SMailsPub/1029" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">наконец-то добрался до сего прекрасного заведения🙂 И знаете что? Место действительно оказалось очень приятным. Бар совсем небольшой и камерный, буквально несколько столиков — за счёт этого создаётся ощущение, будто пришёл не в…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="каким-то невероятным образом мне удалось заполучить лимитированное издание — коллаборацию… компании «хулиган» с питерским баром el capitos, который, как оказалось, входит в топ-8 мирового рейтинга баров (не знал, каюсь🧂) и сегодня на повторном прокурe у нас сразу два дропа: 🍍 тропика — сочный тропический коктейль. 🥥 адьёс — нежные ягоды в кокосе. так как лёгкая линейка для пусечек, мой выбор, конечно же, пал на хард. про тропику могу сказать, что это приятная ягодная смесь с сильным акцентом на ананас. при этом ананас не перетягивает на себя всю чашу, что встречается довольно редко. по моему опыту, этот товарищ обычно очень быстро захватывает весь вкус и начинает орать громче всех. а вот адьёс я бы охарактеризовал как bounty с ягодами, но без этой приторной сладости. более того, кокос здесь будто бы является основой вкуса, но при этом всё время остаётся где-то на заднем плане и не забивает ягоды. из двух вариантов я бы однозначно советовал попробовать именно адьёс. а сам теперь думаю: может, пора уже и в бар к ним заглянуть? вдруг там ещё 100 кроликов найду 🐇 всем sup! кальян" data-tags="кальян" data-date="2026-08-19T23:45:20">
+  <a class="post-pic" href="scroll/1016.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:232" aria-hidden="true"><span>К</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/1016.html">Каким-то невероятным образом мне удалось заполучить лимитированное издание — коллаборацию…</a></h3>
+    <p class="meta"><time datetime="2026-08-19T23:45:20">19 августа 2026</time> · <a href="https://t.me/SMailsPub/1016" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">компании «Хулиган» с питерским баром El Capitos, который, как оказалось, входит в топ-8 мирового рейтинга баров (не знал, каюсь🧂) И сегодня на повторном прокурe у нас сразу два дропа: 🍍 ТРОПИКА — сочный тропический коктейль. 🥥…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="too good to bed здорово, полуночные солнышки! я. заебался.🙁 не всегда же рассказывать только про успешный успех, правда? самое странное — я даже не могу сказать, что именно меня так вымотало. потому что мест, где можно подзаебаться, оказалось слишком много🪑 вы не ловили себя на мысли, что это лето... как будто и не лето? нет той лёгкости, ощущения перезагрузки, когда набираешься сил просто потому, что на улице тепло и солнце? раньше я легко мог с улыбкой сказать: «ну, день прошёл — ну и нах*й он пошел». а сейчас каждый вечер звучит примерно одинаково: «день прошёл. число сменилось. нихрена не изменилось»🕕 и ведь нельзя сказать, что всё превратилось в сплошную рутину. то сервис подкинет новые ошибки, то ремонт в квартире преподнесёт очередной сюрприз. события происходят постоянно, а ощущение — будто стоишь на месте. самое забавное случилось сегодня. стою, забиваю чашу для кальяна. смотрю на банку — «фанта окинава» и в голове автоматически возникает мысль: «о, окинава... это же япония. летом там, наверное, классно. вот бы хоть раз туда съездить...» и только через пару секунд меня буквально накрывают флешбэки - &quot;лёха, ты уже был там - стееей виз миии&quot; всего четыре месяца назад. в самой крутой поездке в своей жизни. я настолько закрутился в делах, что мозг на секунду просто... забыл. и это, если честно, немного пугает. сидел потом с чашей, молча смотрел в одну точку и думал: «пу-пу-пу... а как это вообще работает?» наверное, иногда нужно не искать новые впечатления, а успевать проживать те, которые уже случились. сегодняшний дымок — микс: 🥤 overdose «фанта окинава» — 40%; 🥤 северный «юдзу кола» — 60%. а вам оставляю спокойный вечерний вайб. и, кстати, too good to bed — рекомендую послушать. всем sup🙂 chill chill" data-tags="chill" data-date="2026-08-05T23:19:01">
+  <a class="post-pic" href="scroll/996.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:12" aria-hidden="true"><span>T</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/996.html">Too good to bed</a></h3>
+    <p class="meta"><time datetime="2026-08-05T23:19:01">5 августа 2026</time> · <a href="https://t.me/SMailsPub/996" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Здорово, полуночные солнышки! Я. ЗАЕБАЛСЯ.🙁 Не всегда же рассказывать только про успешный успех, правда? Самое странное — я даже не могу сказать, что именно меня так вымотало. Потому что мест, где можно подзаебаться, оказалось…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="без лишних слов - ловите приятный двух часовой эмбиент для медитации или смотрения в стенку\потолок ну или мою подборку на я.музыки где я собираю японские вайбы🥹 chill" data-tags="chill" data-date="2026-07-22T18:01:09">
+  <a class="post-pic" href="scroll/983.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:121" aria-hidden="true"><span>Б</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/983.html">Без лишних слов - ловите приятный двух часовой эмбиент для медитации или смотрения в стенку\потолок</a></h3>
+    <p class="meta"><time datetime="2026-07-22T18:01:09">22 июля 2026</time> · <a href="https://t.me/SMailsPub/983" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">ну или мою подборку на Я.Музыки где я собираю Японские вайбы🥹</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="не зря говорят, что мода циклична. похоже, на дворе снова где-то 2007 год🥷 как человек, который когда-то (да и сейчас) плотно сидел на хардстайле, джампстайле, шафле и прочей тяжёлой электронике, я не могу не радоваться новой волне. в буквальном смысле — мои уши счастливы. вместе с этим всё чаще на глаза попадается хаккен. а значит, снова звучат те самые сочные 200–250 bpm, от которых ноги сами начинают отбивать ритм🙌 если вдруг не знаете, хаккен — это стиль танца, родившийся вместе с европейской рейв-культурой. и когда я говорю «танцы под электронную долбёжку», я имею в виду совсем не тот тектоник, который многие могут вспомнить. здесь всё гораздо жёстче: резкие, быстрые, ритмичные движения под максимально плотный бит. не знаю, насколько долго продержится эта волна, но уже сейчас приятно видеть, что наши соотечественники делают в этом направлении действительно сильные вещи. по эффектности, технике и подаче многие ролики выглядят просто невероятно. сердечко просто радуется🥰 ниже оставлю небольшую подборку треков с агрессивными bpm для знакомства с жанром. а ещё рекомендую посмотреть двухминутный шортс, где очень наглядно показывают историю этого движения: от техно-рейвов голландии 90-х до современных сцен defqon.1. кстати, уже совсем скоро пройдёт очередной летний defqon.1, а значит нас снова ждут мощные шоу, свет, пиротехника и тонны отличной музыки анти chill и всем sup! chill" data-tags="chill" data-date="2026-07-01T18:04:42">
+  <a class="post-pic" href="scroll/958.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:26" aria-hidden="true"><span>Н</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/958.html">Не зря говорят, что мода циклична.</a></h3>
+    <p class="meta"><time datetime="2026-07-01T18:04:42">1 июля 2026</time> · <a href="https://t.me/SMailsPub/958" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Похоже, на дворе снова где-то 2007 год🥷 Как человек, который когда-то (да и сейчас) плотно сидел на хардстайле, джампстайле, шафле и прочей тяжёлой электронике, я не могу не радоваться новой волне. В буквальном смысле — мои уши…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="не перестаю удивляться тому, насколько я.музыка временами превращается в какой-то… «загнивающий сервис»...но, несмотря на все жизненные перипетии, иногда он всё же подкидывает настоящие подарки🤡 сижу я вечером, потягиваю дымок и занимаюсь своими делами. вкладка с музыкой, как обычно, свёрнута, поэтому в половине случаев я вообще не знаю, что там играет на фоне. и вот в какой-то момент в уши залетает очень интересный трек, который сразу цепляет внимание. пока песня играет, я всё больше прислушиваюсь к деталям и где-то ближе к середине ловлю себя на мысли: «забавно получается... припев будто поют babymetal, а в куплетах словно парни из bloodywood.» причём мысль была именно в формате сравнения, потому что мне даже в голову не пришло, что такая коллаборация вообще может существовать. с одной стороны — babymetal, японские метал-идолы, которых уже знает половина планеты. с другой — bloodywood, индийские металюги, которые хоть и не такие медийные, но стабильно выдают очень мощный материал. и вот когда я наконец открываю вкладку, чтобы посмотреть, что именно играет, и сохранить трек себе, меня слегка накрывает удивлением, потому что это оказалась реальная коллаборация babymetal и bloodywood 🤯 причём не просто похожее звучание, не фанатский ремикс и не очередной ии шлак, а самый настоящий полноценный совместный трек, записанный двумя группами, которые я совершенно не ожидал увидеть вместе. сказать, что мой шок был в шоке — ничего не сказать😔 в такие моменты начинаешь подозревать, что музыкальные алгоритмы всё-таки иногда работают, хотя, в большинстве случаев - я.музыка выдает &quot;скучную подборку&quot; поймал себя на мысли, что которую неделю подряд вместо традиционного chill у нас получается какой-то drive, но, кажется, никто особо не жалуется🤷 всем sup 😎 и, как говорится...enjoy 🤘 👇⬇️⬇️⬇️👇 chill drive" data-tags="chill drive" data-date="2026-06-03T20:05:17">
+  <a class="post-pic" href="scroll/920.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:40" aria-hidden="true"><span>Н</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/920.html">Не перестаю удивляться тому, насколько Я.Музыка временами превращается в какой-то…</a></h3>
+    <p class="meta"><time datetime="2026-06-03T20:05:17">3 июня 2026</time> · <a href="https://t.me/SMailsPub/920" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">«загнивающий сервис»...Но, несмотря на все жизненные перипетии, иногда он всё же подкидывает настоящие подарки🤡 Сижу я вечером, потягиваю дымок и занимаюсь своими делами. Вкладка с музыкой, как обычно, свёрнута, поэтому в…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a><a class="chip chip-sm" href="search.html?tag=drive">#drive</a></p>
+  </div>
+</article>
+<article class="card post" data-search="как говорится: «нормальный пацан плейлист не показывает — там либо улики, либо эмоциональный ущерб» и нет, это я сейчас даже не про тонну своего hard-techno-9999bpm, которую нормальным людям лучше не включать без подготовки 🎧 помните, не так давно я рассказывал про ребят angine de poitrine, которых сейчас слушаю уже неприлично часто? так вот. на днях мой внутренний радар словил другой вайб. представьте: ваш «клип» выглядит как отдельная история. будто кто-то взял атмосферу фильмов «грязь» и «однажды в ирландии», добавил туда внезапную хореографию, немного абсурда, странной энергетики и ощущения, что ты одновременно смотришь артхаус и уличную драку... и знаете что? вам даже представлять не надо. потому что всё уже сделали за нас. просто включите: gener8ion — storm starring yung lean и… просто повайбуйте🦊 особенно если вдруг пропустили — момент примерно с 4:20 уже максимально разлетелся по рилсам. и, честно, не просто так. вообще сегодня никакого глубокого послесловия - никакой морали - никаких выводов. just for fun. only chill 🌙 chill" data-tags="chill" data-date="2026-05-27T19:05:46">
+  <a class="post-pic" href="scroll/914.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:118" aria-hidden="true"><span>К</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/914.html">Как говорится: «Нормальный пацан плейлист не показывает — там либо улики, либо эмоциональный ущерб»</a></h3>
+    <p class="meta"><time datetime="2026-05-27T19:05:46">27 мая 2026</time> · <a href="https://t.me/SMailsPub/914" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">И нет, это я сейчас даже не про тонну своего HARD-TECHNO-9999BPM, которую нормальным людям лучше не включать без подготовки 🎧 Помните, не так давно я рассказывал про ребят Angine de Poitrine, которых сейчас слушаю уже неприлично…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="продираемся через тернии агр, попутно рассказывая, что это вообще за зверь такой и как его… аккуратно «приручить» 🪑 из приятного — мою статью про работу с ifc процитировали в крупном профильном строительном паблике. мелочь, а приятно. всё-таки всегда радует, когда твой опыт оказывается кому-то полезным, а не просто лежит в закладках с пометкой «почитать потом» 😕 но вообще… сегодня среда, а значит — время chill сижу, как всегда, в своей любимой поднебесной, тестирую новый вкус. по вайбу — что-то очень близкое к рут-биру, только уже от трофимова🦾👹 и сказать, что это пушка — ничего не сказать. причём внутри ещё и мята, что добавляет интересности. правда, из-за такого «супового набора» вкусов в соло чашечку уже особо не забьёшь — история скорее для спокойного, вдумчивого вечера. так что всем желаю хорошего вечера 😪🚽🕕 середина недели уже позади — держимся, малята всем sup! chill" data-tags="chill" data-date="2026-05-20T21:53:06">
+  <a class="post-pic" href="scroll/904.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:8" aria-hidden="true"><span>П</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/904.html">Продираемся через тернии АГР, попутно рассказывая, что это вообще за зверь такой и как его…</a></h3>
+    <p class="meta"><time datetime="2026-05-20T21:53:06">20 мая 2026</time> · <a href="https://t.me/SMailsPub/904" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">аккуратно «приручить» 🪑 Из приятного — мою статью про работу с IFC процитировали в крупном профильном строительном паблике. Мелочь, а приятно. Всё-таки всегда радует, когда твой опыт оказывается кому-то полезным, а не просто…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="наткнулся тут вечером на довольно необычный перформанс от канадской группы 🔲 angine de… poitrine 🔲 (для них, кстати, google даже сделал свою анимацию при поиске — редкая штука) включил раз их выступление… потом ещё раз… и как-то незаметно залип. вроде музыка местами будто ходит по кругу, играет «одно и то же», но в этом есть какой-то гипноз. постепенно просто растворяешься в этом миксе звуков и атмосферы🥰 да что я рассказываю — лучше сами попробуйте послушать и поймать этот вайб, который то закручивается в струну, то превращается в белый лист бумаги тем более сегодня среда, а значит официально разрешён chill chill" data-tags="chill" data-date="2026-05-13T18:05:09">
+  <a class="post-pic" href="scroll/893.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:211" aria-hidden="true"><span>Н</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/893.html">Наткнулся тут вечером на довольно необычный перформанс от канадской группы 🔲 Angine de…</a></h3>
+    <p class="meta"><time datetime="2026-05-13T18:05:09">13 мая 2026</time> · <a href="https://t.me/SMailsPub/893" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Poitrine 🔲 (для них, кстати, Google даже сделал свою анимацию при поиске — редкая штука) Включил раз их выступление… потом ещё раз… и как-то незаметно залип. Вроде музыка местами будто ходит по кругу, играет «одно и то же», но в…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="среда пришла — а значит, до праздничных выходных остался всего один рабочий день. можно уже слегка расслабить плечи, ослабить ремни доспехов и позволить себе немного дыма под сводами таверны. по старой традиции — у нас ведь среда, а значит кальян сегодня хочу рассказать вам про один весьма необычный вкус — рутбир, или так называемое корневое пиво. штука любопытная: сладкий североамериканский безалкогольный напиток, который исторически делали на основе коры корня дерева сассафрас. представьте себе — пиво без хмеля, да ещё и из коры. почти алхимия📝 правда, один из компонентов со временем в сша запретили, но сама идея вкуса осталась жить и перекочевала в разные продукты🤛 с этим ароматом меня познакомили через табак северный, в моей любимой поднебесной. там предложили любопытный поворот классического микса вишня-кола — заменить колу на рутбир 😳 и знаете… это действительно похоже! тот же сладковатый газировочный профиль, но с лёгкими травяными оттенками. даже проскакивают едва заметные ноты знакомой каждому «звёздочки»🤩 я бы описал это так: очень мягкая версия индийской жвачки от chabacco, только без удара специй по рецепторам. всё аккуратнее, спокойнее и чуть более десертно. а пока угли потрескивают, я поднимаю за вас бокал своего портера с орехом🍺 есть повод — мой сервис сегодня перешагнул отметку 2700 визитов. неплохо для маленькой лавки с инструментами, спрятанной где-то между стойкой таверны и серверной😂 так что наслаждаемся вечером, делитесь своими странными вкусами и находками. а я пока отправляюсь слушать medieval castle techno — под такие ритмы сегодня особенно хорошо идут и дым, и мысли! всем sup! кальян" data-tags="кальян" data-date="2026-04-29T23:15:26">
+  <a class="post-pic" href="scroll/875.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:85" aria-hidden="true"><span>С</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/875.html">Среда пришла — а значит, до праздничных выходных остался всего один рабочий день.</a></h3>
+    <p class="meta"><time datetime="2026-04-29T23:15:26">29 апреля 2026</time> · <a href="https://t.me/SMailsPub/875" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Можно уже слегка расслабить плечи, ослабить ремни доспехов и позволить себе немного дыма под сводами таверны. По старой традиции — у нас ведь среда, а значит кальян Сегодня хочу рассказать вам про один весьма необычный вкус —…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="сидел тут у стойки, слушал, какие мелодии сейчас разносятся по трактирам интернета… и поймал себя на мысли. всё чаще попадаются треки, будто вытащенные из старых подземелий: шуршащий синтвейв, звуки консольных игр и какая-то тихая романтика средневековых квестов. к слову, под такие мелодии я уже делал пару роликов в таверне - тут и тут🎧 и оказалось, что у этого настроения есть почти официальное имя - dungeon synth📝 говорят, новая волна популярности поднялась после вирусных мемов с гномами и рыцарями. а в сообществе hardstyle даже появился шуточный трек side quest - чисто для тех, кто вместо главной линии пошёл лутать сундуки. если хочется разобраться, что это за странная музыка из подземелий — советую глянуть вот это видео. там всё рассказывают и показывают. ну а в таверне сегодня тихо: в углу играет подземный синт, эль налит, и до конца недели осталось чуть меньше, чем вчера. chill" data-tags="chill" data-date="2026-04-15T22:48:53">
+  <a class="post-pic" href="scroll/857.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:319" aria-hidden="true"><span>С</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/857.html">Сидел тут у стойки, слушал, какие мелодии сейчас разносятся по трактирам интернета…</a></h3>
+    <p class="meta"><time datetime="2026-04-15T22:48:53">15 апреля 2026</time> · <a href="https://t.me/SMailsPub/857" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">и поймал себя на мысли. Всё чаще попадаются треки, будто вытащенные из старых подземелий: шуршащий синтвейв, звуки консольных игр и какая-то тихая романтика средневековых квестов. К слову, под такие мелодии я уже делал пару…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="вот и до спб дошли частые перманентные блокировки по белым листам🤔 поэтому, что бы не потеряться - завожу новую страничку в ...excel😁 ладно, шутки шутками - я пока в поиске стабильного решения для мобильной связи белые ip, ну а вы можете пока поделиться своими &quot;лайфхками&quot; и нестандартными решениями мысль chill мысль chill" data-tags="мысль chill" data-date="2026-03-25T22:04:31">
+  <a class="post-pic" href="scroll/834.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:318" aria-hidden="true"><span>В</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/834.html">Вот и до СПб дошли частые перманентные блокировки по белым листам🤔</a></h3>
+    <p class="meta"><time datetime="2026-03-25T22:04:31">25 марта 2026</time> · <a href="https://t.me/SMailsPub/834" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Поэтому, что бы не потеряться - завожу новую страничку в ...EXCEL😁 Ладно, шутки шутками - я пока в поиске стабильного решения для мобильной связи белые ip, ну а вы можете пока поделиться своими &quot;лайфхками&quot; и нестандартными…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=мысль">#мысль</a><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="ловите самый стабильный, пост раз в 3 месяца про chill - зимний релиз chillhop🔮 посидеть вечером, потупить с чайком в окно или в потолок, ну или под дымный-дымный кальян глубокой ночью и смотреть что-то про ии👳‍♀️ chill" data-tags="chill" data-date="2025-12-10T23:00:41">
+  <a class="post-pic" href="scroll/705.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:15" aria-hidden="true"><span>Л</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/705.html">Ловите самый стабильный, пост раз в 3 месяца про chill - зимний релиз ChillHop🔮</a></h3>
+    <p class="meta"><time datetime="2025-12-10T23:00:41">10 декабря 2025</time> · <a href="https://t.me/SMailsPub/705" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Посидеть вечером, потупить с чайком в окно или в потолок, ну или под дымный-дымный кальян глубокой ночью и смотреть что-то про ИИ👳‍♀️</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="как часто, заходя в лаундж, вы задумывались: «а что сегодня покурим?» скорее всего, у каждого уже есть свой привычный пул вкусов — проверенные миксы, которые не подводят: что-то фруктовое и с холодком, сладкое без мяты, может, средней крепости, под настроение и под музыку. кто-то тяготеет к гастрономии — чизкейкам, колам и кофе,кто-то любит алкогольные линейки,🍞 а есть и те, кто пошёл в высшую лигу и берёт только парфюмные ароматы — потому что “чувствую ноту бергамота с амброй и лёгким ладаном”🤡 но, несмотря на всё это изобилие производителей и вкусов, составить действительно необычный и при этом сбалансированный микс — задача не из лёгких. особенно если хочется, чтобы он не напоминал все предыдущие “эксперименты из трёх банок”👍 сегодня поделюсь вариантом, который меня реально удивил и зашёл прям в самое сердечко: ✨walnut (грецкий орех) от overdoze — 5–10% ✨плюс на выбор: mario (апельсиновый шоколад) от хулиган, или choco comedy (шоколад, бисквит, шипучка) от hit — всё остальное пространство. ✨и если хочется добавить немного глубины — щепотку кофе от chabacco (15–20%, не больше). в итоге получается не приторный десерт и не очередной “ягодный винегрет”, а идеально выстроенная композиция, где каждая нота знает своё место. орех даёт основу и мягкость, шоколад добавляет тепла и плотности, а кофе аккуратно связывает всё воедино, создавая тот самый бархатный aftertaste, от которого не устаёшь.✨ пробуйте, делитесь своими находками и не бойтесь экспериментировать — даже самые странные сочетания иногда оказываются самыми уютными. всем sup и густого дыма в этот вечер ☕️🔥 кальян кальян" data-tags="кальян" data-date="2025-10-22T19:04:24">
+  <a class="post-pic" href="scroll/650.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:310" aria-hidden="true"><span>К</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/650.html">Как часто, заходя в лаундж, вы задумывались: «А что сегодня покурим?»</a></h3>
+    <p class="meta"><time datetime="2025-10-22T19:04:24">22 октября 2025</time> · <a href="https://t.me/SMailsPub/650" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Скорее всего, у каждого уже есть свой привычный пул вкусов — проверенные миксы, которые не подводят: что-то фруктовое и с холодком, сладкое без мяты, может, средней крепости, под настроение и под музыку. Кто-то тяготеет к…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="всем chill вечера, дым-машинам sup, остальным — крепчайшего терпения! 💨 вот ведь как работает жизнь: если долго употреблять яд в малых дозах — организм вырабатывает резистентность. и ровно то же самое, ребята, с табаком🤡 куришь одну марку месяцами — даже если вкусы новые, они уже не радуют. всё кажется «ну… норм», и даже любимая смесь идёт как-то не так. вот и я недавно словил этот эффект. забил свою старую добрую красную смородину от trofimoff, и… пусто😭 аромат вроде тот же, жар ровный, но душа не поёт. понял: надо обновлять ассортимент🤔 и тут вспомнил — год назад на зимней выставке познакомился с малоизвестным тогда брендом muassel. тогда у них был небольшой выбор, но качественный продукт. а теперь — бах! — три линейки крепости, в каждой по 15–20 вкусов, и забивают они банки так щедро, что удивляешься, как крышка закрывается😋 сейчас пробиваю их вкусы один за другим — и уже точно могу сказать: 🔥 линейка 4/10 — просто находка. лёгкая, мягкая, с выраженным вкусом без тяжести. а ещё решил поэкспериментировать с новым форматом — соло-чаша на 5–6 грамм. один уголёк, маленькая порция, но обещают, что вкус и тягучесть те же. интересно, получится ли тот же кайф без классических 15–20 грамм. если кто-то из вас уже тестил новые линейки или нашёл крутые миксы — пишите в комментарии, давайте обменяемся открытиями. может, соберём вместе «осенний сет» для лампового вечера в таверне 🍂 всем sup! кальян chill кальян" data-tags="chill кальян" data-date="2025-10-08T21:45:28">
+  <a class="post-pic" href="scroll/627.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:309" aria-hidden="true"><span>В</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/627.html">Всем chill вечера, дым-машинам SUP, остальным — крепчайшего терпения!</a></h3>
+    <p class="meta"><time datetime="2025-10-08T21:45:28">8 октября 2025</time> · <a href="https://t.me/SMailsPub/627" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">💨 Вот ведь как работает жизнь: если долго употреблять яд в малых дозах — организм вырабатывает резистентность. И ровно то же самое, ребята, с табаком🤡 Куришь одну марку месяцами — даже если вкусы новые, они уже не радуют. Всё…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="вот уж правда — музыка умеет пробираться глубже, чем любые слова🎧 сидел я сильно за полночь… сегодня, листал фоном плейлисты под chill и на глаза попались ost из clair obscur: expedition 33. включил, и минут через тридцать очнулся уже где-то в потоке — музыка полностью унесла😔 но вместе с этим внезапно нахлынули флешбеки. уж очень знакомым показался стиль — переходы от «псевдоклассики» к лёгкой электронике, оркестровые акценты, ренессансные мотивы. и тут меня накрыло: да это же granado espada, легендарная mmorpg из двухтысячных⚔! те, кто застал её расцвет в 2007–2012, помнят не только уникальный сеттинг и механику трёх персонажей сразу, но и музыку. она делала игру особенной. саундтрек был настолько атмосферным, что если бы я включил его вам сейчас, вы бы и не подумали, что это «музыка из игры». а я до сих пор слушаю эти композиции, и каждая из них разворачивает в голове целый сундук воспоминаний. — «особняк доктора торше» — часы фарма попы катерины🪑 (дроп в 1%, так еще и с редкого моба - балансер иди нафиг) — «порт коимбра» — как одноклассник женя, доказывал что грасиело на самом деле «гришка», и его стойка ветра самая имбовая — и так ещё больше двухсот треков, каждый — отдельный портал в прошлое🔮 иногда достаю архивы с альбомами и заново погружаюсь в ту «псевдоклассическую» атмосферу. был момент, когда я даже подумывал вставить пару треков в свадебный плейлист🤡 (но слава богам, вовремя понял, что гости не оценят). а ещё предлагал племяннику разучить партии на фортепиано — даже где-то партитуры нашел, но в голове как-то не зафиксировалось смог ли никитос их в итоге сыграть или нет) я продолжу свою экспедицию в музыкальный мир... экспедиции 33🤣 а вам для затравки оставлю пару треков, которые лучше всего показывают разнообразие granado espada: 🎶 «классика»: kim junsung — cite de reboldoeux или granado espada 🎶 «бодрая электроника»: soundtemp — grassado или al quelt moreza 🎶 «энергичная классика»: nangman trance или rosa rosado 🎶 «с вокалом»: otyg — huldran, trollslottet; osamu kubota — aria de coimbra попробуйте включить — и возможно, поймёте, почему я ношу эти треки в сердце уже больше десяти лет🥰 ссылка на весь альбом ge всем sup! игры chill игры" data-tags="chill игры" data-date="2025-09-13T13:55:49">
+  <a class="post-pic" href="scroll/575.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:25" aria-hidden="true"><span>В</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/575.html">Вот уж правда — музыка умеет пробираться глубже, чем любые слова🎧 Сидел я сильно за полночь…</a></h3>
+    <p class="meta"><time datetime="2025-09-13T13:55:49">13 сентября 2025</time> · <a href="https://t.me/SMailsPub/575" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">сегодня, листал фоном плейлисты под chill и на глаза попались OST из Clair Obscur: Expedition 33. Включил, и минут через тридцать очнулся уже где-то в потоке — музыка полностью унесла😔 Но вместе с этим внезапно нахлынули…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a><a class="chip chip-sm" href="search.html?tag=игры">#игры</a></p>
+  </div>
+</article>
+<article class="card post" data-search="сентябрь ещё дает немного солнышка, но осень уже тихонько берёт своё. в &quot;цифре&quot; же всё давно в «осеннем режиме» — акции, движухи, скидки. но для меня главное — свежие подборки от chillhop🎧 среда — время chill, а точнее время енота и его осеннего релиза. плейлист уже в закладках, буду брать его и для подкастов, и просто как фон. всё лето у меня звучала эта подборка, и теперь эстафету принимает осенняя. честно, с удовольствием купил бы винил, но вспоминая, какими хитрыми путями доставался прошлый заказ — пока останусь в цифре😭 а теперь к теме кальян trofimoff выпустил новые фасовки по 25 г — теперь можно взять на пробу любой вкус, не затариваясь килограммовыми банками. в одном из новых лаунжев попробовал их «без аромку» — и был реально удивлён. даже если перегреть или недогреть — ни удара, ни першения, только мягкий ровный дым. совсем другой уровень по сравнению с ароматной линейкой. и, как обычно, делюсь находкой для микса: trofimoff no aroma limonchello — 25% overdoze lost futura — 30% наш юдзу-кола — 35% deus cooler — 10% получилось мягко, свежо и долгоиграюще — самое то для вечернего релакса. а я пошёл дальше чиллить — всем sup! chill кальян" data-tags="chill кальян" data-date="2025-09-10T18:02:51">
+  <a class="post-pic" href="scroll/570.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:150" aria-hidden="true"><span>С</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/570.html">Сентябрь ещё дает немного солнышка, но осень уже тихонько берёт своё.</a></h3>
+    <p class="meta"><time datetime="2025-09-10T18:02:51">10 сентября 2025</time> · <a href="https://t.me/SMailsPub/570" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">В &quot;цифре&quot; же всё давно в «осеннем режиме» — акции, движухи, скидки. Но для меня главное — свежие подборки от ChillHop🎧 Среда — время chill, а точнее время енота и его осеннего релиза. Плейлист уже в закладках, буду брать его и…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="что-то весь день у меня был про деньги🤑 искал варианты, как провести день рождения жены — и наткнулся барабанная дробь — на мастер-класс по кальяну😕 сразу флешбеки, как я когда-то почти провёл свой мк за мало-мало деняг, а тут предлагают непойми что за много-много🪑 окей, если это домашний формат «поболтать, покурить, рассказать пару фишек», то ладно. но тут котолампы нет, и ценник... ммм🤔 как по мне, штука очень специфичная: человеку вне темы это не зайдёт. тем, кто уже «в теме», важнее практика, а не лекции за круглую сумму. ладно, зависть убираем. знайте: если что, могу провести мк по кальянам сам — материалы и презентация в наличии, ахахаха🫅 дальше ещё интереснее: вернулись деньги на paypal за предзаказ настолки. я оформил его год назад, а через 4 месяца отменил — потому что доставку в рф прикрыли😭 жалко, конечно: там около 15 кг компонентов на 8–12 коробок! но плюс есть — теперь есть чем оплачивать gpt и можно перестать судорожно гонять lora и шаманить коллабы вечер сегодня проведу под тегом chill, разгружу голову. а то за день успели проскочить dax, vless, bearer token и прочие умные штуки, про некоторые расскажу завтра📝 пошел забивать чашу в кальян , а вам вопрос: кальянный мастер-класс в подарок на др — это норм идея или полнейший стрём? кто бы сходил? всем sup! chill кальян" data-tags="chill кальян" data-date="2025-08-06T20:04:21">
+  <a class="post-pic" href="scroll/532.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:164" aria-hidden="true"><span>Ч</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/532.html">Что-то весь день у меня был про деньги🤑</a></h3>
+    <p class="meta"><time datetime="2025-08-06T20:04:21">6 августа 2025</time> · <a href="https://t.me/SMailsPub/532" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Искал варианты, как провести день рождения жены — и наткнулся барабанная дробь — на мастер-класс по кальяну😕 Сразу флешбеки, как я когда-то почти провёл свой МК за мало-мало деняг, а тут предлагают непойми что за много-много🪑…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="врываюсь в обеденный слот с заметкой в режиме анти - chill т.к. предложка ютуба подкинула важный ролик!🤩 каждое лето жду одного: defqon.1 хочу пропустить через себя квинтэссенцию сочной картинки и bpm, который пробивает грудь до позвоночника😈 да, я домосед. но мечта — попасть туда и поставить свою кровать прямо перед сценой: слушать и засыпать под хардстайл.😔 да-да, под такое я засыпаю идеально фестивалей формата «звук + свет + безумие» хватает, но defqon для меня — секта q-dance с огнем и вайбом, который не повторит ни один tomorrowland👕 кстати, о нём. это лето омрачила новость: за день до открытия у tomorrowland сгорела сцена. орги всё починили за сутки (!), сделали замену, но сам факт… представляете объём работы? построить всю эту махину, настроить синхрон света и музыки — это инженерный шедевр. внутренний технарь аплодирует стоя. список фестов, за которыми слежу, могу порекомедовать📝: tomorrowland — глиттер, феи и edm для души mysteryland — арт-ярмарка с намёком на рейв defqon.1 — тотемы, огонь, секта q-dance qlimax — лазеры, тьма и хардстайл на стероидах thunderdome — олдскул-габберы, проверка твоей шеи masters of hardcore — bpm быстрее твоих мыслей dominator — спортзал для хардкорщиков а теперь к началу🫥 defqon.1. если будете смотреть — вот топ форматов🎧: 🔥 the gathering opening show — открытие фестиваля 🔥 power hour — самый заряженный час всего уикенда 🔥 the endshow — закрытие основной движухи 🔥 the closing ritual — ритуал конца есть еще warrior workout — зарядка под хардстайл. если вдруг спортзал вам скучен. я пошёл досматривать лайнапы 25го которые опубликовали неделю назад😐. а вам вопрос: 🎧 а под какой bpm живёте вы? или вообще не понимаете, зачем люди платят за «бах-бах-тыц-тыц»? chill" data-tags="chill" data-date="2025-07-30T13:03:10">
+  <a class="post-pic" href="scroll/519.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:273" aria-hidden="true"><span>В</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/519.html">Врываюсь в обеденный слот с заметкой в режиме анти - chill т.к.</a></h3>
+    <p class="meta"><time datetime="2025-07-30T13:03:10">30 июля 2025</time> · <a href="https://t.me/SMailsPub/519" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">предложка ютуба подкинула важный ролик!🤩 Каждое лето жду одного: Defqon.1 Хочу пропустить через себя квинтэссенцию сочной картинки и BPM, который пробивает грудь до позвоночника😈 Да, я домосед. Но мечта — попасть туда и поставить…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="лето жарит на полную, а у меня для вас свежая заметка по тегу кальян на прошлой неделе прошёл большой ежегодный фестиваль джон кальяно — что-то вроде зимнего, куда я попал раньше, только в разы масштабнее. проходил он в москве, и да… я на него не попал. и зря!😢 каналы завалили ленту фотками, отчётами и, конечно, кучей новинок. а ещё больше — лимиток, которых в рознице не будет (и почему-то это совсем не удивляет) зато масс-маркет тоже подвезли, так что остаётся запастись терпением и ждать привоза в магазинчик у дома. мне ведь что-то перепадёт, правда?🫥 вот часть анонсов, которые зацепили: • jent — orange tiktak; jent cigar — беллини. • sebero black — cinnabun. • palitra — sauvignon blanc, juicy peach. • sapphire — peach ice tea. • хулиган — boss (цветочный виски). black burn: • gooseberry shock — яркий кислый крыжовник. • white grape — белый виноград с лёгкой кислинкой и мягкой сладостью. и это только начало: • alpha hookah — чаша turk design pro gold edition, кальян smart exzo panelka. • hypreme — новый вкус «суперперец». • element x werkbund — чаша labubowl. • новый бренд gizmo — 7 стартовых вкусов: халапеньо, раф, ванильная сигара, чуррос, черешня, груша, малина-морошка. • antagonist — берли лёгкого копчения, 10 ароматов: от прованских трав и глинтвейна до бородинского хлеба и масалы. • swag — бурбон, молоко, лимон, гранат, хурма, карамель и даже арахис с ромом. и это только часть списка!😱 а теперь про находку: хоть на фест я не попал, но в руки попала интересная лимитка от overdose😓 с зимы пошёл тренд на парфюмерные ароматы, но честно — всё, что дешевле 2к, полный шлак (благо всё по разумным ценам затестили в лаунже «поднебесная»🥰) но эта баночка с мускатной вишней — просто космос😔 ни приторности, ни химозы. в соло на фанеле, под тремя 25-ками — дым держался долго и вкусно. теперь хочу попробовать остальные позиции. а вы что думаете про парфюмерные линейки? пробовали что-то годное или пока только хайп? пишите в комментах, давайте соберём топ ароматов для теста! кальян" data-tags="кальян" data-date="2025-07-23T21:21:59">
+  <a class="post-pic" href="scroll/505.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:335" aria-hidden="true"><span>Л</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/505.html">Лето жарит на полную, а у меня для вас свежая заметка по тегу кальян</a></h3>
+    <p class="meta"><time datetime="2025-07-23T21:21:59">23 июля 2025</time> · <a href="https://t.me/SMailsPub/505" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">На прошлой неделе прошёл большой ежегодный фестиваль Джон Кальяно — что-то вроде зимнего, куда я попал раньше, только в разы масштабнее. Проходил он в Москве, и да… я на него не попал. И зря!😢 Каналы завалили ленту фотками,…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="сегодня короткая заметка с двух берегов — немного про кальян и чуть больше про chill во-первых, у меня тут случилось небольшое открытие — из тех, что оставляют привкус обманутого доверия. моя салатовая колба начала «облезать»😭. я-то думал, она цельнолитая, а оказалось — обычная прозрачная, обтянутая плёнкой. причём с таким ювелирным мастерством, что ни снаружи, ни изнутри подвоха не заметишь. видимо, частые «надевания колпака» при мойке шахты сделали своё дело. теперь придётся спасать стикерами и сочувствием😈 а вот по части chill — здесь новость куда приятнее. chillhop внезапно выкатил коллаборацию с elden ring🥷. не припомню, чтобы енот вообще когда-либо пересекался с игровой вселенной — видимо, кто-то в команде распробовал вкус &quot;разорванного кольца&quot;🙂 и туманных локаций. мягкий бит, зловещие ноты — и всё это под сводами древнего древа эрда. настоящее золото для ушастых ушек и уставших вечеров. со своей стороны тоже отметился — сделал небольшую коллаборацию, хоть пока и без сражений с маленией. надеюсь, скоро появится машина, способная выдержать всю мощь миядзаки, и тогда — ни одна лорная записка не уйдёт мимо. пока же — залипаю в музыкальные подборки по жанрам и лечу душу, и остаюсь непогасшим у костра🎃 а вы что слушаете в сумеречные часы? делитесь плейлистами — лисья таверна всегда рада новой магии в ушах. кальян chill" data-tags="кальян chill" data-date="2025-06-25T18:02:15">
+  <a class="post-pic" href="scroll/460.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:20" aria-hidden="true"><span>С</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/460.html">Сегодня короткая заметка с двух берегов — немного про кальян и чуть больше про chill</a></h3>
+    <p class="meta"><time datetime="2025-06-25T18:02:15">25 июня 2025</time> · <a href="https://t.me/SMailsPub/460" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Во-первых, у меня тут случилось небольшое открытие — из тех, что оставляют привкус обманутого доверия. Моя салатовая колба начала «облезать»😭. Я-то думал, она цельнолитая, а оказалось — обычная прозрачная, обтянутая плёнкой.…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="«табак исчезает не тогда, когда кончается партия. а когда ты к нему привязался.» — саркун нежгущий, архикальянщик забытого полустанка всем sup!👍 сегодня — короткие путевые заметки на тему кальян поездка в самару выдалась не только солнечной, но и дымной: хотел найти табак jam местного производства🔍 готовые миксы, яркие ароматы, насыщенность — всё, что люблю. но в питер его не завозят: объёмы небольшие, да и в наших широтах такая крепость не в почёте. пошёл по местным магазинам, надеясь на удачу — и внезапно узнал, что производство jam закрыто. целиком.😭 год назад. и, да, именно в тот момент, когда я в прошлом году прикупил себе баночку в дорогу (был даже пост). совпадение?.. возможно🫅 теперь, разве что, где-нибудь в лаунже да у перекупа можно отыскать последние банки из запасов. ещё из интересного — у северного увидел упаковки на 20 мг. прям полноценные шоты: открыл, смешал — и не паришься с дозировкой. быстро, удобно, без весов. так что, остался я без jam — значит, таков путь. кальян" data-tags="кальян" data-date="2025-06-18T18:04:08">
+  <a class="post-pic" href="scroll/434.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:238" aria-hidden="true"><span>Т</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/434.html">«Табак исчезает не тогда, когда кончается партия.</a></h3>
+    <p class="meta"><time datetime="2025-06-18T18:04:08">18 июня 2025</time> · <a href="https://t.me/SMailsPub/434" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">А когда ты к нему привязался.» — Саркун Нежгущий, архикальянщик Забытого Полустанка Всем SUP!👍 Сегодня — короткие путевые заметки на тему кальян Поездка в Самару выдалась не только солнечной, но и дымной: хотел найти табак Jam…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="сезон уличных «раскайфовок» официально открыт — да, я снова с кальяном на воздухе.😷 и тут вскрылись первые особенности elbomber. из-за горизонтального подключения шланга к шахте и его малого диаметра, конденсат скапливается быстро. при покуре начинается «двойное бульканье», мешающее нормальному кайфу — приходится сливать воду со шланга.💦 но на улице, как ни странно, всё окей — то ли воздух суше, то ли пока я не заметил, сливают за меня. как я уже писал раньше — в чём-то elbomber реально родной с отечественным автопромом: выглядит круто, но конструкция с характером. теперь по табакам, что успел попробовать: 💔 hit — странные подборки, похожие на шоты от darkside. готовые миксы, но как-то не зацепили. ❤️ muassel — уверенный фаворит этого сезона. необычное сырьё, интересный вкус, жар держит прилично. главное — не перегревать. а теперь гастрономический краш-тест: решил вчера замешать 10% двойного яблока от трофимова😮‍💨 (без аниса!) и 90% шипучки от muassel. мечтал получить яблочную газировку. а получил... вкус парного молока. честно, чуть не блеванул🤮. проверил всё: смесь, чашу, уголь — нет, всё по плану. но во вкусе — прям стойкое, тёплое молочко. надеюсь, у вас такого не будет 😕 ну а раз сегодня ещё и chill — ловите в подарок часовую подборку саунда в стиле cowboy bebop. джаз, космос и никакого стресса. врубаем и отпускаем всё лишнее. кальян chill" data-tags="кальян chill" data-date="2025-05-14T19:05:45">
+  <a class="post-pic" href="scroll/344.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:328" aria-hidden="true"><span>С</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/344.html">Сезон уличных «раскайфовок» официально открыт — да, я снова с кальяном на воздухе.😷</a></h3>
+    <p class="meta"><time datetime="2025-05-14T19:05:45">14 мая 2025</time> · <a href="https://t.me/SMailsPub/344" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">И тут вскрылись первые особенности ElBomber. Из-за горизонтального подключения шланга к шахте и его малого диаметра, конденсат скапливается быстро. При покуре начинается «двойное бульканье», мешающее нормальному кайфу —…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="короткий вброс про кальян — и бегом на вторые майские.🙌 спустя шесть месяцев (карл, шесть!) после зимнего феста, где впервые был опробован занятный вкус «шипучка» — он наконец-то появился в домашней коллекции. как быстро появился — так же быстро и исчезнет. а всё потому, что помимо вкуса (действительно необычного), сам табак оказался приятно специфичным. самое главное — он долго держит вкус даже под серьёзным жаром, что редкость (не трофимов, конечно, но свой вайб есть). вообщем, кто не пробовал линейку muassel — рекомендую к ознакомлению. еще el bomber выпустил новый кальян - вакидзаси просто пушка. наверное мне пришлись по душе сочетания киберпанка, японской тематики и зелено графитовый стиль - теперь хочется посмотреть и потрогать его🥹 а я — пошёл забирать лимитки-новинки от hit’а 👀 кальян" data-tags="кальян" data-date="2025-05-07T16:23:01">
+  <a class="post-pic" href="scroll/332.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:124" aria-hidden="true"><span>К</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/332.html">Короткий вброс про кальян — и бегом на вторые майские.🙌</a></h3>
+    <p class="meta"><time datetime="2025-05-07T16:23:01">7 мая 2025</time> · <a href="https://t.me/SMailsPub/332" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Спустя шесть месяцев (Карл, шесть!) после зимнего феста, где впервые был опробован занятный вкус «шипучка» — он наконец-то появился в домашней коллекции. Как быстро появился — так же быстро и исчезнет. А всё потому, что помимо…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="прошло уже две недели с приобретения elbomber, и... скажу честно — это фиаско🤪. ну ладно, не прям фиаско, но суть в чём: когда я курю, я смотрю в монитор, а не на кальян. поэтому по сути — мог бы и дальше на альфе дымить. а вот просто «красиво поставить и любоваться» — это явно не про текущие квартирные реалии. хотя! elbomber тут выкатили новую фичу — подставку под свои кальяны. пока для магазинов, но идея интересная, особенно если у тебя вся их линейка как на витрине. вообщем надо будет вытащить его на пляж. может там он начнёт «цеплять взгляды», ахах. вроде говорил, а может и нет, но товарищи из моего магазинчика подогнали лимитку от trofimov с основой кашемира. скажу так — штука специфичная. мало того, что крепкий, так ещё и сухой как сахара. в соло не заходит вообще, только в миксах. с кешмир-персиком получилось сносно, а вот с гуавой... ну такое. пока отложил до более тёплых времён. понял, что начал уноситься в сторону восточных пряностей, прямо индийских.😷 на днях заценил вкус пан раас — вот это вообще что-то с чем-то. интересно, но как и все «пряности» — строго для улицы. иначе на выдохе можно в космос уйти. всем sup, и бодрого dnb на вечер! кальян" data-tags="кальян" data-date="2025-04-23T19:21:21">
+  <a class="post-pic" href="scroll/314.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:358" aria-hidden="true"><span>П</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/314.html">Прошло уже две недели с приобретения ElBomber, и...</a></h3>
+    <p class="meta"><time datetime="2025-04-23T19:21:21">23 апреля 2025</time> · <a href="https://t.me/SMailsPub/314" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">скажу честно — это фиаско🤪. Ну ладно, не прям фиаско, но суть в чём: когда я курю, я смотрю в монитор, а не на кальян. Поэтому по сути — мог бы и дальше на Альфе дымить. А вот просто «красиво поставить и любоваться» — это явно не…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="вот и настал тот момент — el bomber off road 4x4 у меня дома.🥹 сколько раз заглядывался на него в лаунджах и на выставках — и вот, наконец, в руках. поскольку меня тут читает целых 1.5 человека, интересующихся темой кальян, ловите обзор-впечатление. сразу скажу — ощущения очень противоречивые. начнем с упаковки — всё чётко, коробка-кейс, внутри — много поролона, в лучших традициях alpha hookah. единственное — шланг, как был скручен в бараний рог, так и остался. даже ванна с кипятком и растяжка под весом не особо пока помогают. собрал. и вот первое, что удивило: 🔧 шахта — очень длинная и узкая, по диаметру меньше, чем у альфы (в неё прям целиком входит!). первый вопрос — а влезет ли вообще в мою колбу? влезло. но воды нужно в два раза меньше, чем для альфы. пока подбираю идеальный уровень. разобрал полностью — и тут уже вайбы от нивы и ак-47. всё металлическое, всё на резьбе, накладки навинчиваются с усилием, где-то даже гайки нужно поджимать. с одной стороны — надежно. с другой — на быструю разборку не пойдешь. а внутри шахты между ней и накладкой — огромное пустое пространство. палец залезает. большой!👈 дальше — использование. из-за боковой накладки на блюдце, думал что колпак будет шататься, но ошибся — всё чётко. а вот фирменный колпак el bomber вызывает вопросы — он стоит на трёх точках, без ручки, и пока не зашел. но верю, ребята тестили. (нет, я его не купил, но смотрел обзоры и на выставках держал) сам процесс курения — кайф.😶‍🌫️ как дым выходит из двойного решетчатого диффузора — это просто залипалово. дифузор, кстати, несъемный — имейте в виду. а, да! 🎁 щипцы el bomber, что лежали с нг — тоже пошли в дело. до этого почти не юзал: слишком толстые, сгибать сложно, нужен усилие не как у халка, но всё же. теперь надо покупать эспандер для кистей, буду качать пальцы, хватка должна соответствовать девайсу 😄 ведь надо же уже переходить с &quot;детских&quot; щипцов на взрослые! пока что кайфую. один гештальт закрыт, кальян зелёный, стильный. посмотрим, как покажет себя дальше на другой колбе. всем sup! кальян" data-tags="кальян" data-date="2025-04-09T20:41:30">
+  <a class="post-pic" href="scroll/296.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:232" aria-hidden="true"><span>В</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/296.html">Вот и настал тот момент — El Bomber Off Road 4x4 у меня дома.🥹</a></h3>
+    <p class="meta"><time datetime="2025-04-09T20:41:30">9 апреля 2025</time> · <a href="https://t.me/SMailsPub/296" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Сколько раз заглядывался на него в лаунджах и на выставках — и вот, наконец, в руках. Поскольку меня тут читает целых 1.5 человека, интересующихся темой кальян, ловите обзор-впечатление. Сразу скажу — ощущения очень…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="закреп для солнышек ☀️😎 навигация и сотрудничество в obsidian у меня всё по полочкам - с тегами, связями и уютом. и здесь хочу так же: чтобы каждый знал, в какой уголок таверны заглянуть за нужным. 📅 рубрики по дням: пн — листаем 📚 (чтение манга) вт — земля и тишина 🌱 (сад) ср — дым и покой ☁️ (кальян chill) чт — архивы разума 📂 (ai пыльныезаписи) пт — конец недели 🎮 (игры выдыхай) сб — дела руками 🔧 (хобби) вс — лис в экране 🎥 (аниме) 🔖 а ещё в таверну заглядывают: мысль, warhammer, и всё, что не влезло, но захотелось. 🔮 лор с зазеркальем чтобы не заблудиться - кликай по тегам или ищи через 🔍 в личку можно стучаться сюда @smailkiller 😎 я закрепил - значит, сам пользуюсь. 🦊🦊sup!🦊🦊 чтение манга сад кальян chill ai пыльныезаписи игры выдыхай хобби аниме мысль warhammer" data-tags="чтение манга сад кальян chill ai пыльныезаписи игры выдыхай хобби аниме мысль warhammer" data-date="2025-04-06T15:25:39">
+  <a class="post-pic" href="scroll/292.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:44" aria-hidden="true"><span>З</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/292.html">Закреп для солнышек ☀️😎</a></h3>
+    <p class="meta"><time datetime="2025-04-06T15:25:39">6 апреля 2025</time> · <a href="https://t.me/SMailsPub/292" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Навигация и сотрудничество В Obsidian у меня всё по полочкам - с тегами, связями и уютом. И здесь хочу так же: чтобы каждый знал, в какой уголок таверны заглянуть за нужным. 📅 Рубрики по дням: ПН — Листаем 📚 (чтение манга) ВТ —…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=чтение">#чтение</a><a class="chip chip-sm" href="search.html?tag=манга">#манга</a><a class="chip chip-sm" href="search.html?tag=сад">#сад</a><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="да-да, время узнать, что там у нас по кальян -ным движам. и на этой неделе есть что обсудить, потому что в москве бахнули выставку &quot;прогрев&quot; (и нет, не &quot;гоев&quot;, не надо тут!🔨). и, знаете, за один день они там показали больше, чем у нас в питере зимой. обидно? да. думали с другом поехать? тоже да. поехали? конечно, нет — карма кальянщика, ничего нового. что показывали?🔍 кальяны? да, их было много, но если честно — это уже не цепляет. а вот новые табаки, вкусы и линейки — вот это уже вкусная движуха. смотрите сами, что представили: 🔥 сарма – два новых аромата: латте и айс латте. 🔥 догма – слива красная, смородина черная, и новые сигарные миксы: пенсильвания, бродлив, лихеро. 🔥 musthave – кислые премиксы: малина/клюква, свежее яблоко, ананас-маракуйя. 🔥 trofimoffs (burley) – cashmere nectarine и cashmere guava. 🔥 nur – сразу 5 новых вкусов: персик/дыня, арктические тропики, японский виноград, лаванда тоник, джин-тоник. 🔥 element (воздух) – черничный йогурт и ягодный сорбет. 🔥 chabacco – запускают новую линейку с 15 ароматами, старт в мае, по крепости что-то между darkside и blackburn. интрига. что жду сам? 💨 трофимов — особенно cashmere guava, но курить только на улице, потому что по ощущениям будет основа как у шалфея (кто понял — тот понял😼). 💨 и, конечно, чёрную смородину от догмы — смородина мне как-то тихо, но уверенно залетела в фавориты за последние полгода. и финальный аккорд — подарки! самое угарное — билет стоил 1700 руб, а на входе раздавали подарков на те же (а то и больше) деньги: 🎁 пачка adalya 🎁 пачка adalya black 🎁 банка chabacco 🎁 банка hook 🎁 пачка hit 🎁 уголь cocoloco 🎁 энергетик 🎁 мерч от darkside 🎁 аксессуар от alpha hookah 🎁 банка swag короче, даже если бы ехал просто пожевать воздух и пофоткаться с кальянами — уже бы отбил билет 😎 но увы — не поехали, но в следующий раз точно надо. 🔥 всем дымного и сочного!😸 кальян" data-tags="кальян" data-date="2025-04-02T19:18:13">
+  <a class="post-pic" href="scroll/286.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:122" aria-hidden="true"><span>Д</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/286.html">Да-да, время узнать, что там у нас по кальян -ным движам.</a></h3>
+    <p class="meta"><time datetime="2025-04-02T19:18:13">2 апреля 2025</time> · <a href="https://t.me/SMailsPub/286" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">И на этой неделе есть что обсудить, потому что в Москве бахнули выставку &quot;Прогрев&quot; (и нет, не &quot;гоев&quot;, не надо тут!🔨). И, знаете, за один день они там показали больше, чем у нас в Питере зимой. Обидно? Да. Думали с другом поехать?…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="среда – значит, кальян! сегодня немного слоупочных🤦 новостей, но всё же поделюсь, потому что узнал об этом совсем недавно. во-первых, есть интересный тренд, который раньше не бросался в глаза, а теперь всё больше набирает обороты. крепость табака снижается😷. если в декабре на рынке было много релизов от трофимова, бонча и других производителей – да таких, что на них был нереальный спрос (вспомнить хотя бы выставку, о которой я рассказывал, и сколько крепышей оттуда привёз), то сейчас &quot;дропы&quot; пошли в сторону средней крепости и даже ниже. даже &quot;чайный&quot; табак стал популярнее, и это не просто ощущения – несколько знакомых продавцов подтвердили, что покупатели всё чаще выбирают более мягкие сорта. при этом разницы в цене нет, а вот новых интересных вкусов не прибавилось. да и у меня сейчас на пробе лежит линейка от сармы – лёгкая, сочная, приятная. правда, дольше 30-40 минут не держится, но зато курится комфортно. а теперь про &quot;очередную хотелку&quot;. мой любимый производитель el bomber, от которого планирую взять off-road 4x4 (ну реально же пушка), выпустил новый девайс из линейки &quot;сансара&quot;. если классическая сансара выполнена в красном цвете и с японской тематикой, то новый релиз – чёрный (или белый) и в стиле киберпанка. пожалуй, теперь хочется взять не только off-road, но и эту &quot;палку-колотилку&quot;. самое смешное – он был на выставке, но я его пропустил. либо из-за обилия всего остального, либо просто из-за невнимательности. в общем, теперь есть над чем подумать… 😏 кальян" data-tags="кальян" data-date="2025-02-19T19:10:59">
+  <a class="post-pic" href="scroll/252.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:324" aria-hidden="true"><span>С</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/252.html">Среда – значит,</a></h3>
+    <p class="meta"><time datetime="2025-02-19T19:10:59">19 февраля 2025</time> · <a href="https://t.me/SMailsPub/252" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">кальян! Сегодня немного слоупочных🤦 новостей, но всё же поделюсь, потому что узнал об этом совсем недавно. Во-первых, есть интересный тренд, который раньше не бросался в глаза, а теперь всё больше набирает обороты. Крепость…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="все еще плаваете в салатах? или уже кто-то успел подымить? шутка🤷‍♀️! этот пост — привет из 30-го декабря, но среда есть среда, а значит, сегодня немного поговорим про кальян. после хкш24, где мы попробовали кучу лимиток, началась новая волна — эксклюзивных лимитированных табаков. эти штуки днём с огнем не найти. речь идет о «парфюмной» линейке от deus🔍. ценник, от которого глаза на лоб — 40 грамм за 1800-2500 рублей🙁, когда за другие табаки такой же граммовки можно отдать всего 300 рублей. помимо цены, этот табак почти невозможно найти. но в моей любимой «поднебесной» для постоянных гостей ребята всегда что-то откладывают и угощают такими эксклюзивами. расписывать, какая классная «поднебесная», не буду — это все и так должны знать априори😎. теперь о самих табаках. в линейке около восьми вкусов, пока что на баре было четыре, и все их нам дали попробовать. скажу сразу — это совершенно другой подход к «вкусо-строению», который невозможно спутать ни с чем.🙂 есть даже особая подача: кальянным мастерам разрешается сделать только три тяги, а потом сразу надо нести гостю. всё из-за специфики табака. первые 10-15 тяг вы ощущаете буквально «натуральный парфюм», но затем аромат быстро улетучивается, и остается только основа. например, мы курили «ганимед». всем моим «дымным» друзьям он зашел. а мне? ни капли😭! с самого начала я чувствовал основу в виде дерева, и на протяжении всего процесса — только древесные нотки. да, он был мягким и приятным, но как по мне, платить такой оверпрайс за дерево — бессмысленно. однако, если будет возможность где-то попробовать — пробуйте! возможно, для вас он раскроется иначе. на сегодня всё, я отправляюсь в заплыв по салатам! кальян" data-tags="кальян" data-date="2025-01-01T19:56:54">
+  <a class="post-pic" href="scroll/186.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:102" aria-hidden="true"><span>В</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/186.html">Все еще плаваете в салатах?</a></h3>
+    <p class="meta"><time datetime="2025-01-01T19:56:54">1 января 2025</time> · <a href="https://t.me/SMailsPub/186" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Или уже кто-то успел подымить? Шутка🤷‍♀️! Этот пост — привет из 30-го декабря, но среда есть среда, а значит, сегодня немного поговорим про кальян. После ХКШ24, где мы попробовали кучу лимиток, началась новая волна — эксклюзивных…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="кажется, день растений и кальян — это мой обязательный пункт еженедельной программы в таверне! не смотрим на курс доллара😰, а делаем пару затяжек и расслабляемся🤔. кажется, я недавно писал о хвойных табаках и их обманчивости. забавно, но сам попался на эту удочку. но об этом чуть позже. сегодня я хочу рассказать о вкусовых несоответствиях или, если хотите, об изучении &quot;мира ароматов&quot;. обычно, когда ты видишь название табака, у тебя уже есть ассоциации с реальным аналогом. например, арбуз или десертная вишня. и если вкус табака совпадает с твоими воспоминаниями, он может стать любимым. но у меня случился обратный эффект — &quot;реверс-инжиниринг&quot;. когда-то я попробовал табак &quot;крошка айва&quot; от компании &quot;наш&quot;, и он стал моим летним фаворитом. интересно, что айву вживую я ни разу не пробовал и даже не видел! недавно в магазине у дома я увидел настоящую айву. причём, глядя на ценник, в голове автоматически добавилось &quot;крошка&quot; и &quot;а чё так дорого&quot;😓. купил, попробовал... и что я вам скажу? табак оказался вкуснее и насыщеннее. а сама айва, по крайней мере та, что мне попалась, была пресной и по структуре напоминала репу. теперь у меня новая цель — найти ту самую сладкую и сочную айву на рыночке! теперь о хвойных. поддался рекламе одного блогера и попробовал лимитированный &quot;зимний&quot; дроп вкусов от chabaco🎹: - ёлка с мандарином - вишня с пряностями что могу сказать? в первом случае ёлка оказалась совсем слабой, а во втором — вишня еле ощутима (бывали варианты и вкуснее). сегодня попробую забить по-другому, вдруг откроются мандарин и пряности. всем хорошего вечера, а пока оставлю вам ссылку на трейлер анонса зимнего сезона 2024 от chillhop. кальян" data-tags="кальян" data-date="2024-11-27T19:48:01">
+  <a class="post-pic" href="scroll/152.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:304" aria-hidden="true"><span>К</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/152.html">Кажется, день растений и кальян — это мой обязательный пункт еженедельной программы в таверне!</a></h3>
+    <p class="meta"><time datetime="2024-11-27T19:48:01">27 ноября 2024</time> · <a href="https://t.me/SMailsPub/152" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Не смотрим на курс доллара😰, а делаем пару затяжек и расслабляемся🤔. Кажется, я недавно писал о хвойных табаках и их обманчивости. Забавно, но сам попался на эту удочку. Но об этом чуть позже. Сегодня я хочу рассказать о вкусовых…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="сегодня необычный день — говорим про хобби, но больше про chill. и это будет экшен! кто помнит (а если нет, то напомню), на день рождения мне подарили виниловый проигрыватель, о котором я давно мечтал. почему? чтобы слушать эмбиент от chillhop — тех самых ребят, которые открыли для меня мир этой музыки. да, я знаю про lofi girl, но знакомство началось с chillhop, так что они у меня первые. проблема первая: пластинки.🙂 казалось бы, проигрыватель есть, осталось малое — купить винил. chillhop базируются в нидерландах, а значит, оплата и доставка в евро, с карты, которая вообще работает. решил поискать пластинки внутри страны. если вы стоите — сядьте. цена одной пластинки варьируется от 7 000 до 12 000 рублей😳. причём это не все их выпуски и не все сезоны. чуть почесав голову, вспомнил, что на кошельке с продажи 3d-моделей что-то накопилось. собрал с разных площадок около 180 евро и пошёл оформлять заказ.💷 вот что выбрал: chillhop essentials - winter 2022 black vinyl (limited edition) chillhop essentials - fall 2024 white vinyl (limited edition) chillhop essentials - winter 2021 vinyl (limited edition) chillhop essentials - winter 2023 black vinyl (limited edition) c y g n - astrovibes (orange &amp; black splattered vinyl, limited to 200 copies) enough cereals - impulse (limited to 200 copies) sleepy fish - like the sky, or something else (limited sea blue vinyl) и тут началось⚠️: оформляю заказ, оплачиваю, подтверждаю. через три дня — отмена. причина? неизвестна. деньги списали (благо потом вернули). повторяю попытку — снова отмена. через неделю таких кругов обратился в поддержку. ответа долго не было, и я решил покопаться на форумах. и... бинго! санкции. винил запрещён к ввозу в рф из европы. искусство логистики🗺: начал искать сервисы доставки вроде карго или &quot;посылочки&quot;. везде одно и то же: &quot;доставим, но не винил&quot;. спасли социальные связи: нашлась знакомая в батуми, готовая принять заказ и переслать его мне. всё оплатил, подтвердил, и пластинки отправились из нидерландов в грузию. срок доставки обещали 1,5 месяца, но всё дошло за 5 дней. радоваться было рано. проблема вторая: таможня.😡 оказалось, что в грузии беспошлинный лимит — 150 евро, а в рф — 200. пластинки встряли на таможне. начались танцы с бубном: знакомая оформила инн, которого до этого ей не нужен там был; сложности с оплатой: одна карта не подходит, вторая — тоже; в банке деньги зачислили на неверный счёт, но по тем реквизитом (это как вообще?); в итоге, через 2–3 недели пластинки оказались у неё дома. проблема третья: доставка в рф.😪 решил отправить через сдэк. думаю, &quot;оформлю всё онлайн, это же просто&quot; (спойлер: нет). для международной доставки нужно лично явиться в офис, провести инвентаризацию, оформить и упаковать посылку. дальше: праздники, неполные рабочие дни, задержки с ответами. в итоге спустя ещё 2 недели отправка состоялась. по трекеру сайта, сдэк гарантирует доставку за 14 дней (наивный?) финал или нет?🤔 бам-бам-бам, и за 7 дней, преодолев всё, что можно, посылка выходит из таможни в москве... и ждёт, когда её заберёт сдэк. день, два, четыре — а её никто не трогает. думаю: ну всё, опять нужны какие-то документы или растаможка. проверяю по таможенной базе — нет, посылка выпущена, всё в порядке. хоть самому туда езжай! начинаю разбираться со сдэком😡: то международные специалисты заняты, то их уже нет на месте, то просто предлагают &quot;подождать&quot;. в итоге спустя 1,5 недели выяснилось, что у компании вообще нет регламентов на процесс получения отправлений с таможни. сиди и жди, когда повезёт. а тем временем дни идут, а винил — штука хрупкая. стресс, переживания, бесконечные звонки в техподдержку, общение с логистами... и только спустя 2 недели ожидания и педалирования всех и каждого, посылку наконец забрали для отправки по россии. когда я пришёл забирать коробку в отделение, уже морально готовился к худшему: &quot;хоть бы одна пластинка оказалась целой.&quot; взял с собой шаблон претензии🤓 на случай повреждений и подготовил расчёт компенсации. ведь доставка мне обошлась в 12 тысяч рублей! карл!🙈 хобби chill" data-tags="хобби chill" data-date="2024-11-23T11:39:01">
+  <a class="post-pic" href="scroll/146.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:22" aria-hidden="true"><span>С</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/146.html">Сегодня необычный день — говорим про хобби, но больше про chill.</a></h3>
+    <p class="meta"><time datetime="2024-11-23T11:39:01">23 ноября 2024</time> · <a href="https://t.me/SMailsPub/146" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">И это будет экшен! Кто помнит (а если нет, то напомню), на день рождения мне подарили виниловый проигрыватель, о котором я давно мечтал. Почему? Чтобы слушать эмбиент от ChillHop — тех самых ребят, которые открыли для меня мир…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=хобби">#хобби</a><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="среда — половина недели уже позади. сегодня поговорим про кальян на фоне того, как вокруг нас магазины наполняют полки новогодними товарами и нагнетают праздничное настроение, возникает вопрос: а что с дымной тематикой? тут всё просто - главное событие декабря: в санкт-петербурге будет проходить новогодний шоу-показ и выставка кальянов — hookah club show 2024. я обязательно туда ворвусь и потом расскажу, что было интересного! традиционные &quot;зимние&quot; вкусы — это апельсины, мандарины и, конечно, хвоя. но здесь всё не так просто, как кажется. хвойные вкусы самые неоднозначные ароматы, которые я знаю. каждый производитель предлагает свою линейку, и они сильно отличаются по качеству: одни напоминают запах автомобильной ёлочки. другие на вкус, как будто жуёшь настоящую шишку. совет: не кладите больше 30–40% хвойного табака в чашу. эти вкусы очень концентрированные и легко перебивают всё остальное. цитрусовые, особенно &quot;мандаринки&quot; пробовал несколько вариантов, как в чистом виде, так и в составе миксов, но ни один из них не стал фаворитом. возможно, дело в слабой ароматике или в том, что их нужно обязательно сочетать с другими вкусами. но могу посоветовать попробовать новинку от overdose — вкус с помело.😎 если встретите сочетание с грейпфрутом, добавляйте его понемногу, так как он может заглушить остальные ароматы. если с кактусом — смело кладите больше. кактус даёт травянистый оттенок и хорошо смягчает общую композицию. новогодние вкусы могут быть хитрыми🤔, но если правильно подобрать сочетания, можно создать что-то действительно интересное. всем хорошего вечера и дымных чаш! 🎄🦊💨 кальян" data-tags="кальян" data-date="2024-11-20T20:57:53">
+  <a class="post-pic" href="scroll/141.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:147" aria-hidden="true"><span>С</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/141.html">Среда — половина недели уже позади.</a></h3>
+    <p class="meta"><time datetime="2024-11-20T20:57:53">20 ноября 2024</time> · <a href="https://t.me/SMailsPub/141" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Сегодня поговорим про кальян На фоне того, как вокруг нас магазины наполняют полки новогодними товарами и нагнетают праздничное настроение, возникает вопрос: а что с дымной тематикой? Тут всё просто - главное событие декабря: В…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="😳внимание, после этого поста &quot;невозможно будет развидеть&quot;!😐 вчера я по полной ощутил на себе &quot;переизбыток контента с нулевой ценностью&quot;. и нет, я не про инфоцыган, а про контент от нейросетей. стоило мне копнуть в сторону ии-ассистентов, чтобы улучшить своё вечернее времяпрепровождение, как всё началось.🤓 многие, думаю, знакомы с lofi girl с канала chillout, а после него — и с огромным количеством фоновой музыки в ленте. но секрет прост! ловите бизнес-идею или инструкцию, как работает 80% таких авторов.💷 1. звук. идём в нейросеть suno.com и генерируем музыку на любой вкус и жанр. можно сделать 25-30 треков за 1-2 дня (на бесплатной версии), если не хотите создавать несколько аккаунтов.🎧 2. графика. используем любую нейросеть, чаще всего — app.leonardo.ai. генерируем фоновые изображения, 4-5 будет достаточно. там можно сохранить пресет стиля и персонажа, так что это быстро и просто.🤩 3. анимация. далее идём в app.immersity.ai и “анимируем” наши изображения.😊 4. компиляция. можем использовать готовые нейросети для объединения изображений и звука в одно видео с переходами, но я выбрал классику — монтаж через davinci. 5. описание (опционально). обращаемся к chatgpt для генерации описания, тегов, названия и всей информации для youtube. поздравляю — вы профессиональный создатель фоновой музыки! 🥳 я немного потренировался и за час собрал мини-контент. на этом канале всё создано с использованием ии за 1-2 часа (с учётом подбора инструментов). пара ремарок: - я сгенерировал только 2 картинки с анимацией, чтобы быстрее получить результат. - ограничение по времени в 15 минут — из-за неподтверждённого аккаунта (симки рф и казахстана подходят не все). - для большего охвата видео делают продолжительностью от 30 до 65 минут. вот такие дела, ребята! надеюсь, это приоткроет вам завесу тайны, откуда сейчас столько таких видео (быстро, дёшево и с вау-эффектом). всем chill chill" data-tags="chill" data-date="2024-11-13T11:20:18">
+  <a class="post-pic" href="scroll/140.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:100" aria-hidden="true"><span>В</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/140.html">😳ВНИМАНИЕ, ПОСЛЕ ЭТОГО ПОСТА &quot;НЕВОЗМОЖНО БУДЕТ РАЗВИДЕТЬ&quot;!😐</a></h3>
+    <p class="meta"><time datetime="2024-11-13T11:20:18">13 ноября 2024</time> · <a href="https://t.me/SMailsPub/140" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Вчера я по полной ощутил на себе &quot;переизбыток контента с нулевой ценностью&quot;. И нет, я не про инфоцыган, а про контент от нейросетей. Стоило мне копнуть в сторону ИИ-ассистентов, чтобы улучшить своё вечернее времяпрепровождение,…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="часть 2: мысли и открытия теперь о сути: 1.рефлексия. очень приятно через какое-то время оглянуться на свои действия и увидеть, как постепенно находишь что-то новое в себе и вокруг. та же заметка про стикербомбинг подтолкнула к прогулкам и изучению новой информации. даже если это кажется мелочью, умение находить новизну в рутине — отличный навык.😊 2.развитие навыков. этот процесс помогает мне расти — я осваиваю новые навыки и даже открываю что-то в себе. здесь подходит фраза: &quot;дилетант широкого профиля&quot; — так можно узнать много интересных и, возможно, бесполезных вещей, но при этом чувствовать себя более цельным. а еще эта фраза, которую я давно себя сохранил &quot;будучи человеком увлёченным, но непоследовательным, он знал много бесполезных, но интересных вещей&quot; 3.трудности на пути. конечно, на пути к стабильности всегда стучатся новые события, которые могут выбить из колеи. но что делать? ебашить дальше, как лошадь с шорами. это принцип, который описывал человек, выживший в концлагере. конечно, сравнение жёсткое и даже не равноценное, но если метод работает, то почему бы и нет? 4.коммуникация. были моменты, когда мне особенно нравилось обсуждать темы под постами — это было более живо и ярко, чем переписки с задержкой в несколько часов. на этом мысли про блог заканчиваются. а теперь среда и кальянные страдания: забил чашу element с помело-грейпфрутом и черничной жвачкой (соотношение 10/90), но грейпфрут всё перебил — буэ. снова убедился, что грейпфрут меня подводит, хотя дал ему шанс. надо попробовать новый дроп только с помело — говорят, вкус просто топ. всем спокойной кукушечки и чтоб кальян не горчил! https://www.youtube.com/watch?v=32nqplgkt5w&amp;ab_channel=whatis%3f кальян" data-tags="кальян" data-date="2024-10-02T23:52:25">
+  <a class="post-pic" href="scroll/100.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:20" aria-hidden="true"><span>Ч</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/100.html">Часть 2: Мысли и открытия</a></h3>
+    <p class="meta"><time datetime="2024-10-02T23:52:25">2 октября 2024</time> · <a href="https://t.me/SMailsPub/100" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Теперь о сути: 1.Рефлексия. Очень приятно через какое-то время оглянуться на свои действия и увидеть, как постепенно находишь что-то новое в себе и вокруг. Та же заметка про стикербомбинг подтолкнула к прогулкам и изучению новой…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="понедельник потихоньку отпускает, так что пора перейти к обещанным постам с тэгом мысль. сегодня у меня для вас две части размышлений — о формате этого текстового &quot;общения&quot; и о его смысле.🤓 часть 1: формат и его предназначение этот формат не новый — все помнят жж и личные блоги. я, например, вспомнил, как на втором курсе возвращался в granado espada и вел заметки (а сейчас ностальгирую о том, как ностальгировал — это уже мета-уровень). сейчас писать такие посты проще, потому что у меня под рукой неплохой рерайтер. да и сил на текстовый блог уходит меньше, чем на графический или видеоформат. все знают, что за видеоблогом — айсберг работы: написание текста, съемка, цветокор, звук, превьюшки и так далее. а тут всё проще: я пишу, а кто хочет, заходит и читает. но почему я этим занимаюсь? вот несколько причин: 1.самофиксация. раз это могут читать люди из моего окружения, появляется некий внешний мотиватор, чтобы структурировать свои мысли. 2.делиться &quot;мудростью&quot;. пусть эти заметки и не претендуют на гениальность, но так можно обмениваться чем-то полезным, не копя байты текста в заметках obsidian. 3.психологическая разгрузка. в кризисных ситуациях письменная рефлексия помогает пережить происходящее. 4.поддержание коммуникации. хотя я не самый активный в соцсетях, всё-таки приятно делиться событиями. инстаграм для меня теряет свою актуальность, но как визуальная галерея для отпуска — ещё сгодится. этот блог не станет инфоцыганским продуктом или ответом на вопросы вселенной. это просто &quot;таверна&quot;, куда можно зайти, узнать что-то и спокойно пройти дальше.🍔 chill мысль" data-tags="chill мысль" data-date="2024-10-02T23:50:42">
+  <a class="post-pic" href="scroll/98.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:286" aria-hidden="true"><span>П</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/98.html">Понедельник потихоньку отпускает, так что пора перейти к обещанным постам с тэгом мысль.</a></h3>
+    <p class="meta"><time datetime="2024-10-02T23:50:42">2 октября 2024</time> · <a href="https://t.me/SMailsPub/98" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Сегодня у меня для вас две части размышлений — о формате этого текстового &quot;общения&quot; и о его смысле.🤓 Часть 1: Формат и его предназначение Этот формат не новый — все помнят ЖЖ и личные блоги. Я, например, вспомнил, как на втором…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a><a class="chip chip-sm" href="search.html?tag=мысль">#мысль</a></p>
+  </div>
+</article>
+<article class="card post" data-search="сегодня поговорим не про аниме, так как осенний сезон ещё не стартовал, а про несколько… интересных наблюдений и проблем. первая — о чистоте воздуха в нашем городе. я часто использую вытяжку во время вечерних кальян -ных сессий, чтобы в квартире не пахло. и вот недавно заметил, насколько грязной стала вытяжка😳. к удивлению зожников, дело не в кальяне: дым лишь &quot;смачивает&quot; поверхности, а вся грязь прилипает из воздуха, который постоянно циркулирует между улицей и квартирой. так что не стоит винить кальян! если у вас есть возможность установить фильтры на вентиляцию — обязательно делайте это, немного, но дышать станет легче. а если у вас есть увлажнитель воздуха (в питере без него вообще жить нельзя), добавляйте в него перекись водорода для дезинфекции воздуха. так вы убьёте двух зайцев.🔫 вторая история — про мегафон🖕. моя благоверная, проверяя расходы в coinkeeper, заметила, что на мобильную связь уходит подозрительно много денег. оказалось, что с мая месяца у меня была подключена левая услуга за 40 рублей в день! с мая! я, конечно, в запарке был и не сразу заметил, но злости моей не было предела😡. когда-то я специально подключил контентный счёт, чтобы такие услуги списывались с этого счёта на котором нулевой баланс. влетел в чат поддержки как фурия, сначала &quot;поговорил&quot; с ботом😡, который заявил, что деньги не вернут. кстати, лайфхак: материте бота — и он сразу переведёт вас на оператора. после этого начался цирк: - мы деньги возвращать не будем. - вы офигели? гоните деньги! [куча матерных эпитетов] - специально для вас сделаем возврат. - но вы вернули только за 2 месяца. - специально для вас сделаем еще возврат. - вы издеваетесь? я иду писать досудебку. - специально для вас сделаем еще возврат. и вот такими итерациями мне вернули все списанные деньги, которых теперь хватит на оплату тарифа на год вперёд. стыдно ли мне перед оператором? скорее нет. они меня поимели — мне это не понравилось. кстати, полезные услуги для тех, кто пользуется мегафоном: &quot;мегафон защита&quot; и &quot;отказ от всех предложений оператора&quot;. с ними хотя бы спам-звонки от них прекратились, теперь нужно ещё справиться с остальными. всем чилового выходного, и не давайте себя надувать!😄🤗 аниме кальян" data-tags="аниме кальян" data-date="2024-09-29T13:01:00">
+  <a class="post-pic" href="scroll/93.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:51" aria-hidden="true"><span>С</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/93.html">Сегодня поговорим не про аниме, так как осенний сезон ещё не стартовал, а про несколько…</a></h3>
+    <p class="meta"><time datetime="2024-09-29T13:01:00">29 сентября 2024</time> · <a href="https://t.me/SMailsPub/93" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">интересных наблюдений и проблем. Первая — о чистоте воздуха в нашем городе. Я часто использую вытяжку во время вечерних кальян -ных сессий, чтобы в квартире не пахло. И вот недавно заметил, насколько грязной стала вытяжка😳. К…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=аниме">#аниме</a><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
+  </div>
+</article>
+<article class="card post" data-search="на прошлой неделе я анонсировал мастер-класс, и вот краткая сводка о том, как продвигаются дела🤓. место уже выбрано и оплачено. честно, это оказалось сложнее, чем ожидалось — некоторым администраторам стоит пожелать больше адекватности и внимательности при чтении сообщений. но это позади. все материалы подготовлены, осталось только докупить табак и напитки, но этим займусь на неделе, ближе к самому мероприятию.💷 теперь о домашнем кальян. не удержался и приобрел себе фаянсовую чашу за 700 рублей. да-да, 700 рублей за керамику с покрытием! когда открыл коробку, первое впечатление было, что её кто-то стащил с советской дачи — настолько она выглядела старой. но внешний вид обманчив. чаша оказалась огромной, мой коллауд на неё встал с запасом, а жар держит просто идеально. так что это теперь моя новая любимая чаша.❤️ также купил мундштук из цельной эпоксидки — посмотрим, насколько долго он прослужит. и вот открытие недели — chabacco incredible india с ароматом индийской жвачки🤩. заинтересовало меня, конечно, название и дух авантюры. как это было: - вскрыл пачку — запах китайского горчичника или звёздочки; - начал курить — вкусно, как травяной сбор, который я когда-то уже пробовал, но не могу вспомнить где. ещё пару раз покурю — может, вспомню. но потом зашла жена и сказала, что пахнет ссаниной котёнком. уже было такое с шалфеем.🤔 хотя вкус сиропа и трав меня радует, если это будет повторяться, придётся курить украдкой или когда жены не будет дома. всем постапокалиптичного chill https://www.youtube.com/watch?v=ybulsyw1msg&amp;list=ll&amp;index=3&amp;ab_channel=joemathews%7ccomposer кальян chill" data-tags="кальян chill" data-date="2024-09-25T19:58:02">
+  <a class="post-pic" href="scroll/77.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:19" aria-hidden="true"><span>Н</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/77.html">На прошлой неделе я анонсировал мастер-класс, и вот краткая сводка о том, как продвигаются дела🤓.</a></h3>
+    <p class="meta"><time datetime="2024-09-25T19:58:02">25 сентября 2024</time> · <a href="https://t.me/SMailsPub/77" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Место уже выбрано и оплачено. Честно, это оказалось сложнее, чем ожидалось — некоторым администраторам стоит пожелать больше адекватности и внимательности при чтении сообщений. Но это позади. Все материалы подготовлены, осталось…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="рабочая неделя перевалила за экватор, и самое время расслабиться с хорошим кальян&#x27;ом. но сегодня у меня не просто новости, а целая мысль дня. начну с печального😰 — мой любимый мундштук отжил своё и развалился. забыл, что оставил его замачиваться вместе со шлангом, и вода сделала своё дело. не представляете, как изменилось ощущение курения, когда взял другой мундштук. говорят, мастера чувствуют свой инструмент до миллиметра — наверное, и тут такая же история.🤷‍♀️ теперь самое главное — я решил провести кальянный мастер-класс!🤩 идея зрела давно: у меня есть навыки обучения, а кальянная тема мне знакома на уровне домашнего мастера. почему бы не поделиться знаниями? материалы подготовлены, всё оформлено. осталось выбрать место, время и собрать народ. если заинтересовало, вот ссылка на вступление, где можно получить всю организационную информацию и где я всех собираю непосредственно на него.😎 https://t.me/+l9ptle9gmzq5zwqy сегодняшний chill проходит под соответствующую музыку — наслаждайтесь! https://www.youtube.com/watch?v=azp6ymaqndi&amp;ab_channel=liminalsorrow кальян chill" data-tags="кальян chill" data-date="2024-09-18T21:56:36">
+  <a class="post-pic" href="scroll/62.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:34" aria-hidden="true"><span>Р</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/62.html">Рабочая неделя перевалила за экватор, и самое время расслабиться с хорошим кальян&#x27;ом.</a></h3>
+    <p class="meta"><time datetime="2024-09-18T21:56:36">18 сентября 2024</time> · <a href="https://t.me/SMailsPub/62" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Но сегодня у меня не просто новости, а целая мысль дня. Начну с печального😰 — мой любимый мундштук отжил своё и развалился. Забыл, что оставил его замачиваться вместе со шлангом, и вода сделала своё дело. Не представляете, как…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="чашечка еще не забита, потому что я провожу время вне дома. но телефон всегда со мной, и на нем часто фоном играет &quot;эмбиент&quot;. если воспользоваться поиском на youtube, который пока что умеет подбирать хороший контент, можно открыть для себя огромное количество трансляций и длинных видео с музыкой на любой вкус, а бонусом часто идут интересные видео-подборки. покопавшись в своих &quot;просмотренных музыкальных видео&quot;, я выделил несколько ключевых слов, добавив которые, вы точно найдете что-то по душе. хотите тяжелый метал из &quot;дума&quot;? пожалуйста. чил на багамах? пруд пруди. или что-то меланхоличное под дождь — тоже найдется. прикрепляю список поисковых слов, которые помогают найти хороший эмбиент. ведь не только место помогает расслабиться, но и фоновая атмосфера: запахи, вкусы, звуки, ощущения: chill; jazz; lofi; melodic; stone rebel; groove pop; chill" data-tags="chill" data-date="2024-09-04T18:07:41">
+  <a class="post-pic" href="scroll/23.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:1" aria-hidden="true"><span>Ч</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/23.html">Чашечка еще не забита, потому что я провожу время вне дома.</a></h3>
+    <p class="meta"><time datetime="2024-09-04T18:07:41">4 сентября 2024</time> · <a href="https://t.me/SMailsPub/23" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Но телефон всегда со мной, и на нем часто фоном играет &quot;эмбиент&quot;. Если воспользоваться поиском на YouTube, который пока что умеет подбирать хороший контент, можно открыть для себя ОГРОМНОЕ количество трансляций и длинных видео с…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="если вы решили узнать, чем закончится этот марафон, то добро пожаловать!😎 для удобства рефлексии и поиска по тегам я выделил небольшую подсказку, которая будет пополняться. этот список, по сути, появился из моего расписания на неделю: пн: чтение манга вт: сад ср: кальян chill чтв: пыльныезаписи пт: игры сб: хобби чтение манга сад кальян chill пыльныезаписи игры хобби" data-tags="чтение манга сад кальян chill пыльныезаписи игры хобби" data-date="2024-09-01T16:05:02">
+  <a class="post-pic" href="scroll/15.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:345" aria-hidden="true"><span>Е</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/15.html">Если вы решили узнать, чем закончится этот марафон, то добро пожаловать!😎</a></h3>
+    <p class="meta"><time datetime="2024-09-01T16:05:02">1 сентября 2024</time> · <a href="https://t.me/SMailsPub/15" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">Для удобства рефлексии и поиска по тегам я выделил небольшую подсказку, которая будет пополняться. Этот список, по сути, появился из моего расписания на неделю: ПН: чтение манга ВТ: сад СР: кальян chill ЧТВ: пыльныезаписи ПТ: игры СБ: хобби</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=чтение">#чтение</a><a class="chip chip-sm" href="search.html?tag=манга">#манга</a><a class="chip chip-sm" href="search.html?tag=сад">#сад</a><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a><a class="chip chip-sm" href="search.html?tag=chill">#chill</a></p>
+  </div>
+</article>
+<article class="card post" data-search="среда 💨🎧— экватор рабочей недели (а у кого-то отпускной), а значит, время расслабиться… chill под кальян кальян стал для меня инструментом, который уверенно вошел в мою жизнь, позволяя быстро получить дозу дофамина и немного расслабиться. вкусный дымный кальян под приятный джаз — почему бы и нет? сегодня у меня играет space jazz https://www.youtube.com/watch?v=vugefp04tla, а в чаше забит darkside xperience berry. аромат винограда, малины и черной смородины — ничего ярко выраженного не чувствую, но он не дерет горло, легок и приятен своей неопределенностью. chill кальян" data-tags="chill кальян" data-date="2024-08-28T19:29:01">
+  <a class="post-pic" href="scroll/10.html" tabindex="-1" aria-hidden="true"><div class="initial" style="--h:110" aria-hidden="true"><span>С</span></div></a>
+  <div class="post-body">
+    <h3><a href="scroll/10.html">Среда 💨🎧— экватор рабочей недели (а у кого-то отпускной), а значит, время расслабиться…</a></h3>
+    <p class="meta"><time datetime="2024-08-28T19:29:01">28 августа 2024</time> · <a href="https://t.me/SMailsPub/10" rel="noopener" target="_blank">в канал ↗</a></p>
+    <p class="excerpt">chill под кальян Кальян стал для меня инструментом, который уверенно вошел в мою жизнь, позволяя быстро получить дозу дофамина и немного расслабиться. Вкусный дымный кальян под приятный джаз — почему бы и нет? Сегодня у меня…</p>
+    <p class="tags"><a class="chip chip-sm" href="search.html?tag=chill">#chill</a><a class="chip chip-sm" href="search.html?tag=кальян">#кальян</a></p>
   </div>
 </article>
   </div>
@@ -167,6 +699,7 @@
     <section class="box">
       <h3>Грамота</h3>
       <p>Сие есть архив канала <a href="https://t.me/SMailsPub">Лисья таверна</a>. Лента в Telegram течёт и тонет, а здесь всё лежит по полкам.</p>
+      <p>Стучаться к трактирщику: <a href="https://t.me/Smailkiller">@Smailkiller</a></p>
       <p class="quote" data-quotes='[&quot;Всяк сюда входящий — вытри ноги и надежду.&quot;, &quot;Трактирщик не виноват. Виноваты звёзды и понедельник.&quot;, &quot;Улитка снова победила рыцаря. Летописец плачет.&quot;, &quot;Эль тёплый, свечи коптят, Wi-Fi через раз. Средневековье.&quot;, &quot;Здесь могла быть ваша чума.&quot;, &quot;Писано при лучине, дрожащей от сквозняка.&quot;]'>Всяк сюда входящий — вытри ноги и надежду.</p>
     </section>
     <section class="box">
@@ -176,7 +709,7 @@
     </section>
     <section class="box">
       <h3>Трактовое кольцо</h3>
-      <p class="ring"><a href="https://smailkiller.github.io/">Мастерская хозяина (AI и BIM)</a><a href="https://t.me/SMailsPub">Канал в Telegram</a><a href="sitemap.xml">Карта трактира</a></p>
+      <p class="ring"><a href="https://smailkiller.github.io/">Мастерская хозяина (AI и BIM)</a><a href="https://xml-agr.ru/">XML-AGR: инструменты для АГР</a><a href="https://t.me/SMailsPub">Канал в Telegram</a><a href="sitemap.xml">Карта трактира</a></p>
       <div class="buttons88" aria-hidden="true">
         <span class="b88 b-a">лучше смотреть<br>при лучине</span>
         <span class="b88 b-b">сделано<br>гусиным пером</span>

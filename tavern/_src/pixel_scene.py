@@ -51,19 +51,21 @@ RAMPS = {
     "smoke": ["#595560", "#827c84", "#aca5aa", "#d2cbcb", "#efe9e4"],
     "cork": ["#281910", "#4b301e", "#704d2d", "#966c40", "#b48955", "#cfa66d"],
     "hl": ["#fee761"],
+    "tvfur": ["#1b0c08", "#3a150b", "#66220f", "#963511", "#c65216", "#e67624", "#f69c42", "#ffc574"],
+    "tvcream": ["#29211e", "#574740", "#8b776a", "#bdab99", "#e1d4c2", "#faf3e6"],
 }
 MATS = list(RAMPS)
 MID = {m: i for i, m in enumerate(MATS)}
-EMISSIVE = {"fire", "sky", "star", "screen", "brew", "orb", "hl"}
+EMISSIVE = {"fire", "sky", "star", "screen", "brew", "orb", "hl", "tvfur", "tvcream"}
 RGB = [np.array([[int(h[i:i + 2], 16) for i in (1, 3, 5)] for h in RAMPS[m]], np.uint8) for m in MATS]
 BAYER = (np.array([[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]]) + 0.5) / 16
 BAYER = np.tile(BAYER, (H // 4 + 1, W // 4 + 1))[:H, :W]
 
 OBJ = {"garden": 1, "shelf": 2, "hearth": 3, "board": 4, "ai": 5, "minis": 6, "hookah": 7,
-       "fox": 8, "cat": 9, "snail": 10, "knight": 11, "barrel": 12, "chandelier": 13, "table": 14}
-HOT = {  # какие предметы ведут в какую комнату
-    "garden": ["garden"], "shelf": ["shelf"], "search": ["hearth"], "channel": ["board"],
-    "ai": ["ai"], "minis": ["minis"], "hookah": ["hookah", "table", "fox"],
+       "fox": 8, "cat": 9, "snail": 10, "knight": 11, "barrel": 12, "chandelier": 13, "table": 14, "screen": 15}
+HOT = {  # ключ — id комнаты из config.json (search — поиск), значение — предметы сцены
+    "garden": ["garden"], "shelf": ["shelf"], "thoughts": ["hearth"], "search": ["board"],
+    "ai": ["ai"], "anime": ["screen"], "minis": ["minis"], "games": ["barrel"], "hookah": ["hookah", "table", "fox"],
 }
 
 
@@ -218,6 +220,27 @@ kbbbbbbbbbbbbbbbk.....
 .kkkkkkkkkkkkkkk......
 """
 SNAIL_LEG = {"k": ("ink", 1), "S": ("terra", 5), "s": ("terra", 3.4), "b": ("cream", 3.6)}
+
+TVFOX = """
+..k..............k..
+.kOk............kOk.
+.kOOk..........kOOk.
+.kOwOkkkkkkkkkkOwOk.
+.kOwwOOOOOOOOOOwwOk.
+kOOOOOOOOOOOOOOOOOOk
+kOOOkkkOOOOOOkkkOOOk
+kOOkeWkOOOOOOkeWkOOk
+kOOkeekOOOOOOkeekOOk
+kOOOkkOOOOOOOOkkOOOk
+kWWOOOOOOkkOOOOOOWWk
+.kWWWWWWWWWWWWWWWWk.
+..kWWWWWWkkWWWWWWk..
+...kkWWWWWWWWWWkk...
+.....kkkkkkkkkk.....
+"""
+TVFOX_BLINK = {6: "kOOOOOOOOOOOOOOOOOOk", 7: "kOOkkkkOOOOOOkkkkOOk", 8: "kOOOOOOOOOOOOOOOOOOk", 9: "kOOOOOOOOOOOOOOOOOOk"}
+TVFOX_LEG = {"k": ("ink", 0.5), "O": ("tvfur", 5.4), "w": ("tvcream", 3), "W": ("tvcream", 4.8),
+             "e": ("ink", 0), }
 
 KNIGHT = """
 ....kkkkk....
@@ -496,27 +519,27 @@ def draw(frame):
     gear(c, 312, 90, 11, 8, ang, "ai")
     gear(c, 329, 104, 7, 6, -ang * 1.5 + .2, "ai")
     gear(c, 305, 110, 6, 5, ang * 2, "ai")
-    # зеркало-экран
-    c.paint(c.rect(336, 102, 372, 150), "brass", 4.4, "ai", tex=.4)
-    c.paint(c.ell(342, 92, 366, 112), "brass", 4.4, "ai")
-    c.paint(c.ell(351, 95, 357, 101), "red", 5, "ai")
+    # магическое зеркало: лис в экране
+    c.paint(c.rect(336, 102, 372, 150), "brass", 4.4, "screen", tex=.4)
+    c.paint(c.ell(342, 92, 366, 112), "brass", 4.4, "screen")
+    c.paint(c.ell(351, 95, 357, 101), "red", 5, "screen")
     screen = c.rect(340, 108, 368, 146)
-    c.paint(screen, "screen", 1.2, "ai")
-    code = [(342, 111, 14), (344, 115, 18), (344, 119, 10), (342, 123, 16), (344, 127, 20), (346, 131, 8), (342, 135, 12)]
-    shift = frame % 4
-    for i, (x, y, w) in enumerate(code):
-        w2 = w if i != (len(code) - 1) else w - 6 + shift * 2
-        c.paint(c.rect(x, y, x + w2, y + 2), "screen", 5 if i % 3 else 6, "ai")
-    if frame % 2 == 0:
-        c.paint(c.rect(344, 139, 347, 142), "screen", 7, "ai")
-    c.light(354, 128, 40, 0.18)
+    c.paint(screen, "screen", 1.0, "screen")
+    c.lvl[screen] = np.where(c.yy[screen] % 2 == 0, 1.6, 0.8)
+    rows = TVFOX.strip("\n").split("\n")
+    if frame == 2:
+        rows = [TVFOX_BLINK.get(i, row) for i, row in enumerate(rows)]
+    c.sprite(344, 118 + (1 if frame % 2 else 0), rows, TVFOX_LEG, "screen")
+    for x in range(342, 367, 3):   # полоса помех
+        c.px(x + frame, 111 + frame * 8, "screen", 6, "screen")
+    c.light(354, 128, 44, 0.22)
     # стол
     c.paint(c.rect(296, 156, 378, 163), "wood", 5.0, "ai", tex=.4)
     c.paint(c.rect(296, 156, 378, 157), "wood", 6.3, "ai")
     c.paint(c.rect(300, 163, 305, 212) | c.rect(369, 163, 374, 212), "wood", 3.4, "ai", tex=.4)
     c.paint(c.rect(305, 164, 369, 172), "wood", 3.8, "ai")
     c.paint(c.rect(334, 166, 340, 169), "brass", 5, "ai")
-    c.paint(c.rect(336, 150, 372, 156), "wood", 4.2, "ai")
+    c.paint(c.rect(336, 150, 372, 156), "wood", 4.2, "screen")
     # шар
     c.paint(c.poly([(308, 156), (310, 150), (326, 150), (328, 156)]), "brass", 3.8, "ai")
     orb = c.ell(305, 127, 332, 153)
@@ -564,16 +587,34 @@ def draw(frame):
     for x in (212, 226, 254, 268):
         candle(c, x, 40 if x in (212, 268) else 44, 6, rng, "chandelier")
 
-    # ── передний план: бочка ──
+    # ── передний план: бочка с костями, картами и лютней (конец недели) ──
     barrel = c.poly([(404, 278), (398, 254), (398, 236), (404, 214), (452, 214), (458, 236), (458, 254), (452, 278)])
     c.paint(barrel, "wood", 3.6, "barrel", tex=.5)
     for x in range(406, 452, 9):
         c.paint(c.rect(x, 214, x + 1, 278) & barrel, "wood", 2)
     for y in (222, 266):
         c.paint(c.rect(396, y, 460, y + 4) & c.rect(396, 210, 460, 280), "metal", 3, "barrel")
-    c.paint(c.rect(420, 204, 432, 214), "metal", 4, "barrel")
-    c.paint(c.rect(432, 206, 435, 212), "metal", 3, "barrel")
-    c.paint(c.rect(420, 202, 432, 205), "cream", 5, "barrel")
+    c.paint(c.ell(402, 208, 454, 220), "wood", 5.2, "barrel")
+    # кости
+    for (dx, dy, pips) in ((410, 202, [(2, 2), (5, 5)]), (419, 205, [(2, 2), (4, 4), (6, 2), (2, 6), (6, 6)])):
+        c.paint(c.rect(dx, dy, dx + 9, dy + 9), "bone", 5.2, "barrel")
+        c.paint(c.rect(dx, dy + 8, dx + 9, dy + 9), "bone", 3.5, "barrel")
+        for (px_, py_) in pips:
+            c.px(dx + px_, dy + py_, "ink", 0, "barrel")
+    # карты веером
+    for k, (cx_, cy_) in enumerate(((432, 206), (437, 204), (442, 206))):
+        c.paint(c.rect(cx_, cy_, cx_ + 8, cy_ + 11), "parch", 6.2 - k * .4, "barrel")
+        c.px(cx_ + 3, cy_ + 4, "red" if k != 1 else "ink", 5 if k != 1 else 0, "barrel")
+        c.px(cx_ + 4, cy_ + 5, "red" if k != 1 else "ink", 5 if k != 1 else 0, "barrel")
+    # лютня, прислонённая к бочке
+    c.paint(c.line([(392, 240), (404, 196)], 3), "wood", 2.6, "barrel")
+    c.paint(c.poly([(401, 198), (407, 188), (411, 190), (405, 200)]), "wood", 3.2, "barrel")
+    lute = c.ell(378, 234, 402, 266)
+    c.paint(lute, "wood", 5.6, "barrel", tex=.3)
+    c.paint(c.ell(380, 236, 400, 262) & ~c.ell(382, 238, 402, 266), "wood", 7, "barrel")
+    c.paint(c.ell(386, 244, 394, 252), "ink", 0.5, "barrel")
+    c.paint(c.rect(385, 256, 396, 258), "wood", 2, "barrel")
+    c.paint(c.line([(390, 256), (403, 197)]), "bone", 5.5, "barrel")
 
     # ── кот у очага ──
     c.sprite(270, 204, CAT.strip("\n").split("\n"), CAT_LEG, "cat")
@@ -676,8 +717,8 @@ def main():
     # иконки комнат — вырезки из первого кадра
     img = Image.fromarray(frames[0])
     crops = {"garden": (16, 70, 100, 154), "shelf": (98, 22, 180, 104), "hookah": (60, 150, 170, 260),
-             "ai": (294, 80, 384, 170), "minis": (382, 68, 460, 146), "search": (192, 108, 288, 204),
-             "board": (300, 28, 364, 72)}
+             "ai": (294, 78, 336, 162), "minis": (382, 68, 460, 146), "thoughts": (192, 108, 288, 204),
+             "search": (300, 28, 364, 72), "anime": (330, 88, 378, 156), "games": (374, 184, 462, 280)}
     for k, box in crops.items():
         im = img.crop(box)
         s = 4 if max(im.size) < 100 else 3
